@@ -1,5 +1,15 @@
 # symbCpp
 
+[The source for this project is taken from](http://issc.uj.ac.za/symbolic/symbolic.html "Official website")
+
+(seems to be not updated after 2010) with examples from
+
+Quantum Mechanics Using Computer Algebra: Includes Sample Programs in C++, SymbolicC++, Maxima, Maple, and Mathematica
+W.-H. Steeb, Yorick Hardy World Scientific, 2010 - Mathematics - 234 pages.
+
+The goal of this project is not developing SymbolicC++, but rather developing
+examples in it, as well as Maxima (wxMaxima) and Mathematica.
+
 SymbolicC++ was originally written as a collection of header files
 for C++. Many of the functions and classes provided are template
 functions and classes and in general cannot be compiled in as part
@@ -31,12 +41,12 @@ To run the program:
 $  ./program
 ```
 
-A brief PDF document describing SymbolicC++ is provided 
+A brief PDF document describing SymbolicC++ is provided
 (doc/introsymb.tex, produce doc/introsymb.pdf from it)
 and is installed as /usr/local/share/doc/SymbolicC++.pdf.
 
 
-### Installation elsewhere 
+### Installation elsewhere
 
 This section describes installation to a directory "where_to_install".
 The directory must be a full path, i.e. it should not begin with "./" or
@@ -67,11 +77,11 @@ When running the program, make sure that the dynamic libraries can be located,
 for example by modifying /etc/ld.so.conf or by setting the LD_LIBRARY_PATH
 (for Bourne shell compatible shells)
 ```bash
-  $ ./program 
+  $ ./program
   Shared object "libsymbolicc++.so.3" not found
   $ LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:where_to_install/lib
   $ export LD_LIBRARY_PATH
-  $ ./program 
+  $ ./program
   ...
 ```
 
@@ -96,9 +106,9 @@ Next lines work (option -fno-elide-constructors is needed on 64bit systems, not 
  cd examples/
  g++ -o test1.exe test1.cpp -fno-elide-constructors ../src/*.cpp
  g++ -o matrix.exe matrix.cpp -fno-elide-constructors ../src/*.cpp
-``` 
+```
 
-but it works only if include/ dir is in a known place, e.g. in /usr/local, 
+but it works only if include/ dir is in a known place, e.g. in /usr/local,
 if not, then do in this directory:
 ```shell
  g++ -I include -o matrix.exe examples/matrix.cpp -fno-elide-constructors src/*.cpp
@@ -121,7 +131,7 @@ g++ -I ./include -L ~/lib -o test1.exe examples/test1.cpp -fno-elide-constructor
 g++ -I ./include -L ~/lib -o matrix.exe examples/matrix.cpp -fno-elide-constructors -lsymbcgf
 ```
 
-For 32bit systems use gf32libsymb.sh, and commands like 
+For 32bit systems use gf32libsymb.sh, and commands like
 ```shell
 g++ -I ./include -L ~/lib -o test1.exe examples/test1.cpp -lsymbcgf
 g++ -I ./include -L ~/lib -o bose.exe examples/bose.cpp -lsymbcgf
