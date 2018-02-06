@@ -1,14 +1,16 @@
 # symbCpp
 
-[The source for this project is taken from](http://issc.uj.ac.za/symbolic/symbolic.html "Official website")
+The source for this project is mostly taken from [http://issc.uj.ac.za/symbolic/symbolic.html "Official website"](http://issc.uj.ac.za/symbolic/symbolic.html)
 
 (seems to be not updated after 2010) with examples from
 
 Quantum Mechanics Using Computer Algebra: Includes Sample Programs in C++, SymbolicC++, Maxima, Maple, and Mathematica
 W.-H. Steeb, Yorick Hardy World Scientific, 2010 - Mathematics - 234 pages.
 
-The goal of this project is not developing SymbolicC++, but rather developing
-examples in it, as well as Maxima (wxMaxima) and Mathematica.
+The goal of this project is not developing SymbolicC++, but rather
+showing simple recipes to work with it and developing
+examples for Quantum Mechanics in SymbolicC++, as well as Maxima (wxMaxima) and Mathematica.
+The examples are in the directory examples, see also doc.
 
 SymbolicC++ was originally written as a collection of header files
 for C++. Many of the functions and classes provided are template
@@ -94,7 +96,7 @@ and is installed as **where_to_install**/share/doc/SymbolicC++.pdf.
 
 ## Important remarks
 
-Description above does not work due to error:
+Description above, taken from the Official site for SymbolicC++, does not work due to the error:
 ```shell
 /usr/local/lib//libsymbolicc++.so: undefined reference to `Number<int>::Number(int const&)'
 /usr/local/lib//libsymbolicc++.so: undefined reference to `Number<double>::Number(double const&)'
