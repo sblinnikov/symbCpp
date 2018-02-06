@@ -1,0 +1,71 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Steeb and Hardy Ch. 7. Heisenberg Equation of Motion
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+Here is a text from heisenberg.cpp:
+
+  Symbolic sx("",2,2), sy("",2,2), sz("",2,2);
+  Symbolic i("i"), hb("hb"), om("omega");
+  sx = ((Symbolic(0) ,Symbolic(1)), (Symbolic(1) ,Symbolic(0)));
+  sy = ((Symbolic(0),          -i),( i           ,Symbolic(0)));
+  sz = ((Symbolic(1), Symbolic(0)),(Symbolic(0),Symbolic(-1)));
+  cout << "sx = " << sx << endl;
+  cout << "sy = " << sy << endl;
+  cout << "sz = " << sz << endl;
+  Symbolic H = hb*om*sz;
+  Symbolic sxt = -i/hb*(sx*H-H*sx); // commutator
+  Symbolic sxtt = -i/hb*(sxt*H-H*sxt); // commutator
+  cout << "H = " << H << endl;
+  cout << "sxt = " << sxt << endl;
+  cout << "sxtt = " << sxtt << endl;
+  cout << "sxtt = " << sxtt[i*i==-1] << endl;
+
+sx, sy and sz are Pauli matrices. Let us try them from dirac2 package, e.g. sy is Sig[2]:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ ( Sig[0] : ident (2),
+     Sig[1] : matrix ([0,1],[1,0]),
+     Sig[2] : matrix ([0,-%i],[%i,0]),
+     Sig[3] : matrix ([1,0],[0,-1]),
+     Sigb[0] : ident (2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Sig[0];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Sig[1];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Sig[2];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Sig[3];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+H : hb*omega*Sig[3];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+To compute matrix multiplication use dot instead of *. E.g. to get a commutator:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+sxt : -%i/hb*(Sig[1].H-H.Sig[1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sxtt : -%i/hb*(sxt.H-H.sxt);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

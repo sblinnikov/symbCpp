@@ -1,0 +1,92 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: title   start ]
+hydrogen2.mac, Steeb & Hardy Ch.26
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: input   start ] */
+l: 1; m: 0; k: 4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+alpha: e0*e0/(4*%pi*epsilon*hb*c);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+fine structure constant
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+v1: (sum (a [j] *r^j, j, 1 ,k));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+v1: v1+1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+y1: r^(l+1)*exp(-sqrt(g2)*r)*v1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+ y1 is the trial function of the radial wave function
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+ insert ansatz into differential equation
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+left: diff(y1,r,2)+(-g2+2*m0*c*alpha/(hb*r)-l*(l+l)/(r*r))*y1;
+left: left*exp(sqrt(g2)*r);
+left: left/r;
+left: ratsimp(left);
+left: num(left);
+left: expand(left);
+left: subst(x,sqrt(g2),left);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+h[0]: coeff(left,r,0); 
+h[1]: coeff(left,r,1);
+h[2]: coeff(left,r,2); 
+h[3]: coeff(left,r,3);
+h[4]: coeff(left,r,4);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+s: solve ([h[0]=0, h[1]=0, h[2]=0, h[3] =0, h[4]=0],
+   [x,a[1],a[2],a[3],a[4]]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol: last(s);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol: first(sol);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol: rhs(sol);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+E41: -hb^2*sol*sol/2/m0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+ energy eigenvalue for k=4, l=1 
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+print ("E41=" ,E41);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The output is the energy eigenvalue E_41
+   [wxMaxima: comment end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

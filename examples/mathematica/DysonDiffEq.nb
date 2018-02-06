@@ -1,0 +1,121 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      3171,        113]
+NotebookOptionsPosition[      2893,         99]
+NotebookOutlinePosition[      3233,        114]
+CellTagsIndexPosition[      3190,        111]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"\[Sigma]3", "=", 
+   RowBox[{"PauliMatrix", "[", "3", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"u0", "=", 
+   RowBox[{"IdentityMatrix", "@", 
+    RowBox[{"Length", "@", "\[Sigma]3"}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"x1", ",", "x2"}], "}"}], "=", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "2"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"NDSolve", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"u", "'"}], "[", "x", "]"}], "\[Equal]", 
+        RowBox[{"\[Sigma]3", ".", 
+         RowBox[{"u", "[", "x", "]"}]}]}], ",", 
+       RowBox[{
+        RowBox[{"u", "[", "x1", "]"}], "\[Equal]", "u0"}]}], "}"}], ",", "u", 
+     ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "x1", ",", "x2"}], "}"}]}], "]"}], "[", 
+   RowBox[{"[", 
+    RowBox[{"1", ",", "1", ",", "2"}], "]"}], "]"}], "[", "x2", 
+  "]"}], "\n"}], "Input",
+ CellChangeTimes->{{3.707370676944264*^9, 3.707370676945326*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"m", "=", "20"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"u0", "=", 
+   RowBox[{"IdentityMatrix", "@", 
+    RowBox[{"Length", "@", 
+     RowBox[{"toMT", "[", 
+      RowBox[{"x", ",", "m"}], "]"}]}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"x1", ",", "x2"}], "}"}], "=", 
+   RowBox[{
+    RowBox[{"10", "^", 
+     RowBox[{"-", "7"}]}], " ", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "2"}], "}"}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"res", "=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"NDSolve", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"u", "'"}], "[", "x", "]"}], "\[Equal]", 
+           RowBox[{
+            RowBox[{"toMT", "[", 
+             RowBox[{"x", ",", "m"}], "]"}], ".", 
+            RowBox[{"u", "[", "x", "]"}]}]}], ",", 
+          RowBox[{
+           RowBox[{"u", "[", "x1", "]"}], "\[Equal]", "u0"}]}], "}"}], ",", 
+        "u", ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", "x1", ",", "x2"}], "}"}]}], "]"}], "[", 
+      RowBox[{"[", 
+       RowBox[{"1", ",", "1", ",", "2"}], "]"}], "]"}], "[", "x2", "]"}]}], 
+   ";"}], "//", "AbsoluteTiming"}]}], "Input",
+ CellChangeTimes->{{3.707370788472724*^9, 3.707370788473887*^9}}]
+},
+WindowSize->{926, 583},
+WindowMargins->{{163, Automatic}, {25, Automatic}},
+FrontEndVersion->"11.0 for Linux x86 (64-bit) (September 21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 1026, 33, 125, "Input"],
+Cell[1587, 55, 1302, 42, 125, "Input"]
+}
+]
+*)
+

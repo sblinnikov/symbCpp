@@ -1,0 +1,189 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.4' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      5507,        181]
+NotebookOptionsPosition[      5010,        161]
+NotebookOutlinePosition[      5347,        176]
+CellTagsIndexPosition[      5304,        173]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"unitary1", ".", "ma"}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"W", "=", 
+   RowBox[{"Constant", " ", 
+    RowBox[{"Array", "[", 
+     RowBox[{"0", ",", 
+      RowBox[{"{", 
+       RowBox[{"4", ",", "4"}], "}"}]}], "]"}]}]}]}]], "Input",
+ CellChangeTimes->{{3.6818447973974133`*^9, 3.681844803945376*^9}, {
+  3.6822902212237997`*^9, 3.6822902228811827`*^9}, {3.682290258796637*^9, 
+  3.6822902670595093`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{"w1", "=", 
+  RowBox[{"{", 
+   RowBox[{"5", ",", 
+    RowBox[{"-", "2"}], ",", "9"}], "}"}]}], "\[IndentingNewLine]", 
+ RowBox[{"w2", "=", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"-", "3"}], ",", "7", ",", "1"}], "}"}]}], "\n", 
+ RowBox[{"v", "=", 
+  RowBox[{"{", 
+   RowBox[{"4", ",", "8", ",", 
+    RowBox[{"-", "15"}]}], "}"}]}], "\n", 
+ RowBox[{"q1", "=", "w1"}], "\n", 
+ RowBox[{"q2", "=", 
+  RowBox[{"w2", "-", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"w2", ".", "q1"}], "/", 
+      RowBox[{"q1", ".", "q1"}]}], ")"}], " ", "q1"}]}]}]}], "Input",
+ CellChangeTimes->{{3.682290414893326*^9, 3.682290414909336*^9}, {
+  3.682290470202257*^9, 3.682290508367792*^9}, {3.682290650201372*^9, 
+  3.6822906551645803`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"q1", ".", "q2"}]], "Input",
+ CellChangeTimes->{{3.682290450115375*^9, 3.6822904501334743`*^9}, {
+  3.6822911232829227`*^9, 3.682291125251472*^9}}],
+
+Cell[BoxData[
+ RowBox[{"p1", "=", 
+  RowBox[{"q1", "/", 
+   RowBox[{"Norm", "[", "q1", "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.682291157985461*^9, 3.6822911580027323`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"p2", "=", 
+  RowBox[{"q2", "/", 
+   RowBox[{"Norm", "[", "q2", "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.6822911883676853`*^9, 3.6822911883819437`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ProjvOntoS", "=", 
+  RowBox[{"Simplify", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"v", ".", "p1"}], ")"}], " ", "p1"}], "+", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"v", ".", "p2"}], ")"}], " ", "p2"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.682291215416768*^9, 3.6822912154312763`*^9}}],
+
+Cell["\<\
+Below is an example which is described  in the Internet as an example for \
+infinite recursion, but it is OK in current versions of Mathematica\
+\>", "Text",
+ CellChangeTimes->{{3.68199443168018*^9, 3.681994477927702*^9}, {
+   3.6822717360168*^9, 3.6822717518292513`*^9}, {3.682290706939447*^9, 
+   3.682290707569922*^9}, 3.682290791173477*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a", "=", "2"}], "\n", 
+  RowBox[{"(*", "2", "*)"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"T", "=", 
+   RowBox[{"2", "^", 
+    RowBox[{"(", 
+     RowBox[{"3", "/", "2"}], ")"}]}]}], "\n", 
+  RowBox[{"(*", 
+   RowBox[{"2", " ", 
+    RowBox[{"Sqrt", "[", "2", "]"}]}], "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"x", "[", "t_", "]"}], "=", 
+   RowBox[{
+    RowBox[{"a", " ", 
+     RowBox[{"Cos", "[", 
+      RowBox[{"2", " ", "Pi", " ", 
+       RowBox[{"t", "/", "T"}]}], "]"}]}], "-", 
+    RowBox[{"Cos", "[", 
+     RowBox[{"2", " ", "Pi", " ", "t"}], "]"}]}]}], "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"-", 
+     RowBox[{"Cos", "[", 
+      RowBox[{"2", " ", "\[Pi]", " ", "t"}], "]"}]}], "+", 
+    RowBox[{"2", " ", 
+     RowBox[{"Cos", "[", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"\[Pi]", " ", "t"}], ")"}], "/", 
+       RowBox[{"Sqrt", "[", "2", "]"}]}], "]"}]}]}], "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"y", "[", "t_", "]"}], "=", 
+   RowBox[{
+    RowBox[{"a", " ", 
+     RowBox[{"Sin", "[", 
+      RowBox[{"2", " ", "Pi", " ", 
+       RowBox[{"t", "/", "T"}]}], "]"}]}], "-", 
+    RowBox[{"Sin", "[", 
+     RowBox[{"2", " ", "Pi", " ", "t"}], "]"}]}]}], "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"-", 
+     RowBox[{"Sin", "[", 
+      RowBox[{"2", " ", "\[Pi]", " ", "t"}], "]"}]}], "+", 
+    RowBox[{"2", " ", 
+     RowBox[{"Sin", "[", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"\[Pi]", " ", "t"}], ")"}], "/", 
+       RowBox[{"Sqrt", "[", "2", "]"}]}], "]"}]}]}], "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"f", "[", "t_", "]"}], "=", 
+  RowBox[{
+   RowBox[{"x", "[", "t", "]"}], "+", 
+   RowBox[{"I", " ", 
+    RowBox[{"y", "[", "t", "]"}]}]}]}]}], "Input",
+ CellChangeTimes->{{3.681859483337989*^9, 3.681859483349052*^9}}]
+},
+WindowSize->{1366, 713},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.4 for Linux x86 (64-bit) (February 25, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 470, 12, 55, "Input"],
+Cell[1031, 34, 761, 23, 121, "Input"],
+Cell[1795, 59, 170, 3, 32, "Input"],
+Cell[1968, 64, 175, 4, 32, "Input"],
+Cell[2146, 70, 177, 4, 32, "Input"],
+Cell[2326, 76, 345, 10, 32, "Input"],
+Cell[2674, 88, 354, 6, 33, "Text"],
+Cell[3031, 96, 1975, 63, 297, "Input"]
+}
+]
+*)
+

@@ -1,0 +1,276 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.12.0 ] */
+
+/* [wxMaxima: input   start ] */
+( diff (%,x), trigsimp(%%) );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate (x/sqrt(b^2 - x^2), x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diff(%,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate (1/sqrt(b^2-a^2+a^2*x-J^2*x^2+J^2*x^3),x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+i3 : integrate (cos(x)^2 * exp(x), x, 0, %pi);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+example(comment);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+example(integrate);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* next is problem 1.6 in Замураев,Калинина, НГУ 2010 */
+integrate (cos(%pi*x/a)^2, x, -a/2, 0);
+integrate (cos(%pi*x/b)^2, x, 0, b/2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+(assume(a>1),facts());
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate (x^a/(x+1)^(5/2), x, 0, inf );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+4*pi*rho*(integrate (x^2,x, 0, r)/r + integrate (x,x,r,R));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate (exp(-a*x^2), x, 0, inf );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate (x^2*exp(-a*x^2), x, 0, inf );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate (x^4*exp(-a*x^2), x, 0, inf );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a=1/(2*sigma^2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+test text
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Norm:integrate (x^2*exp(-a*x^2), x, 0, inf );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate(exp(a*sin(x))*sin(x), x, 0, %pi);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate(cos(a*sin(x) - x ), x, 0, 2*%pi);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate(bessel_j(n,x),x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate(x*spherical_bessel_j(n,x),x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate(x*bessel_j(n,x)^2,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Legendre1(n, x) :=
+block ( [],
+    if n = 0 
+       then 1
+       else
+        if n = 1
+           then x
+           else  ((2*n - 1)*x*Legendre1 (n - 1, x)
+                  - (n - 1)  *Legendre1 (n - 2, x)) / n
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Legendre1(3, z);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rho:3*Q/(4*pi*R^3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+4*pi*rho*(integrate (x^2,x, 0, r)/r + integrate (x,x,r,R));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fortran(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+potQ(Q,r,R) :=
+block([x], local(x),
+    if r<R
+       then 3*Q/R^3*(integrate (x^2,x, 0, r)/r + integrate (x,x,r,R))
+    else Q/r
+    );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+potQ(1,.5,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+potQ(1,2,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1200,800];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+             explicit(
+                 sin(x),
+                 x,1,10
+             )
+         )$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+draw2d( explicit(x^2,x,-5,5))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw2d( explicit(x^2,x,-5,5)), wxplot_size=[480,480]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+set_plot_option(['plot_format, 'gnuplot])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+plot2d (sin(x), [x, -5, 5]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+try load("./wxplot_preamble.lisp"); to change emebedded plot size
+see https://github.com/andrejv/wxmaxima/issues/42
+Put the definition of wxplot_preamble into ~/.maxima/maxima-init.lisp and it will be loaded every time you start maxima.
+In wxmaxima 0.7.2 there is an option variable wxplot_old_gnuplot which controls how the image size is specified. It is false by default. To set it to true put this into your maxima-init.mac file:
+
+define_variable(wxplot_old_gnuplot, true, boolean)$
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: hide output   ] */
+/* [wxMaxima: input   start ] */
+;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+define_variable(wxplot_old_gnuplot, true, boolean)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d (sin(x), [x, -5, 5]),wxplot_size=[1024,768];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([sin(x)], [x,0, 2*%pi]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+"wxplot2d" outputs a tiny inline plots. I could not find a way to change the size of embeded plots anywhere. I tried to change the "Default plot size of new Maxima session" but with no effect.
+This will be fixed in the next release. The commit that solves this problem is already in the release branch.
+Ahh! I'll use plot2d till next release comming to Manjaro.
+Thanks for the clarification.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d (potQ(1,z,1), [z, 0.1, 2.]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate(y(%theta)=sin(%theta),%theta,%theta[0], %theta[1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate(y(t)=sin(t),t,t[0], t[1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This works OK in wxMaxima 13.04.2. Later versions bad again
+Ignore next lines and build from source (see in the end of this comment)
+
+OK again ubuntu 16.04 wxWidgets 3.0.2 wxMaxima 15.08.02
+and after
+sudo add-apt-repository ppa:peterpall/wxmaxima-nightlies
+aptgu
+aptgi wxmaxima
+in wxmaxima 16.12.x-unofficial
+
+ppa:peterpall is bad for 32bit linux.
+In June 2017 it is bad for all!!!
+Remove it:
+
+Для удаления PPA установить:
+
+aptgi ppa-purge
+
+потом
+
+sudo ppa-purge ppa:peterpall/wxmaxima-nightlies
+
+Good results when installing from source, see:
+https://help.ubuntu.com/community/wxMaxima
+
+First install maxima from source:
+
+https://help.ubuntu.com/community/Maxima 
+
+Теперь (июнь 2017) source не нужен, работает blahota:
+
+sudo add-apt-repository ppa:blahota/wxmaxima
+
+aptgu
+
+aptgi wxmaxima
+
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+integrate (sin(x)^2, x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a:5.;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+b:sqrt(a);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+5!;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+-- end of tests
+   [wxMaxima: comment end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

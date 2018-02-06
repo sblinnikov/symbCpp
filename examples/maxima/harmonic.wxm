@@ -1,0 +1,135 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Reproducing harmonic.cpp in Maxima
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: input   start ] */
+ut(xi) := a*h(xi)*exp(-xi^2/2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r1 : diff(ut,xi,2)-xi*xi*ut+(%lambda+1)*ut;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r1:r1/ut;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(r1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Just an example of depends:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(phi,xi,phi,m);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+phi: a(m)*(xi^m)+a(m+1)*(xi^(m+1))+a(m+2)*(xi^(m+2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+define new function with ":="   :
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+f(xi,m) := a(m)*(xi^m)+a(m+1)*(xi^(m+1))+a(m+2)*(xi^(m+2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+/* not needed: depends(R1,xi,R1,m)*/
+
+define derivative of f over xi:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+R1: diff(f(xi,m),xi);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R1 : -2*R1*xi;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+? exp;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+functions;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+now define 2nd derivative of f over xi:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(R2,xi,R2,m);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+not needed: R2 := diff(f,xi,2);
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+R2 : diff(f(xi,m+2),xi,2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R3 : R2 + R1 + %lambda*f(xi,m);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R4 : rat(R3/(xi^m));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R5 : coeff(R4,xi^2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R5;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+g(m):=(m^2+7*m+12)*a(m+4)+(−2*m+%lambda−4)*a(m+2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+-- here I define g(m) by hand, but I want it to be defined via R5 automatically
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+g(m):=ev(R5);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R6 : g(m-2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+eqn : g(m-2)=0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve(eqn,a(m+2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+-- this gives Eq.7 in the relevant chapter of Steeb and Hardy in a nicer form than symbolic cpp.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+print(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+args(coeff(R4,xi^2));
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

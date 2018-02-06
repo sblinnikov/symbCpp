@@ -1,0 +1,91 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Steeb and Hardy Ch. 7. Heisenberg Equation of Motion
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: input   start ] */
+load ("dirac2.mac");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+There are sixteen test suite files, and once dirac2.mac has been loaded, there are convenient abbreviations available to
+run each of these sixteen test files separately.
+• dgintro2-test.mac: run using tin(),
+• dgtrace2-test.mac: run using tt1(),
+• dgtrace2_test.mac: run using tt2(),
+• dgcon2-test.mac: run using tcon(),
+• dgmcon-test.mac: run using tmcon(),
+• dgeval2-test.mac: run using teval(),
+• bhabha1-test.mac: run using tb1(),
+• bhabha2-test.mac: run using tb2(),
+• compton0-test.mac: run using tc0(),
+• compton1-test.mac: run using tc1(),
+• moller0-test.mac: run using tm0(),
+• moller1-test.mac: run using tm1(),
+• moller2-test.mac: run using tm2(),
+• moller3-test.mac: run using tm3(),
+• pair1-test.mac: run using tp1(),
+• pair2-test.mac: run using tp2()
+
+E.g.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+tt1();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+tp1();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+When you make your own modifications to the Dirac package (perhaps to fit your own research goals), you can assure
+yourself that your new code has not broken anything significant by running these sixteen test files. Once you have loaded
+dirac2.mac, you can continue to use the above abbreviations to run one test file at a time, and you do not need to
+manually reload dirac2.mac.
+
+To run a test file manually (without using the abbreviations defined in dirac2.mac), you would need two lines for each
+test file. Here is an example:
+
+load ("dirac2.mac");
+batch ("dgintro2-test.mac", test );
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+batch ("dgintro2-test.mac", test );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+One may also use a package commutators.mac, but dirac2.mac, or another packaged called by it 
+destroys a nice display of matrices:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+load("commutators.mac");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+comm(Sig[1],Sig[2]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix([2*%i,0],[0,-2*%i]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+comm(Sig[1],H);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M: matrix ([3, 7, aa, bb], [-1, 8, 5, 2], [9, 2, 11, 4]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ A: matrix([1,2],[3,4]);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

@@ -1,0 +1,36 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+trial function,
+here using trialfun.mac, which may be called like this:
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: input   start ] */
+load("trialfun");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+-- so, to use mac files write their names in quotes in load command.
+However, load supresses the output, better use batch like in trialfun4bat.wxm
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+after line with r5:
+we can write
+rectform(%);
+or
+rectform(r5);
+then
+trigsimp(%);
+or
+trigsimp(r5);
+to simplify the expression,
+but this does not help much in this case
+
+in the end we get 3 solutions of the cubic equation, the real one is equal to
+(3mc/2\hbar^2)^(1/3)
+   [wxMaxima: comment end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

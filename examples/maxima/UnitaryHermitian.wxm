@@ -1,0 +1,47 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+ A: matrix([1,2],[3,4]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Symbolic V = ((cos(eps) ,i*sin(eps)),
+              (i*sin(eps),cos(eps)));
+Symbolic dV = df(V,eps);
+Symbolic VI = V[i==-i].transpose();
+Symbolic K = -i*dV*VI;
+K = K[(cos(eps)^2)==1-(sin(eps)^2)];
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+V: matrix([cos(eps),%i*sin(eps)],[%i*sin(eps),cos(eps)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dV: diff(V,eps);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+VI: subst(-%i,%i,transpose(V));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K: -%i*(dV.VI);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+invert(V);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(%);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

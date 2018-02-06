@@ -1,0 +1,475 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     16803,        467]
+NotebookOptionsPosition[     16290,        447]
+NotebookOutlinePosition[     16629,        462]
+CellTagsIndexPosition[     16586,        459]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+https://mathematica.stackexchange.com/questions/58937/efficient-dyson-series-\
+implementation
+I\[CloseCurlyQuote]m trying to implement a Dyson series
+U(x,x0)=1+\[Integral]^x_x0 \
+dy1V(y1)+\[Integral]^x_x0dy1\[Integral]^y1_x0dy2V(y1)V(y2)+\[CenterEllipsis]+\
+\[Integral]^x_x0dy1\[Integral]^y1_x0dy2\[CenterEllipsis]\[Integral]^y_{n\
+\[Minus]1}_x0 dy_nV(y1)V(y2)\[CenterEllipsis]V(y_n)+\[CenterEllipsis]
+where V(x) is a large matrix. (I\[CloseCurlyQuote]m aware of the solution for \
+symmetric functions, it doesn\[CloseCurlyQuote]t work in my case.)
+
+Probably the main bottleneck is the integration but, since it involves \
+multiple integrals, I don\[CloseCurlyQuote]t see any easy way of dealing with \
+it. Compile seems to be out of reach as well. I\[CloseCurlyQuote]ll greatly \
+appreciate any kind of advice.
+
+Here\[CloseCurlyQuote]s the code I\[CloseCurlyQuote]ve written so far:\
+\>", "Text",
+ CellChangeTimes->{
+  3.707371416727961*^9, {3.707372037044817*^9, 3.707372049860124*^9}, {
+   3.7073721592293997`*^9, 3.7073723084245462`*^9}, {3.707372358475515*^9, 
+   3.7073723771023912`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"myInt", "[", 
+   RowBox[{"exp_", ",", "x1_", ",", "rat_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "mulInt", ",", "len", ",", "int", ",", "sum", ",", "s1", ",", "s2", ",", 
+      "rar", ",", "x", ",", 
+      RowBox[{"x2", "=", 
+       RowBox[{"rat", " ", "x1"}]}], ",", "r2", ",", "r1"}], "}"}], ",", 
+    RowBox[{
+     RowBox[{"SetAttributes", "[", 
+      RowBox[{"x", ",", "NHoldFirst"}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "to", " ", "prevent", " ", "switching", " ", "into", " ", "numerical", 
+       " ", "values"}], "*)"}], 
+     RowBox[{
+      RowBox[{"mulInt", "[", 
+       RowBox[{"y1_", ",", "y2_", ",", 
+        RowBox[{"n_Integer", "/;", 
+         RowBox[{"n", ">", "0"}]}]}], "]"}], ":=", 
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", "tab", "}"}], ",", 
+        RowBox[{
+         RowBox[{"tab", "=", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"x", "[", "i", "]"}], ",", "y1", ",", 
+              RowBox[{"x", "[", 
+               RowBox[{"i", "-", "1"}], "]"}]}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "1", ",", 
+              RowBox[{"n", "-", "1"}], ",", "1"}], "}"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Return", "@", 
+          RowBox[{"Prepend", "[", 
+           RowBox[{"tab", ",", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"x", "[", "0", "]"}], ",", "y1", ",", "y2"}], "}"}]}], 
+           "]"}]}]}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "mulInt", " ", "creates", " ", "lists", " ", "of", " ", "variables", 
+       " ", "to", " ", "be", " ", "integrated"}], "*)"}], 
+     RowBox[{
+      RowBox[{"int", "[", "n_", "]"}], ":=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Integrate", "[", 
+         RowBox[{
+          RowBox[{"Dot", "@@", 
+           RowBox[{"(", 
+            RowBox[{"#1", "/@", 
+             RowBox[{"#2", "[", 
+              RowBox[{"[", 
+               RowBox[{";;", ",", "1"}], "]"}], "]"}]}], ")"}]}], ",", 
+          RowBox[{"Sequence", "@@", "#2"}]}], "]"}], "&"}], "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"exp", "[", "#", "]"}], "&"}], ",", 
+        RowBox[{"mulInt", "[", 
+         RowBox[{"x1", ",", "x2", ",", "n"}], "]"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"maps", " ", "first", " ", "elements", " ", "of", " ", 
+        RowBox[{"mulInt", "'"}], "s", " ", "lists", " ", "as", " ", 
+        "variables", " ", "of", " ", "exp"}], ",", 
+       RowBox[{
+       "creates", " ", "a", " ", "matrix", " ", "product", " ", "out", " ", 
+        "of", " ", "all", " ", "exps"}]}], "*)"}], 
+     RowBox[{
+      RowBox[{"sum", "[", "n_", "]"}], ":=", 
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", "set", "}"}], ",", 
+        RowBox[{
+         RowBox[{"set", "=", 
+          RowBox[{"Sum", "[", 
+           RowBox[{
+            RowBox[{"int", "[", "m", "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"m", ",", "1", ",", "n"}], "}"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"len", "=", 
+          RowBox[{"Length", "[", 
+           RowBox[{"set", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Return", "[", 
+          RowBox[{
+           RowBox[{"IdentityMatrix", "[", "len", "]"}], "+", "set"}], 
+          "]"}]}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Dyson", " ", "series"}], "*)"}], 
+     RowBox[{"s1", "=", 
+      RowBox[{"sum", "[", "3", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"rar", "=", 
+      RowBox[{
+       RowBox[{"Total", "[", 
+        RowBox[{"Abs", "@", 
+         RowBox[{"Flatten", "[", "#", "]"}]}], "]"}], "&"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"r1", "=", 
+      RowBox[{"rar", "[", "s1", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "a", " ", "function", " ", "for", " ", "convergence", " ", "check"}], 
+      "*)"}], 
+     RowBox[{"Do", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"s2", "=", 
+         RowBox[{"s1", "+", 
+          RowBox[{"int", "[", "n", "]"}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"r2", "=", 
+         RowBox[{"rar", "[", "s2", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"{", 
+          RowBox[{"n", ",", 
+           RowBox[{"r2", "-", "r1"}]}], "}"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Abs", "[", 
+            RowBox[{"r2", "-", "r1"}], "]"}], "\[LessEqual]", 
+           RowBox[{
+            RowBox[{"10", "^", 
+             RowBox[{"-", "3."}]}], " ", 
+            RowBox[{"len", "^", "2"}]}]}], ",", 
+          RowBox[{"Break", "[", "]"}]}], "]"}], ";", 
+        RowBox[{"s1", "=", "s2"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"r1", "=", "r2"}], ";"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"n", ",", "4", ",", "15"}], "}"}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"convergence", " ", "test"}], "*)"}], 
+     RowBox[{"Return", "[", "s2", "]"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.7073709202815228`*^9, 3.707370926262774*^9}, 
+   3.707370983971624*^9, {3.70737192458613*^9, 3.707371933621455*^9}}],
+
+Cell["Here\[CloseCurlyQuote]s a simple example with the 3rd Pauli matrix:", \
+"Text",
+ CellChangeTimes->{3.707371941963107*^9}],
+
+Cell[BoxData[{
+ RowBox[{"MatrixExp", "[", 
+  RowBox[{"Integrate", "[", 
+   RowBox[{
+    RowBox[{"PauliMatrix", "[", "3", "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", "1.", ",", "2."}], "}"}]}], "]"}], "]"}], "\n", 
+ RowBox[{
+  RowBox[{"myInt", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"PauliMatrix", "[", "3", "]"}], "&"}], ",", "1.", ",", "2."}], 
+   "]"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"results", ":", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"2.718282", ",", "0."}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.", ",", "0.3678794"}], "}"}]}], "}"}], " ", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"2.716667", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0.3666667"}], "}"}]}], "}"}]}]}], 
+   "*)"}]}], "\n"}], "Input",
+ CellChangeTimes->{{3.707371013271242*^9, 3.7073710132725286`*^9}}],
+
+Cell["\<\
+Of course, MatrixExp[Integrate[function, {x, 1., 2.}]] does not work in more \
+general cases.
+
+The operators I work with are sparse arrays (code below) and it take ages to \
+get the result. Typical values of M: 10 to 20 (M=2 can be a good working \
+example). To run the code, type for instance myInt[toMT[ #, 2]&  , 10^-7, 2.]
+\
+\>", "Text",
+ CellChangeTimes->{{3.7073712241449347`*^9, 3.7073712311464252`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"toMT", "[", 
+    RowBox[{"x_", ",", "M_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"nMax", "=", 
+        RowBox[{
+         RowBox[{"8", " ", "M"}], "+", "4"}]}], ",", "sw", ",", "ret", ",", 
+       RowBox[{"v", "=", "0.1"}], ",", 
+       RowBox[{"t", "=", 
+        RowBox[{"5", " ", 
+         RowBox[{"10", "^", "8."}]}]}], ",", "ntol", ",", "mrul"}], "}"}], 
+     ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"ntol", "[", 
+        RowBox[{"nn_", ",", "Mn_"}], "]"}], ":=", 
+       RowBox[{"Mn", "-", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"Ceiling", "[", 
+           RowBox[{"nn", "/", "4"}], "]"}], "-", "1."}], ")"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"mrul", "[", 
+        RowBox[{"n_", ",", "m_", ",", "y_"}], "]"}], ":=", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"n", ",", "m"}], "}"}], "\[Rule]", "y"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"sw", "[", "n_", "]"}], ":=", 
+       RowBox[{"Switch", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Mod", "[", 
+            RowBox[{"n", ",", "4"}], "]"}], ",", 
+           RowBox[{
+            RowBox[{"n", "+", "12"}], "\[LessEqual]", "nMax"}], ",", 
+           RowBox[{
+            RowBox[{"n", "+", "15"}], "\[LessEqual]", "nMax"}], ",", 
+           RowBox[{
+            RowBox[{"n", "-", "12"}], "\[GreaterEqual]", "1"}]}], "}"}], ",", 
+         
+         RowBox[{"{", 
+          RowBox[{"1", ",", "True", ",", "True", ",", "_"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"mrul", "[", 
+            RowBox[{"n", ",", "n", ",", 
+             RowBox[{
+              RowBox[{"-", 
+               RowBox[{"ntol", "[", 
+                RowBox[{"n", ",", "M"}], "]"}]}], "/", "x"}]}], "]"}], ",", 
+           RowBox[{"mrul", "[", 
+            RowBox[{"n", ",", 
+             RowBox[{"n", "+", "12"}], ",", 
+             RowBox[{"I", " ", "v", " ", "t"}]}], "]"}], ",", 
+           RowBox[{"mrul", "[", 
+            RowBox[{"n", ",", 
+             RowBox[{"n", "+", "15"}], ",", 
+             RowBox[{"2", " ", "v", " ", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"ntol", "[", 
+                  RowBox[{"n", ",", "M"}], "]"}], "-", "2"}], ")"}], "/", 
+               "x"}]}]}], "]"}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"1", ",", "True", ",", "False", ",", "_"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"mrul", "[", 
+            RowBox[{"n", ",", "n", ",", 
+             RowBox[{
+              RowBox[{"-", 
+               RowBox[{"ntol", "[", 
+                RowBox[{"n", ",", "M"}], "]"}]}], "/", "x"}]}], "]"}], ",", 
+           RowBox[{"mrul", "[", 
+            RowBox[{"n", ",", 
+             RowBox[{"n", "+", "12"}], ",", 
+             RowBox[{"I", " ", "v", " ", "t"}]}], "]"}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"1", ",", "False", ",", "_", ",", "_"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"mrul", "[", 
+           RowBox[{"n", ",", "n", ",", 
+            RowBox[{
+             RowBox[{"-", 
+              RowBox[{"ntol", "[", 
+               RowBox[{"n", ",", "M"}], "]"}]}], "/", "x"}]}], "]"}], "}"}], 
+         ",", 
+         RowBox[{"{", 
+          RowBox[{"2", ",", "_", ",", "_", ",", "_"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"mrul", "[", 
+            RowBox[{"n", ",", "n", ",", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"ntol", "[", 
+                 RowBox[{"n", ",", "M"}], "]"}], "-", "1"}], ")"}], "/", 
+              "x"}]}], "]"}], ",", 
+           RowBox[{"mrul", "[", 
+            RowBox[{"n", ",", 
+             RowBox[{"n", "+", "1"}], ",", 
+             RowBox[{
+              RowBox[{"-", "I"}], " ", "t"}]}], "]"}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"3", ",", "_", ",", "_", ",", "True"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"mrul", "[", 
+            RowBox[{"n", ",", "n", ",", 
+             RowBox[{
+              RowBox[{"ntol", "[", 
+               RowBox[{"n", ",", "M"}], "]"}], "/", "x"}]}], "]"}], ",", 
+           RowBox[{"mrul", "[", 
+            RowBox[{"n", ",", 
+             RowBox[{"n", "-", "12"}], ",", 
+             RowBox[{"I", " ", "t", " ", "v"}]}], "]"}], ",", 
+           RowBox[{"mrul", "[", 
+            RowBox[{"n", ",", 
+             RowBox[{"n", "-", "13"}], ",", 
+             RowBox[{
+              RowBox[{"-", "2"}], " ", "v", " ", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"ntol", "[", 
+                  RowBox[{"n", ",", "M"}], "]"}], "+", "2"}], ")"}], "/", 
+               "x"}]}]}], "]"}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"3", ",", "_", ",", "_", ",", "False"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"mrul", "[", 
+           RowBox[{"n", ",", "n", ",", 
+            RowBox[{
+             RowBox[{"ntol", "[", 
+              RowBox[{"n", ",", "M"}], "]"}], "/", "x"}]}], "]"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "_", ",", "_", ",", "_"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"mrul", "[", 
+            RowBox[{"n", ",", "n", ",", 
+             RowBox[{
+              RowBox[{"-", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"ntol", "[", 
+                  RowBox[{"n", ",", "M"}], "]"}], "+", "1"}], ")"}]}], "/", 
+              "x"}]}], "]"}], ",", 
+           RowBox[{"mrul", "[", 
+            RowBox[{"n", ",", 
+             RowBox[{"n", "-", "3"}], ",", 
+             RowBox[{
+              RowBox[{"-", "I"}], " ", "t"}]}], "]"}]}], "}"}]}], "]"}]}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{"ret", "=", 
+       RowBox[{"Map", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"sw", "[", "#", "]"}], "&"}], ",", 
+         RowBox[{"Range", "[", 
+          RowBox[{"1", ",", 
+           RowBox[{
+            RowBox[{"8", " ", "M"}], "+", "4"}]}], "]"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Return", "[", 
+       RowBox[{"SparseArray", "@", 
+        RowBox[{"Flatten", "[", "ret", "]"}]}], "]"}]}]}], "]"}]}], 
+  "\n"}]], "Input",
+ CellChangeTimes->{{3.707371278511106*^9, 3.707371278512084*^9}}],
+
+Cell[BoxData[
+ RowBox[{"myInt", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"toMT", "[", " ", 
+     RowBox[{"#", ",", " ", "2"}], "]"}], "&"}], "  ", ",", " ", 
+   RowBox[{"10", "^", 
+    RowBox[{"-", "7"}]}], ",", " ", "2."}], "]"}]], "Input",
+ CellChangeTimes->{{3.707371298559978*^9, 3.707371298561284*^9}}],
+
+Cell["\<\
+One can decrease the difficulty of the problem by reducing the Dyson series \
+to a matrix ODE. Let\[CloseCurlyQuote]s start from the definition
+
+U(x,x0)=1+\[Integral]^x_x0 dy1V(y1)+\[Integral]^x_x0dy1\[Integral]^y1_x0 \
+dy2V(y1)V(y2)+\[Ellipsis]
+and take the derivative with respect to x
+\[PartialD]U(x,x0)/\[PartialD]x=V(x)(1+\[Integral]^x_x0 \
+dy2V(y2)+\[Ellipsis]).
+It has the same tail as U(x,x0)U(x,x0), therefore
+\[PartialD]U(x,x0)/\[PartialD]x=V(x)U(x,x0).
+Now it is very easy to solve it with NDSolve
+See DysonDiffEq.nb\
+\>", "Text",
+ CellChangeTimes->{{3.7073714658645144`*^9, 3.707371490560953*^9}, {
+  3.7073723925968*^9, 3.707372494552514*^9}}]
+},
+WindowSize->{926, 583},
+WindowMargins->{{Automatic, 119}, {4, Automatic}},
+FrontEndVersion->"11.0 for Linux x86 (64-bit) (September 21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 1104, 21, 212, "Text"],
+Cell[1665, 43, 5581, 148, 491, "Input"],
+Cell[7249, 193, 127, 2, 31, "Text"],
+Cell[7379, 197, 935, 29, 102, "Input"],
+Cell[8317, 228, 421, 9, 109, "Text"],
+Cell[8741, 239, 6566, 179, 308, "Input"],
+Cell[15310, 420, 307, 8, 34, "Input"],
+Cell[15620, 430, 666, 15, 198, "Text"]
+}
+]
+*)
+

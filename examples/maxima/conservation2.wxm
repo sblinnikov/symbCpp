@@ -1,0 +1,83 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: title   start ]
+Conservation.mac
+
+
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(psi,[x,t]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diff(psi(x,t),x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(f,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diff(f,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(phi,[x,t]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+here we use phi instead of \bar\psi
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+now define current of probability density:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+s: -%i*hb/(2*m)*(phi*diff(psi,x)-psi*diff(phi,x));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+div s:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r4: diff(s,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rho: phi*psi;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r1: diff(rho,t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+now substitute Schroedninger eq. for time derivatives of psi and phi:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r2: subst(%i*hb/(2*m)*diff(psi,x,2)-%i*V*psi,diff(psi,t),r1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r3: subst(-%i*hb/(2*m)*diff(phi,x,2)+%i*V*phi,diff(phi,t),r2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+now check that d\rho/dt+div s gives zero:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+result: expand(r4+r3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+print(result);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

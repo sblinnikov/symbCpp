@@ -1,0 +1,364 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: title   start ]
+hydrogen2sb.mac, corrected, from Steeb & Hardy Ch.26
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: subsect start ]
+This script allows to find energy levels of Hydrogen atom from Schroedinger equation,
+and here we illustrate how to use physical constants in Maxima
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+load (physical_constants);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Let us use notation from S.Fluegge "Practical Quantum Mechanic", vol.1, problem 61.
+Kepler's problem for infinetely heavy point-like nucleus of charge Z. For Z=1 we have hydrogen atom.
+Denote:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+2*m0*E/hb^2 = -%gamma^2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+ here hb denotes \hbar, i.e. Planck constant divided by 2\pi.  Let
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kappa = Z*e0^2*m0/(%gamma*hb^2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now for usual substitution in wavefunction u(r,theta,phi) to separate variables:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+u = (1/r) * chi(r) * Ylm(theta,phi);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+we write the Schroedinger equation as (with y in place of chi):
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+EqSchH:'diff(y, r, 2)  + (-%gamma^2 + 2*%gamma*kappa/r-l*(l+1)/r^2)* y = 0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Maxima can solve many ODE, e.g. Sch.Equation for a sphere with reflecting walls.
+It fails for this form:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+eqSchSphRad:'diff(y, r, 2)  + (-%gamma^2 -l*(l+1)/r^2)* y = 0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Using ode2 we get "false", this means that ode2 is unable to obtain a solution:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+solSchSphRad: ode2(eqSchSphRad, y, r);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Nevertheless it is OK for the next form, which we obtain from eqSchSphRad after
+substitions z=%gamma*r and y=z^{1/2}*phi(z):
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+eqSphz: 'diff(phi, z, 2) + 'diff(phi, z)/z + (1-(l+1/2)^2/z^2)*phi = 0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solSphz: ode2(eqSphz, phi, z);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Thus, we get the correct solution for phi through Bessel function with half-integer index
+(which are experessed via sin(z) and cos(z)).
+
+For the Shroedinger eqaution for H atom EqSchH Steeb and Hardy show not this way,
+but direct computation of eigenvalues of energy using a special ansatz 
+for the wave function.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Define orbital number l, magnetic m, and radial k, e.g.:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+l: 1; m: 0; k: 4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+now the principal quantum number n is
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+n:k+l+1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+alpha: e0^2/(hb*c);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+alpha is fine structure constant.
+Now substitute a polynomial v1 and exp as an ansatz for y, where
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+v1: (sum (a [j] *r^j, j, 1 ,k));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+v1: v1+1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+y1: r^(l+1)*exp(-sqrt(g2)*r)*v1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Here y1 is the trial function of the radial wave function and g2 used
+by Steeb and Hardy is in place of %gamma^2 used by Fluegge.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+ Insert the ansatz into Schroedinger differential equation
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+left: diff(y1,r,2)+(-g2+2*m0*c*alpha/(hb*r)-l*(l+l)/(r*r))*y1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+left: left*exp(sqrt(g2)*r);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+left: left/r;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+left: ratsimp(left);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+left: num(left);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+left: expand(left);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+left: subst(x,sqrt(g2),left);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+h[0]: coeff(left,r,0); 
+h[1]: coeff(left,r,1);
+h[2]: coeff(left,r,2); 
+h[3]: coeff(left,r,3);
+h[4]: coeff(left,r,4);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+s: solve ([h[0]=0, h[1]=0, h[2]=0, h[3] =0, h[4]=0],
+   [x,a[1],a[2],a[3],a[4]]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol: last(s);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol: first(sol);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol: rhs(sol);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+E_kl: -hb^2*sol*sol/2/m0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+One can see that we get Rydberg constant here m0*e0^4/hb^2, and the 
+energy eigenvalue for n=k+l+1 is Rydberg/2n^2. 
+For  k, l 
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+print ("E_kl=" ,E_kl);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The output is the energy eigenvalue E_kl.
+
+Now we may use maxima package "physical_constant" which has a set of many dimensional constants.
+It uses package ezunits which by default employs SI. 
+One can try
+demo(ezunits);
+display_known_unit_conversions;
+
+We can list the constants:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+propvars (physical_constant);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+And print some of them, e.g.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+constvalue(%alpha);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+constvalue (%c);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+we may copy paste this SI value into CGS value for speed of light (adding two orders):
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+c0:29979245800;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+constvalue (%h_bar);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+we may copy paste this SI value into CGS value (7 orders difference in J and erg):
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+hb:1.054571628251774e-27;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+constvalue(%%e);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+e0:1.602176487e-19*c0/10;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+constvalue(%m_e);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+In the same way
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+m0:9.10938215e-28;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now we get the energy of the level in ergs 
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+E: ev(E_kl);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+and transform to electron-Volts (do not confuse evaluation operator ev above with eV)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+load("physconst.mac");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(%Ry);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Here we get Rydberg in inverse meters. Next line gives its uncertainty:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ get(%Ry, RSU);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We better get Ry in eV. We must multiply electron charge e0 by one Volt, expressed in CGS. The unit of voltage in CGS is 
+1 statvolt = 299.792458 volts. 
+(The conversion factor 299.792458 is simply the numerical value of the speed of light in cm/s divided by 10^8). Hence,
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+eV0:e0/(c0*1e-8);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This is the value of eV in ergs, now we have the energy of our level in eV:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+E_eV:E/eV0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Since Rydberg is
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Ry0:m0*e0^4/hb^2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+in ergs, and in eV
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Ry0eV:Ry0/eV0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We obtain the energy of our level in Rydbergs:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+E/Ry0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+It is easy to check that we get -1/(2n^2) when the principal quantum number 
+of the level is n. Indeed,
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+-1/(2*n^2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(-1/(2*n^2));
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

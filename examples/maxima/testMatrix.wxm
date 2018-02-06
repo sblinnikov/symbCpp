@@ -1,0 +1,37 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: input   start ] */
+ A: matrix([1,2],[3,4]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+testing programming in Maxima
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+tangent0(fn, x) :=
+       diff(fn(x), x) / ((diff(fn(x), x) . diff(fn (x), x))^(1/2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+tangent0(sin, x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+a better definition, using block, thus avoiding multiple evalutaions of diff:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+tangent(fn, x) :=
+  block ( [df: diff(fn(x), x)],
+           df / (df . df)^(1/2)
+        )$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+tangent(sin,x);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

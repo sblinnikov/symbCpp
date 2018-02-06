@@ -1,0 +1,5 @@
+/* plancherel.mac */
+r1: integrate(exp(alpha*omega) ,omega,-1,-1/2) +integrate(exp(-alpha*omega), omega, 1/2,1);
+print (r1);
+r2: integrate((sin(t)-sin(t/2)),alpha/(t*(t^2+aipha^2)),t);
+print (r2);

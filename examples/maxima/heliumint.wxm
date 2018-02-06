@@ -1,0 +1,79 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: comment start ]
+ inthelium.mac Steeb & Hardy ch.28
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends (f,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+f: 1/sqrt(r1*r1+r2*r2-2*r1*r2*x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I: integrate(f,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I: subst(1,x,I)-subst(-1,x,I);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I: subst(abs(r1+r2),sqrt(r2^2+2*r1*r2+r1^2),I);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I: subst(abs(r1-r2),sqrt(r2^2-2*r1*r2+r1^2),I);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+print ("I =" ,I);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gmu: 2*(subst(r1,r2,integrate(r2^2*exp(-2*mu*r2),r2))
+    -subst(0,r2,integrate(r2^2*exp(-2*mu*r2),r2)))
+-2*r1*subst(r1,r2,integrate(r2*exp(-2*mu*r2),r2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gmu: expand(gmu);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gmu: -subst(0,r1,integrate(r1*exp(-2*mu*r1)*gmu,r1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The next maxima code is made from a Maple code  heliumint.map in Steeb & Hardy ch.28
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(ex,mu);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ex : (hb^2*mu^2)/m- (27*e^2*mu) / (8*4*pi*epsO);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r1 : diff(ex,mu);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r2 : solve(r1=O,mu);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(%);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

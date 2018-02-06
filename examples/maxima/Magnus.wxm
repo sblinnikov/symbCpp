@@ -1,0 +1,56 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Steeb & Hardy ch.11. Magnus Expansion
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+Magnus.mac reproduces an example from this chapter, but they use a wrong definition of commutator. 
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+batch("Magnus.mac");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Next lines repeat the same example with the correct commutator definition
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Hp:mu*B*matrix([cos(theta),exp(-%i*omega*tp)*sin(theta)],
+                   [exp(%i*omega*tp)*sin(theta),-cos(theta)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Hpp:mu*B*matrix([cos(theta),exp(-%i*omega*tpp)*sin(theta)],
+                   [exp(%i*omega*tpp)*sin(theta),-cos(theta)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Commutator:Hp . Hpp-Hpp . Hp;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+-- dot product must be used in matrix multiplication, and the commutator is not zero
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+expand(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+No succesful simplification is found, thus the Magnus expansion is  not trivial here, contrary to what is written by
+Steeb and Hardy 
+   [wxMaxima: comment end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

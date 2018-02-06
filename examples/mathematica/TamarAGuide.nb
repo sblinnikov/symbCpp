@@ -1,0 +1,4256 @@
+(***********************************************************************
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used on any computer system with Mathematica 4.0,
+MathReader 4.0, or any compatible application. The data for the notebook 
+starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do one of 
+the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing the 
+word CacheID, otherwise Mathematica-compatible applications may try to 
+use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+***********************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[    114017,       3738]*)
+(*NotebookOutlinePosition[    114849,       3766]*)
+(*  CellTagsIndexPosition[    114805,       3762]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["TamarA 2.0 User Guide.", "Title"],
+
+Cell["\<\
+The paper describes the Mathematica package TamarA for analytical calculation \
+of Feynman diagram expressions. The package supports both relativistic and \
+non-relativistic three dimensional calculation of traces. The package also \
+includes numerous simplification rules of four and three dimensional \
+expressions. User friendliness was one of first priorities when the package \
+was designed. Output is graphical and very close to standard physics \
+notations. Keyboard input is easy to remember. Many short notations are \
+defined as alternatives. This guide includes a detailed description of the \
+package with usage examples.     \
+\>", "Abstract"],
+
+Cell[CellGroupData[{
+
+Cell["1. Introduction.", "Section"],
+
+Cell["\<\
+Analytical calculations of Feynman diagrams are very time consuming but \
+routine tasks in particle and nuclear physics. Once Feynman rules are derived \
+for a chosen Lagrangian the remaining calculations can be done by a computer \
+program. However, existing programs, for example FORM [1], REDUCE [1], and \
+Tracer [2] are not very user-friendly, so the diagrams are often calculated \
+by hand.
+The ten year old Tracer source code inspired me to write a new more user \
+friendly program, TamarA. Although many useful ideas were taken from the \
+Tracer code, TamarA was written from scratch. Both Tracer and TamarA are \
+Mathematica packages. TamarA takes advantages of new graphical features of \
+Mathematica 3.0. The program produces nicely formatted graphical output which \
+usually follows standard physics notations. The output in TamarA can always \
+be interpreted as input: a user may utilize copy and paste to continue work \
+with the data. Keyboard input is intuitive and easy to learn.
+Many extra features were added to the package. TamarA distinguishes covariant \
+and contravariant indices, automatically does index contraction. \
+Three-dimensional objects, summation and traces are also implemented.
+Compared to Tracer, TamarA never produces meaningless output even if input is \
+inconsistent. When input is wrong TamarA usually issues an error message or \
+just outputs the confusing part unevaluated.
+The program was checked extensively by comparing against known results. It \
+was found that the package is very reliable and correct in all tested cases.
+Though the program comes without warranty of any kind, I will release \
+possible bug corrections and upgrades as time allows. I hope you will enjoy \
+using the package as much as I do.
+The following section discusses rule-based programming. The third section \
+explains index notation type checking functions. The forth section defines \
+four dimensional objects and their three dimensional equivalents. The fifth \
+section is devoted to trace taking functions. Appendices include the license \
+agreement and full package code.\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["2. Variable testing functions.", "Section"],
+
+Cell["\<\
+Variable testing is very important in rule matching. Over fifty different \
+variable testing functions are defined in TamarA to ensure proper package \
+work. Most of the functions may not be called directly. We will discuss only \
+user available functions.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["2.1. Name definitions and testing.", "Subsection"],
+
+Cell[TextData[{
+  "\[GraySquare]",
+  StyleBox[" Vector Name",
+    FontSlant->"Italic"],
+  " is an expression suitable for naming a vector. It may be a symbol, such \
+as a variable name, or an indexed symbol. Boolean ",
+  StyleBox["VecNameQ",
+    FontSlant->"Italic"],
+  " function tests if the expression is an allowed vector name."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(VecNameQ[b\_1]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(VecNameQ[2  a]\)], "Input"],
+
+Cell[BoxData[
+    \(False\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "In the example ",
+  Cell[BoxData[
+      \(TraditionalForm\`\(\(above, \)\ \)\)]],
+  " ",
+  Cell[BoxData[
+      \(TraditionalForm\`b\_1\)]],
+  " is a subscripted symbol and a proper vector name; ",
+  StyleBox["2a",
+    FontSlant->"Italic"],
+  " is not a symbol, because it starts with a number."
+}], "Text"],
+
+Cell[TextData[{
+  "\[GraySquare]",
+  StyleBox[" Extended Vector Name",
+    FontSlant->"Italic"],
+  " is used in shortcuts of expressions. It may be sum of ",
+  StyleBox["Vector Name",
+    FontSlant->"Italic"],
+  "s multiplied by numbers. The variable is automatically reduced to ",
+  StyleBox["Vector Name",
+    FontSlant->"Italic"],
+  " variables inside of many functions. The testing is done by ExVecNameQ \
+boolean function."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ExVecNameQ[4 \((2  a + b)\) - c]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ExVecNameQ[d \((2  a + b)\) - c]\)], "Input"],
+
+Cell[BoxData[
+    \(False\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "In the example above the expression includes products of two symbols, \
+consequently it is not an ",
+  StyleBox["Extended Vector Name",
+    FontSlant->"Italic"],
+  "."
+}], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["2.2. Index definitions and testing.", "Subsection"],
+
+Cell[TextData[
+"\[GraySquare]  Index may be only 0, 1, 2 or 3.\nBesides standard four \
+dimensional objects, the package uses three dimensional equivalents, \
+consequently three dimensional indices are required."], "Text"],
+
+Cell[TextData[{
+  "\[GraySquare] ",
+  StyleBox["3D Integer Index",
+    FontSlant->"Italic"],
+  " represents 1, 2 or 3."
+}], "Text"],
+
+Cell[TextData[{
+  "\[GraySquare] ",
+  StyleBox["Symbolic Index",
+    FontSlant->"Italic"],
+  " may be a symbol or indexed symbol.\nWe also have to distinguish four and \
+three dimensional symbolic indices."
+}], "Text"],
+
+Cell[TextData[{
+  "\[GraySquare] ",
+  StyleBox["3D Symbolic Index",
+    FontSlant->"Italic"],
+  " is a Symbolic Index declared by d3[x] function. A 3D Symbolic Index can \
+be declared anywhere, but must be declared before it is used or can be \
+declared inside of the actual function call. 3D indices are always printed as \
+subscripts."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(d3[c]; ep3[d3[a, b], c]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      SubscriptBox["\[Epsilon]", 
+        RowBox[{
+          TagBox["a",
+            TamarA`Private`ep31ind1,
+            Editable->False], 
+          TagBox["b",
+            TamarA`Private`ep31ind2,
+            Editable->False], 
+          TagBox["c",
+            TamarA`Private`ep31ind3,
+            Editable->False]}]],
+      TamarA`Private`eps31,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+For example, c variable was declared before the ep3 function call, a and b \
+variables were declared inside of the call.
+The d3[] function, without arguments, outputs the sequence of all declared \
+three dimensional indices.\
+\>", "Text"],
+
+Cell[TextData[{
+  "\[GraySquare] ",
+  StyleBox["Covariant Index",
+    FontSlant->"Italic"],
+  " is an Integer or Symbolic Index but not a  3D Symbolic Index. d4[x] \
+function is used to reclaim 3D Symbolic Index for covariant notation. The \
+combination d4[d3[]] changes all three dimensional indices declarations to \
+four dimensional."
+}], "Text"],
+
+Cell[TextData[{
+  "\[GraySquare] ",
+  StyleBox["Contravariant Index",
+    FontSlant->"Italic"],
+  " variable is designed as a covariant index variable inside of the up[x] \
+function. The index is printed at the top of objects."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(g[up[i], j]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[\(g\_j\%i\),
+      TamarA`Private`met1,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The up[x] function may take more then one argument, for example, the shortcut \
+g[up[i,j]] is equivalent to g[up[i],up[j]].\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(g[up[i, j]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      SuperscriptBox["g", 
+        RowBox[{
+          TagBox["i",
+            TamarA`Private`met2ind1,
+            Editable->False], 
+          TagBox["j",
+            TamarA`Private`met2ind2,
+            Editable->False]}]],
+      TamarA`Private`met2,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "\[GraySquare]",
+  StyleBox[" 4D Vector-Contracted Index",
+    FontSlant->"Italic"],
+  " is a Vector Name inside of a v4[x] function."
+}], "Text"],
+
+Cell[TextData[{
+  "\[GraySquare] ",
+  StyleBox["3D Vector-Contracted Index",
+    FontSlant->"Italic"],
+  " is a Vector Name inside of a  v3[x] function.\nDiscussion of the \
+vector-contracted indices is deferred until the next section."
+}], "Text"],
+
+Cell[TextData[{
+  "\[GraySquare] ",
+  StyleBox["3D Index",
+    FontSlant->"Italic"],
+  " is a 3D Integer, 3D Symbolic, or 3D Vector-Contracted Index. The \
+variables are tested by D3IndexQ[x] function."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(D3IndexQ[e]\)], "Input"],
+
+Cell[BoxData[
+    \(False\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(d3[e]; D3IndexQ[e]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The example above shows that a three dimensional symbolic index must be \
+declared.
+Three dimensional symbolic index is the only kind of object requiring \
+previous declaration.\
+\>", "Text"],
+
+Cell[TextData[{
+  "\[GraySquare] ",
+  StyleBox["4D Index",
+    FontSlant->"Italic"],
+  " is an Integer, Covariant, Contravariant or 4D Vector-Contracted Index. \
+The variables are tested by D4IndexQ[x] function."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(d3[a\_v]; D4IndexQ[a\_v]\)], "Input"],
+
+Cell[BoxData[
+    \(False\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(d3[a\_v]; d4[a\_v]; D4IndexQ[a\_v]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The examples demonstrate that a declared 3D Symbolic Index may not be used as \
+a 4D Index, the 3D Index declaration may be canceled by the d4 function with \
+the same argument.\
+\>", "Text"],
+
+Cell[TextData[{
+  "\[GraySquare] ",
+  StyleBox["Index",
+    FontSlant->"Italic"],
+  " type represents either 4D Index or 3D Index. The variables are tested by \
+the IndexQ[x] function."
+}], "Text"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3. TamarA Objects.", "Section"],
+
+Cell["\<\
+This section discusses objects defined in the TamarA package and \
+simplification rules automatically applied to them. All of the definitions \
+are in agreement with Bjorken and Drell [3,4] notation. 
+\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["3.1. Metric and Kronecker tensors.", "Subsection"],
+
+Cell["The metric tensor is represented by g[Index,Index] function.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Outer[g, l = {0, 1, 2, 3}, l] // MatrixForm\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"1", "0", "0", "0"},
+            {"0", \(-1\), "0", "0"},
+            {"0", "0", \(-1\), "0"},
+            {"0", "0", "0", \(-1\)}
+            }], "\[NoBreak]", ")"}],
+      (MatrixForm[ #]&)]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The function is formatted according to traditional physics notation.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(g[up[\[Alpha]], \[Beta]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[\(g\_\[Beta]\%\[Alpha]\),
+      TamarA`Private`met1,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Index contraction rules are always applied whenever appropriate. For example, \
+the contravariant index up[a] of g[up[a],b] is automatically summed with the \
+matching covariant index a in g[a,c].\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(g[
+        up[\[Alpha], \[Beta]]]\)\(*\)\(g[\[Alpha], \[Gamma]]\)\(\t\)\)\)], \
+"Input"],
+
+Cell[BoxData[
+    TagBox[\(g\_\[Gamma]\%\[Beta]\),
+      TamarA`Private`met1,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[TextData[
+"TamarA won\[CloseCurlyQuote]t sum four dimensional objects by a three \
+dimensional index."], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(d3[a]; \(\(g[up[a, \[Beta]]]\)\(*\)\(g[
+        a, \[Gamma]]\)\(\t\)\)\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      TagBox[
+        SubscriptBox["g", 
+          RowBox[{
+            TagBox["a",
+              TamarA`Private`met3ind1,
+              Editable->False], 
+            TagBox["\[Gamma]",
+              TamarA`Private`met3ind2,
+              Editable->False]}]],
+        TamarA`Private`met3,
+        Editable->False], " ", 
+      TagBox[
+        SuperscriptBox["g", 
+          RowBox[{
+            TagBox["a",
+              TamarA`Private`met2ind1,
+              Editable->False], 
+            TagBox["\[Beta]",
+              TamarA`Private`met2ind2,
+              Editable->False]}]],
+        TamarA`Private`met2,
+        Editable->False]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+In the example above, index a was declared as a three dimensional, \
+consequently the summation rule was not applied.
+Summation over an index does not automatically open parentheses. In such \
+cases, the Mathematica function Expand may be useful.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(g[up[\[Alpha], \[Beta]]]*\((g[\[Alpha], \[Gamma]] + d)\)\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"(", 
+        RowBox[{"d", "+", 
+          TagBox[
+            SubscriptBox["g", 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`met3ind1,
+                  Editable->False], 
+                TagBox["\[Gamma]",
+                  TamarA`Private`met3ind2,
+                  Editable->False]}]],
+            TamarA`Private`met3,
+            Editable->False]}], ")"}], " ", 
+      TagBox[
+        SuperscriptBox["g", 
+          RowBox[{
+            TagBox["\[Alpha]",
+              TamarA`Private`met2ind1,
+              Editable->False], 
+            TagBox["\[Beta]",
+              TamarA`Private`met2ind2,
+              Editable->False]}]],
+        TamarA`Private`met2,
+        Editable->False]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{
+        RowBox[{"(", 
+          RowBox[{"d", "+", 
+            TagBox[
+              SubscriptBox["g", 
+                RowBox[{
+                  TagBox["\[Alpha]",
+                    TamarA`Private`met3ind1,
+                    Editable->False], 
+                  TagBox["\[Gamma]",
+                    TamarA`Private`met3ind2,
+                    Editable->False]}]],
+              TamarA`Private`met3,
+              Editable->False]}], ")"}], " ", 
+        TagBox[
+          SuperscriptBox["g", 
+            RowBox[{
+              TagBox["\[Alpha]",
+                TamarA`Private`met2ind1,
+                Editable->False], 
+              TagBox["\[Beta]",
+                TamarA`Private`met2ind2,
+                Editable->False]}]],
+          TamarA`Private`met2,
+          Editable->False]}], "//", "Expand"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      TagBox[\(g\_\[Gamma]\%\[Beta]\),
+        TamarA`Private`met1,
+        Editable->False], "+", 
+      RowBox[{"d", " ", 
+        TagBox[
+          SuperscriptBox["g", 
+            RowBox[{
+              TagBox["\[Alpha]",
+                TamarA`Private`met2ind1,
+                Editable->False], 
+              TagBox["\[Beta]",
+                TamarA`Private`met2ind2,
+                Editable->False]}]],
+          TamarA`Private`met2,
+          Editable->False]}]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+When both arguments are 3D Indices the metric tensor is automatically reduced \
+to the Kronecker delta.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(g[d3[a, b]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"-", 
+      TagBox[
+        SubscriptBox["\[Delta]", 
+          RowBox[{
+            TagBox["a",
+              TamarA`Private`del3ind1,
+              Editable->False], 
+            TagBox["b",
+              TamarA`Private`del3ind2,
+              Editable->False]}]],
+        TamarA`Private`del3,
+        Editable->False]}]], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+  "The ",
+  StyleBox["Kronecker delta",
+    FontSlant->"Italic"],
+  " is represented by the  delta[3DIndex,3DIndex] function. Three dimensional \
+objects may not be used with a 4D Index."
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(d4[a]; d3[b]; delta[a, b]\)], "Input"],
+
+Cell[BoxData[
+    \(delta::"ind" \(\(:\)\(\ \)\) 
+      "wrong type of argument(s) in \!\(delta[\(\(a, b\)\)]\),\n D3index is \
+expected."\)], "Message"],
+
+Cell[BoxData[
+    TagBox[\(delta[a, b]\),
+      HoldForm]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Standard summation rules are also applied to three dimensional objects, for \
+example, to delta.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(d3[a, b, c]; delta[a, b]*delta[b, c]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      SubscriptBox["\[Delta]", 
+        RowBox[{
+          TagBox["a",
+            TamarA`Private`del3ind1,
+            Editable->False], 
+          TagBox["c",
+            TamarA`Private`del3ind2,
+            Editable->False]}]],
+      TamarA`Private`del3,
+      Editable->False]], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3.2. Vectors.", "Subsection"],
+
+Cell["\<\
+Four dimensional and three dimensional vectors are represented by \
+vec[ExVecName,Index] and vec3[ExVecName,3DIndex] functions correspondingly. 
+vec function is formatted according to physics notations, vec3 function has \
+an additional tilde symbol above as in the following example.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(d4[a]; vec[c, up[a]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[\(c\^a\),
+      TamarA`Private`vec1,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(d3[b]; vec3[c, b]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      SubscriptBox[
+        TagBox[
+          OverscriptBox["c", 
+            TagBox["\[Tilde]",
+              TamarA`Private`vec32,
+              Editable->False]],
+          TamarA`Private`vec31,
+          Editable->False], "b"],
+      vec3,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+If a three dimensional index is used with a four dimensional vector, the \
+vector is automatically reduced to three dimensional.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(d3[a]; vec[c, a]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"-", 
+      TagBox[
+        SubscriptBox[
+          TagBox[
+            OverscriptBox["c", 
+              TagBox["\[Tilde]",
+                TamarA`Private`vec32,
+                Editable->False]],
+            TamarA`Private`vec31,
+            Editable->False], "a"],
+        vec3,
+        Editable->False]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+If the first argument of vec or vec3 has ExVecName type, the functions are \
+immediately expanded into corresponding linear combinations.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(vec[4 \((2  a + b)\) + c, up[\[Mu]]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"4", " ", 
+        RowBox[{"(", 
+          RowBox[{
+            RowBox[{"2", " ", 
+              TagBox[\(a\^\[Mu]\),
+                TamarA`Private`vec1,
+                Editable->False]}], "+", 
+            TagBox[\(b\^\[Mu]\),
+              TamarA`Private`vec1,
+              Editable->False]}], ")"}]}], "+", 
+      TagBox[\(c\^\[Mu]\),
+        TamarA`Private`vec1,
+        Editable->False]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(vec3[4 \((2  a + b)\) + c, d3[i]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"4", " ", 
+        RowBox[{"(", 
+          RowBox[{
+            RowBox[{"2", " ", 
+              TagBox[
+                SubscriptBox[
+                  TagBox[
+                    OverscriptBox["a", 
+                      TagBox["\[Tilde]",
+                        TamarA`Private`vec32,
+                        Editable->False]],
+                    TamarA`Private`vec31,
+                    Editable->False], "i"],
+                vec3,
+                Editable->False]}], "+", 
+            TagBox[
+              SubscriptBox[
+                TagBox[
+                  OverscriptBox["b", 
+                    TagBox["\[Tilde]",
+                      TamarA`Private`vec32,
+                      Editable->False]],
+                  TamarA`Private`vec31,
+                  Editable->False], "i"],
+              vec3,
+              Editable->False]}], ")"}]}], "+", 
+      TagBox[
+        SubscriptBox[
+          TagBox[
+            OverscriptBox["c", 
+              TagBox["\[Tilde]",
+                TamarA`Private`vec32,
+                Editable->False]],
+            TamarA`Private`vec31,
+            Editable->False], "i"],
+        vec3,
+        Editable->False]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The vector indices are also automatically contracted when appropriate.\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3.3. Scalar Product.", "Subsection"],
+
+Cell["Automatic summations often produce scalar products.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(vec[a, up[\[Mu]]]*vec[b, \[Mu]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{
+        TagBox["(",
+          TamarA`Private`scv1,
+          Editable->False], 
+        TagBox["a",
+          TamarA`Private`scv2,
+          Editable->False], 
+        TagBox["\[CenterDot]",
+          TamarA`Private`scv3,
+          Editable->False], 
+        TagBox["b",
+          TamarA`Private`scv3,
+          Editable->False], 
+        TagBox[")",
+          TamarA`Private`scv4,
+          Editable->False]}],
+      sc,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(d3[i]; vec3[a, i]*vec3[b, i]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{
+        TagBox["(",
+          TamarA`Private`sc3v1,
+          Editable->False], 
+        TagBox[\(a\& \[RightArrow] \),
+          TamarA`Private`sc3v2,
+          Editable->False], 
+        TagBox["\[CenterDot]",
+          TamarA`Private`sc3v3,
+          Editable->False], 
+        TagBox[\(b\& \[RightArrow] \),
+          TamarA`Private`sc3v4,
+          Editable->False], 
+        TagBox[")",
+          TamarA`Private`sc3v5,
+          Editable->False]}],
+      sc3,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Four and three dimensional scalar products are represented by \
+sc[ExVecName,ExVecName] and sc3[ExVecName,ExVecName] functions \
+correspondingly. If arguments have ExVecName type the functions are \
+immediately expanded into the corresponding linear combination.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(sc[4 \((2  a + b)\) + c, 2  d]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"8", " ", 
+        RowBox[{"(", 
+          RowBox[{
+            RowBox[{"2", " ", 
+              TagBox[
+                RowBox[{
+                  TagBox["(",
+                    TamarA`Private`scv1,
+                    Editable->False], 
+                  TagBox["a",
+                    TamarA`Private`scv2,
+                    Editable->False], 
+                  TagBox["\[CenterDot]",
+                    TamarA`Private`scv3,
+                    Editable->False], 
+                  TagBox["d",
+                    TamarA`Private`scv3,
+                    Editable->False], 
+                  TagBox[")",
+                    TamarA`Private`scv4,
+                    Editable->False]}],
+                sc,
+                Editable->False]}], "+", 
+            TagBox[
+              RowBox[{
+                TagBox["(",
+                  TamarA`Private`scv1,
+                  Editable->False], 
+                TagBox["b",
+                  TamarA`Private`scv2,
+                  Editable->False], 
+                TagBox["\[CenterDot]",
+                  TamarA`Private`scv3,
+                  Editable->False], 
+                TagBox["d",
+                  TamarA`Private`scv3,
+                  Editable->False], 
+                TagBox[")",
+                  TamarA`Private`scv4,
+                  Editable->False]}],
+              sc,
+              Editable->False]}], ")"}]}], "+", 
+      RowBox[{"2", " ", 
+        TagBox[
+          RowBox[{
+            TagBox["(",
+              TamarA`Private`scv1,
+              Editable->False], 
+            TagBox["c",
+              TamarA`Private`scv2,
+              Editable->False], 
+            TagBox["\[CenterDot]",
+              TamarA`Private`scv3,
+              Editable->False], 
+            TagBox["d",
+              TamarA`Private`scv3,
+              Editable->False], 
+            TagBox[")",
+              TamarA`Private`scv4,
+              Editable->False]}],
+          sc,
+          Editable->False]}]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The special ToD3 function reduces four dimensional scalar products to three \
+dimensional. The ToD4 function has the opposite effect.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{
+        RowBox[{"2", " ", 
+          TagBox[
+            RowBox[{
+              TagBox["(",
+                TamarA`Private`scv1,
+                Editable->False], 
+              TagBox["a",
+                TamarA`Private`scv2,
+                Editable->False], 
+              TagBox["\[CenterDot]",
+                TamarA`Private`scv3,
+                Editable->False], 
+              TagBox["d",
+                TamarA`Private`scv3,
+                Editable->False], 
+              TagBox[")",
+                TamarA`Private`scv4,
+                Editable->False]}],
+            sc,
+            Editable->False]}], "+", 
+        TagBox[
+          RowBox[{
+            TagBox["(",
+              TamarA`Private`scv1,
+              Editable->False], 
+            TagBox["b",
+              TamarA`Private`scv2,
+              Editable->False], 
+            TagBox["\[CenterDot]",
+              TamarA`Private`scv3,
+              Editable->False], 
+            TagBox["d",
+              TamarA`Private`scv3,
+              Editable->False], 
+            TagBox[")",
+              TamarA`Private`scv4,
+              Editable->False]}],
+          sc,
+          Editable->False]}], "//", "ToD3"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"-", 
+        TagBox[
+          RowBox[{
+            TagBox["(",
+              TamarA`Private`sc3v1,
+              Editable->False], 
+            TagBox[\(b\& \[RightArrow] \),
+              TamarA`Private`sc3v2,
+              Editable->False], 
+            TagBox["\[CenterDot]",
+              TamarA`Private`sc3v3,
+              Editable->False], 
+            TagBox[\(d\& \[RightArrow] \),
+              TamarA`Private`sc3v4,
+              Editable->False], 
+            TagBox[")",
+              TamarA`Private`sc3v5,
+              Editable->False]}],
+          sc3,
+          Editable->False]}], "+", 
+      RowBox[{
+        TagBox[\(b\_0\),
+          TamarA`Private`vec2,
+          Editable->False], " ", 
+        TagBox[\(d\_0\),
+          TamarA`Private`vec2,
+          Editable->False]}], "+", 
+      RowBox[{"2", " ", 
+        RowBox[{"(", 
+          RowBox[{
+            RowBox[{"-", 
+              TagBox[
+                RowBox[{
+                  TagBox["(",
+                    TamarA`Private`sc3v1,
+                    Editable->False], 
+                  TagBox[\(a\& \[RightArrow] \),
+                    TamarA`Private`sc3v2,
+                    Editable->False], 
+                  TagBox["\[CenterDot]",
+                    TamarA`Private`sc3v3,
+                    Editable->False], 
+                  TagBox[\(d\& \[RightArrow] \),
+                    TamarA`Private`sc3v4,
+                    Editable->False], 
+                  TagBox[")",
+                    TamarA`Private`sc3v5,
+                    Editable->False]}],
+                sc3,
+                Editable->False]}], "+", 
+            RowBox[{
+              TagBox[\(a\_0\),
+                TamarA`Private`vec2,
+                Editable->False], " ", 
+              TagBox[\(d\_0\),
+                TamarA`Private`vec2,
+                Editable->False]}]}], ")"}]}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{
+        RowBox[{"-", 
+          TagBox[
+            RowBox[{
+              TagBox["(",
+                TamarA`Private`sc3v1,
+                Editable->False], 
+              TagBox[\(b\&\[RightArrow]\),
+                TamarA`Private`sc3v2,
+                Editable->False], 
+              TagBox["\[CenterDot]",
+                TamarA`Private`sc3v3,
+                Editable->False], 
+              TagBox[\(d\&\[RightArrow]\),
+                TamarA`Private`sc3v4,
+                Editable->False], 
+              TagBox[")",
+                TamarA`Private`sc3v5,
+                Editable->False]}],
+            sc3,
+            Editable->False]}], "+", 
+        RowBox[{
+          TagBox[\(b\_0\),
+            TamarA`Private`vec2,
+            Editable->False], " ", 
+          TagBox[\(d\_0\),
+            TamarA`Private`vec2,
+            Editable->False]}], "+", 
+        RowBox[{"2", " ", 
+          RowBox[{"(", 
+            RowBox[{
+              RowBox[{"-", 
+                TagBox[
+                  RowBox[{
+                    TagBox["(",
+                      TamarA`Private`sc3v1,
+                      Editable->False], 
+                    TagBox[\(a\&\[RightArrow]\),
+                      TamarA`Private`sc3v2,
+                      Editable->False], 
+                    TagBox["\[CenterDot]",
+                      TamarA`Private`sc3v3,
+                      Editable->False], 
+                    TagBox[\(d\&\[RightArrow]\),
+                      TamarA`Private`sc3v4,
+                      Editable->False], 
+                    TagBox[")",
+                      TamarA`Private`sc3v5,
+                      Editable->False]}],
+                  sc3,
+                  Editable->False]}], "+", 
+              RowBox[{
+                TagBox[\(a\_0\),
+                  TamarA`Private`vec2,
+                  Editable->False], " ", 
+                TagBox[\(d\_0\),
+                  TamarA`Private`vec2,
+                  Editable->False]}]}], ")"}]}]}], "//", "ToD4"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"2", " ", 
+        TagBox[
+          RowBox[{
+            TagBox["(",
+              TamarA`Private`scv1,
+              Editable->False], 
+            TagBox["a",
+              TamarA`Private`scv2,
+              Editable->False], 
+            TagBox["\[CenterDot]",
+              TamarA`Private`scv3,
+              Editable->False], 
+            TagBox["d",
+              TamarA`Private`scv3,
+              Editable->False], 
+            TagBox[")",
+              TamarA`Private`scv4,
+              Editable->False]}],
+          sc,
+          Editable->False]}], "+", 
+      TagBox[
+        RowBox[{
+          TagBox["(",
+            TamarA`Private`scv1,
+            Editable->False], 
+          TagBox["b",
+            TamarA`Private`scv2,
+            Editable->False], 
+          TagBox["\[CenterDot]",
+            TamarA`Private`scv3,
+            Editable->False], 
+          TagBox["d",
+            TamarA`Private`scv3,
+            Editable->False], 
+          TagBox[")",
+            TamarA`Private`scv4,
+            Editable->False]}],
+        sc,
+        Editable->False]}]], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3.4. Absolute anti-symmetric tensors.", "Subsection"],
+
+Cell["\<\
+Four dimensional and Three dimensional absolute anti-symmetric tensors are \
+represented by eps[Index,Index,Index,Index] and ep3[3DIndex,3DIndex,3DIndex] \
+correspondingly.
+Both functions are formatted according to standard physics notations.\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3.5. Non-commutative Product.", "Subsection"],
+
+Cell["\<\
+The non-commutative product of four dimensional matrices is represented by \
+the lg function. The Mathematica NoncommutativeMultiply operator ** is \
+automatically reduced to the lg function. Non-commutative products are \
+formatted as comma separated lists inside of angular brackets.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(lg[2  a + b, lg[b, c] + d ** e]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{
+        TagBox["\[LeftAngleBracket]",
+          TamarA`Private`lg1,
+          Editable->False], \(2\ a + b\), ",", 
+        RowBox[{
+          TagBox[
+            RowBox[{
+              TagBox["\[LeftAngleBracket]",
+                TamarA`Private`lg1,
+                Editable->False], "b", ",", "c", 
+              TagBox["\[RightAngleBracket]",
+                TamarA`Private`lg2,
+                Editable->False]}],
+            lg,
+            Editable->False], "+", 
+          TagBox[
+            RowBox[{
+              TagBox["\[LeftAngleBracket]",
+                TamarA`Private`lg1,
+                Editable->False], "d", ",", "e", 
+              TagBox["\[RightAngleBracket]",
+                TamarA`Private`lg2,
+                Editable->False]}],
+            lg,
+            Editable->False]}], 
+        TagBox["\[RightAngleBracket]",
+          TamarA`Private`lg2,
+          Editable->False]}],
+      lg,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+A similar function ls is designed for the product of 2x2  matrices. 
+Multiple matrix products are simplified as in the following examples.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(lg[lg[a, b], c]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{
+        TagBox["\[LeftAngleBracket]",
+          TamarA`Private`lg1,
+          Editable->False], "a", ",", "b", ",", "c", 
+        TagBox["\[RightAngleBracket]",
+          TamarA`Private`lg2,
+          Editable->False]}],
+      lg,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(lg[ls[a, b], c]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{
+        TagBox["\[LeftAngleBracket]",
+          TamarA`Private`lg1,
+          Editable->False], "a", ",", "b", ",", "c", 
+        TagBox["\[RightAngleBracket]",
+          TamarA`Private`lg2,
+          Editable->False]}],
+      lg,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The difference between lg and ls is minor: automatic simplification rules \
+defined for four gamma matrices are not available in ls and vice versa.\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3.6. Gamma and Sigma matrices. ", "Subsection"],
+
+Cell["\<\
+Gamma matrices are represented by gm[Index or 5] function.
+If the function is called with more than one argument, the function is \
+immediately substituted by the corresponding product of gamma matrices.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(gm[a, up[b], c, 5]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{
+        TagBox["\[LeftAngleBracket]",
+          TamarA`Private`lg1,
+          Editable->False], 
+        TagBox[\(\[Gamma]\_a\),
+          TamarA`Private`gm1,
+          Editable->False], ",", 
+        TagBox[\(\[Gamma]\^b\),
+          TamarA`Private`gm2,
+          Editable->False], ",", 
+        TagBox[\(\[Gamma]\_c\),
+          TamarA`Private`gm1,
+          Editable->False], ",", 
+        TagBox[\(\[Gamma]\_5\),
+          TamarA`Private`gm5,
+          Editable->False], 
+        TagBox["\[RightAngleBracket]",
+          TamarA`Private`lg2,
+          Editable->False]}],
+      lg,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The index of a gamma matrix is also automatically contracted. Sigma matrices \
+are represented by the sg[Index,Index] function. The function is defined as \
+an independent object. It is not replaced by a combination of gamma matrices. \
+The matrix is formatted according to standard physics notations.\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3.7. Vector-Contracted Index and Slash Notation.", "Subsection"],
+
+Cell["\<\
+Standard slash notation is represented by the sl[ExVecName] function. The \
+function is immediately reduced to the proper combination of gamma matrices \
+with 4D Vector Contracted indices. Slash notation is found to be convenient \
+in physics. The notation is used in a more general way in the package. We use \
+a special kind of index, Vector Contracted Index in the notations. The 4D \
+Vector Contracted Index is represented by the v4 function of a vector name.
+For example, the expression gm[i]*vec[a,up[i]] = 
+ is automatically substituted by gm[v4[a]]. The v4[a] function shows that the \
+index of gm was contracted with a vector named a. In TamarA the v4 function \
+is printed by a bar above the argument.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(gm[v4[a]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      SubscriptBox["\[Gamma]", 
+        TagBox[\(a\&\[HorizontalLine]\),
+          v4,
+          Editable->False]],
+      TamarA`Private`gm1,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The function v4 also takes more than one argument. For example in many \
+shortcuts like\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(eps[i, v4[a, b, c]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      SubscriptBox["\[Epsilon]", 
+        RowBox[{
+          TagBox["i",
+            TamarA`Private`ep1ind1,
+            Editable->False], 
+          TagBox[
+            TagBox[\(a\&\[HorizontalLine]\),
+              v4,
+              Editable->False],
+            TamarA`Private`ep1ind2,
+            Editable->False], 
+          TagBox[
+            TagBox[\(b\&\[HorizontalLine]\),
+              v4,
+              Editable->False],
+            TamarA`Private`ep1ind3,
+            Editable->False], 
+          TagBox[
+            TagBox[\(c\&\[HorizontalLine]\),
+              v4,
+              Editable->False],
+            TamarA`Private`ep1ind4,
+            Editable->False]}]],
+      TamarA`Private`eps1,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell["and", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(gm[v4[a, b, c]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{
+        TagBox["\[LeftAngleBracket]",
+          TamarA`Private`lg1,
+          Editable->False], 
+        TagBox[
+          SubscriptBox["\[Gamma]", 
+            TagBox[\(a\&\[HorizontalLine]\),
+              v4,
+              Editable->False]],
+          TamarA`Private`gm1,
+          Editable->False], ",", 
+        TagBox[
+          SubscriptBox["\[Gamma]", 
+            TagBox[\(b\&\[HorizontalLine]\),
+              v4,
+              Editable->False]],
+          TamarA`Private`gm1,
+          Editable->False], ",", 
+        TagBox[
+          SubscriptBox["\[Gamma]", 
+            TagBox[\(c\&\[HorizontalLine]\),
+              v4,
+              Editable->False]],
+          TamarA`Private`gm1,
+          Editable->False], 
+        TagBox["\[RightAngleBracket]",
+          TamarA`Private`lg2,
+          Editable->False]}],
+      lg,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Extended slash notation is represented by sl[ExtVecName]. The function is \
+automatically reduced to the corresponding combination of gammas with \
+vector-contracted indices.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(sl[4 \((2  a + b)\) + c]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"4", " ", 
+        RowBox[{"(", 
+          RowBox[{
+            RowBox[{"2", " ", 
+              TagBox[
+                SubscriptBox["\[Gamma]", 
+                  TagBox[\(a\&\[HorizontalLine]\),
+                    v4,
+                    Editable->False]],
+                TamarA`Private`gm1,
+                Editable->False]}], "+", 
+            TagBox[
+              SubscriptBox["\[Gamma]", 
+                TagBox[\(b\&\[HorizontalLine]\),
+                  v4,
+                  Editable->False]],
+              TamarA`Private`gm1,
+              Editable->False]}], ")"}]}], "+", 
+      TagBox[
+        SubscriptBox["\[Gamma]", 
+          TagBox[\(c\&\[HorizontalLine]\),
+            v4,
+            Editable->False]],
+        TamarA`Private`gm1,
+        Editable->False]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The vector-contracted index is a valid four dimensional index and may be used \
+with any four dimensional object. \
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3.8. Pauli Matrices.", "Subsection"],
+
+Cell["\<\
+Pauli matrices are represented by s[3DIndex] function. The function is \
+formatted according to standard physics notation. When more than one argument \
+is used the function is immediately substituted by the corresponding ls \
+matrix product.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s[d3[i, j, k]]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{
+        TagBox["\[LeftAngleBracket]",
+          TamarA`Private`ls1,
+          Editable->False], 
+        TagBox[\(\[Sigma]\_i\),
+          TamarA`Private`pm1,
+          Editable->False], ",", 
+        TagBox[\(\[Sigma]\_j\),
+          TamarA`Private`pm1,
+          Editable->False], ",", 
+        TagBox[\(\[Sigma]\_k\),
+          TamarA`Private`pm1,
+          Editable->False], 
+        TagBox["\[RightAngleBracket]",
+          TamarA`Private`ls2,
+          Editable->False]}],
+      TamarA`Private`lst,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+There is a three dimensional analog of the v4 function. Function v3 \
+represents the 3D Vector contracted index. The function looks like a vector \
+sign above the index in output.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(d3[i]; vec3[a, i]*s[i]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      SubscriptBox["\[Sigma]", 
+        TagBox[\(a\& \[RightArrow] \),
+          v3,
+          Editable->False]],
+      TamarA`Private`pm1,
+      Editable->False]], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["4. Taking traces.", "Section"],
+
+Cell["\<\
+This section describes various functions related to taking traces.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["4.1. Dirac Spinors. ", "Subsection"],
+
+Cell["\<\
+Dirac spinors u and v are represented by u[p,s] and v[p,s] functions \
+correspondingly, where p and s are Vector Names.
+The conjugated spinors are represented by ub[p,s] and vb[p,s] functions \
+correspondingly. The second argument of the spinors is optional. If used, it \
+shows that we are interested in polarization. The spinors are formatted \
+according to physics notations.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ub[p, s]\)], "Input"],
+
+Cell[BoxData[
+    \(u\&_[p, s]\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Many automatic simplification rules are defined for the spinors. For example, \
+orthogonality, completeness, Dirac equation, reducing to traces.\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["4.2. Hermitian Conjugation.", "Subsection"],
+
+Cell["\<\
+Hermitian conjugation is represented by the cj[Expression] function. The \
+conjugation is formatted according to physics notations.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(gm[\[Mu]] // cj\)], "Input"],
+
+Cell[BoxData[
+    SuperscriptBox[
+      TagBox[\(\[Gamma]\_\[Mu]\),
+        TamarA`Private`gm1,
+        Editable->False], "\[Dagger]"]], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["4.3. Trace Functions.", "Subsection"],
+
+Cell["\<\
+Trace taking functions tr are used for four dimensional traces. For \
+example,\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{
+      TagBox[
+        RowBox[{
+          TagBox["\[LeftAngleBracket]",
+            TamarA`Private`lg1,
+            Editable->False], 
+          TagBox[\(\[Gamma]\_\[Alpha]\),
+            TamarA`Private`gm1,
+            Editable->False], ",", 
+          TagBox[\(\[Gamma]\_\[Beta]\),
+            TamarA`Private`gm1,
+            Editable->False], ",", 
+          TagBox[\(\[Gamma]\_\[Gamma]\),
+            TamarA`Private`gm1,
+            Editable->False], ",", 
+          TagBox[\(\[Gamma]\_\[Delta]\),
+            TamarA`Private`gm1,
+            Editable->False], 
+          TagBox["\[RightAngleBracket]",
+            TamarA`Private`lg2,
+            Editable->False]}],
+        lg,
+        Editable->False], "//", "tr"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"4", " ", 
+        TagBox[
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Alpha]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Delta]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]],
+          TamarA`Private`met3,
+          Editable->False], " ", 
+        TagBox[
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Beta]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Gamma]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]],
+          TamarA`Private`met3,
+          Editable->False]}], "-", 
+      RowBox[{"4", " ", 
+        TagBox[
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Alpha]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Gamma]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]],
+          TamarA`Private`met3,
+          Editable->False], " ", 
+        TagBox[
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Beta]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Delta]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]],
+          TamarA`Private`met3,
+          Editable->False]}], "+", 
+      RowBox[{"4", " ", 
+        TagBox[
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Alpha]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Beta]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]],
+          TamarA`Private`met3,
+          Editable->False], " ", 
+        TagBox[
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Gamma]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Delta]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]],
+          TamarA`Private`met3,
+          Editable->False]}]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+When more than one argument is used, the input is understood as the \
+non-commutative product of the arguments. For example,\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(tr[gm[\[Alpha]], gm[\[Beta]], gm[\[Gamma]], gm[\[Delta]]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"4", " ", 
+        TagBox[
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Alpha]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Delta]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]],
+          TamarA`Private`met3,
+          Editable->False], " ", 
+        TagBox[
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Beta]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Gamma]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]],
+          TamarA`Private`met3,
+          Editable->False]}], "-", 
+      RowBox[{"4", " ", 
+        TagBox[
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Alpha]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Gamma]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]],
+          TamarA`Private`met3,
+          Editable->False], " ", 
+        TagBox[
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Beta]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Delta]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]],
+          TamarA`Private`met3,
+          Editable->False]}], "+", 
+      RowBox[{"4", " ", 
+        TagBox[
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Alpha]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Beta]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]],
+          TamarA`Private`met3,
+          Editable->False], " ", 
+        TagBox[
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Gamma]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Delta]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]],
+          TamarA`Private`met3,
+          Editable->False]}]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+A similar function trs is used for taking traces of 2x2 matrices. For \
+example,\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(trs[s[d3[i, j, k]]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"2", " ", "\[ImaginaryI]", " ", 
+      TagBox[
+        SubscriptBox["\[Epsilon]", 
+          RowBox[{
+            TagBox["i",
+              TamarA`Private`ep31ind1,
+              Editable->False], 
+            TagBox["j",
+              TamarA`Private`ep31ind2,
+              Editable->False], 
+            TagBox["k",
+              TamarA`Private`ep31ind3,
+              Editable->False]}]],
+        TamarA`Private`eps31,
+        Editable->False]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Although there is no limit on the length of the arguments, calculation of \
+very long traces may become impractical because of the long execution time.\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["4.4. Expansion into Basis.", "Subsection"],
+
+Cell["\<\
+Function ToBasis expands its argument into the Dirac basis. For example,\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(gm[\[Alpha], \[Beta]] // ToBasis\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      TagBox[
+        SubscriptBox["g", 
+          RowBox[{
+            TagBox["\[Alpha]",
+              TamarA`Private`met3ind1,
+              Editable->False], 
+            TagBox["\[Beta]",
+              TamarA`Private`met3ind2,
+              Editable->False]}]],
+        TamarA`Private`met3,
+        Editable->False], "-", 
+      RowBox[{"\[ImaginaryI]", " ", 
+        TagBox[
+          RowBox[{
+            TagBox["\[LeftAngleBracket]",
+              TamarA`Private`lg1,
+              Editable->False], 
+            TagBox[
+              SubscriptBox["\[Sigma]", 
+                RowBox[{
+                  TagBox["\[Alpha]",
+                    TamarA`Private`sg1ind1,
+                    Editable->False], 
+                  TagBox["\[Beta]",
+                    TamarA`Private`sg1ind2,
+                    Editable->False]}]],
+              TamarA`Private`sg1,
+              Editable->False], 
+            TagBox["\[RightAngleBracket]",
+              TamarA`Private`lg2,
+              Editable->False]}],
+          lg,
+          Editable->False]}]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+A very similar function ToSBasis expands expressions of 2x2 matrices. For \
+example,\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(s[d3[i, j, k]] // ToSBasis\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"\[ImaginaryI]", " ", 
+        TagBox[
+          SubscriptBox["\[Epsilon]", 
+            RowBox[{
+              TagBox["i",
+                TamarA`Private`ep31ind1,
+                Editable->False], 
+              TagBox["j",
+                TamarA`Private`ep31ind2,
+                Editable->False], 
+              TagBox["k",
+                TamarA`Private`ep31ind3,
+                Editable->False]}]],
+          TamarA`Private`eps31,
+          Editable->False]}], "+", 
+      RowBox[{
+        TagBox[
+          SubscriptBox["\[Delta]", 
+            RowBox[{
+              TagBox["j",
+                TamarA`Private`del3ind1,
+                Editable->False], 
+              TagBox["k",
+                TamarA`Private`del3ind2,
+                Editable->False]}]],
+          TamarA`Private`del3,
+          Editable->False], " ", 
+        TagBox[
+          RowBox[{
+            TagBox["\[LeftAngleBracket]",
+              TamarA`Private`ls1,
+              Editable->False], 
+            TagBox[\(\[Sigma]\_i\),
+              TamarA`Private`pm1,
+              Editable->False], 
+            TagBox["\[RightAngleBracket]",
+              TamarA`Private`ls2,
+              Editable->False]}],
+          TamarA`Private`lst,
+          Editable->False]}], "-", 
+      RowBox[{
+        TagBox[
+          SubscriptBox["\[Delta]", 
+            RowBox[{
+              TagBox["i",
+                TamarA`Private`del3ind1,
+                Editable->False], 
+              TagBox["k",
+                TamarA`Private`del3ind2,
+                Editable->False]}]],
+          TamarA`Private`del3,
+          Editable->False], " ", 
+        TagBox[
+          RowBox[{
+            TagBox["\[LeftAngleBracket]",
+              TamarA`Private`ls1,
+              Editable->False], 
+            TagBox[\(\[Sigma]\_j\),
+              TamarA`Private`pm1,
+              Editable->False], 
+            TagBox["\[RightAngleBracket]",
+              TamarA`Private`ls2,
+              Editable->False]}],
+          TamarA`Private`lst,
+          Editable->False]}], "+", 
+      RowBox[{
+        TagBox[
+          SubscriptBox["\[Delta]", 
+            RowBox[{
+              TagBox["i",
+                TamarA`Private`del3ind1,
+                Editable->False], 
+              TagBox["j",
+                TamarA`Private`del3ind2,
+                Editable->False]}]],
+          TamarA`Private`del3,
+          Editable->False], " ", 
+        TagBox[
+          RowBox[{
+            TagBox["\[LeftAngleBracket]",
+              TamarA`Private`ls1,
+              Editable->False], 
+            TagBox[\(\[Sigma]\_k\),
+              TamarA`Private`pm1,
+              Editable->False], 
+            TagBox["\[RightAngleBracket]",
+              TamarA`Private`ls2,
+              Editable->False]}],
+          TamarA`Private`lst,
+          Editable->False]}]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The functions may be used for simplification, like in the following \
+example.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{
+      TagBox[
+        RowBox[{
+          TagBox["\[LeftAngleBracket]",
+            TamarA`Private`ls1,
+            Editable->False], 
+          TagBox[
+            SubscriptBox["\[Sigma]", 
+              TagBox[\(a\&\[RightArrow]\),
+                v3,
+                Editable->False]],
+            TamarA`Private`pm1,
+            Editable->False], ",", 
+          TagBox[
+            SubscriptBox["\[Sigma]", 
+              TagBox[\(b\&\[RightArrow]\),
+                v3,
+                Editable->False]],
+            TamarA`Private`pm1,
+            Editable->False], ",", 
+          TagBox[
+            SubscriptBox["\[Sigma]", 
+              TagBox[\(c\&\[RightArrow]\),
+                v3,
+                Editable->False]],
+            TamarA`Private`pm1,
+            Editable->False], 
+          TagBox["\[RightAngleBracket]",
+            TamarA`Private`ls2,
+            Editable->False]}],
+        TamarA`Private`lst,
+        Editable->False], "//", "ToSBasis"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"\[ImaginaryI]", " ", 
+        TagBox[
+          RowBox[{
+            TagBox["(",
+              TamarA`Private`mp1,
+              Editable->False], 
+            TagBox[
+              TagBox[\(a\& \[RightArrow] \),
+                v3,
+                Editable->False],
+              TamarA`Private`mp2,
+              Editable->False], 
+            TagBox["\[CenterDot]",
+              TamarA`Private`mp3,
+              Editable->False], 
+            TagBox["[",
+              TamarA`Private`mp4,
+              Editable->False], 
+            TagBox[
+              TagBox[\(b\& \[RightArrow] \),
+                v3,
+                Editable->False],
+              TamarA`Private`mp5,
+              Editable->False], 
+            TagBox["\[Cross]",
+              TamarA`Private`mp6,
+              Editable->False], 
+            TagBox[
+              TagBox[\(c\& \[RightArrow] \),
+                v3,
+                Editable->False],
+              TamarA`Private`mp7,
+              Editable->False], 
+            TagBox["]",
+              TamarA`Private`mp8,
+              Editable->False], 
+            TagBox[")",
+              TamarA`Private`mp9,
+              Editable->False]}],
+          TamarA`Private`mp,
+          Editable->False]}], "+", 
+      RowBox[{
+        TagBox[
+          RowBox[{
+            TagBox["\[LeftAngleBracket]",
+              TamarA`Private`ls1,
+              Editable->False], 
+            TagBox[
+              SubscriptBox["\[Sigma]", 
+                TagBox[\(c\& \[RightArrow] \),
+                  v3,
+                  Editable->False]],
+              TamarA`Private`pm1,
+              Editable->False], 
+            TagBox["\[RightAngleBracket]",
+              TamarA`Private`ls2,
+              Editable->False]}],
+          TamarA`Private`lst,
+          Editable->False], " ", 
+        TagBox[
+          RowBox[{
+            TagBox["(",
+              TamarA`Private`sc3v1,
+              Editable->False], 
+            TagBox[\(a\& \[RightArrow] \),
+              TamarA`Private`sc3v2,
+              Editable->False], 
+            TagBox["\[CenterDot]",
+              TamarA`Private`sc3v3,
+              Editable->False], 
+            TagBox[\(b\& \[RightArrow] \),
+              TamarA`Private`sc3v4,
+              Editable->False], 
+            TagBox[")",
+              TamarA`Private`sc3v5,
+              Editable->False]}],
+          sc3,
+          Editable->False]}], "-", 
+      RowBox[{
+        TagBox[
+          RowBox[{
+            TagBox["\[LeftAngleBracket]",
+              TamarA`Private`ls1,
+              Editable->False], 
+            TagBox[
+              SubscriptBox["\[Sigma]", 
+                TagBox[\(b\& \[RightArrow] \),
+                  v3,
+                  Editable->False]],
+              TamarA`Private`pm1,
+              Editable->False], 
+            TagBox["\[RightAngleBracket]",
+              TamarA`Private`ls2,
+              Editable->False]}],
+          TamarA`Private`lst,
+          Editable->False], " ", 
+        TagBox[
+          RowBox[{
+            TagBox["(",
+              TamarA`Private`sc3v1,
+              Editable->False], 
+            TagBox[\(a\& \[RightArrow] \),
+              TamarA`Private`sc3v2,
+              Editable->False], 
+            TagBox["\[CenterDot]",
+              TamarA`Private`sc3v3,
+              Editable->False], 
+            TagBox[\(c\& \[RightArrow] \),
+              TamarA`Private`sc3v4,
+              Editable->False], 
+            TagBox[")",
+              TamarA`Private`sc3v5,
+              Editable->False]}],
+          sc3,
+          Editable->False]}], "+", 
+      RowBox[{
+        TagBox[
+          RowBox[{
+            TagBox["\[LeftAngleBracket]",
+              TamarA`Private`ls1,
+              Editable->False], 
+            TagBox[
+              SubscriptBox["\[Sigma]", 
+                TagBox[\(a\& \[RightArrow] \),
+                  v3,
+                  Editable->False]],
+              TamarA`Private`pm1,
+              Editable->False], 
+            TagBox["\[RightAngleBracket]",
+              TamarA`Private`ls2,
+              Editable->False]}],
+          TamarA`Private`lst,
+          Editable->False], " ", 
+        TagBox[
+          RowBox[{
+            TagBox["(",
+              TamarA`Private`sc3v1,
+              Editable->False], 
+            TagBox[\(b\& \[RightArrow] \),
+              TamarA`Private`sc3v2,
+              Editable->False], 
+            TagBox["\[CenterDot]",
+              TamarA`Private`sc3v3,
+              Editable->False], 
+            TagBox[\(c\& \[RightArrow] \),
+              TamarA`Private`sc3v4,
+              Editable->False], 
+            TagBox[")",
+              TamarA`Private`sc3v5,
+              Editable->False]}],
+          sc3,
+          Editable->False]}]}]], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["4.5. Automatic Generation of Traces.", "Subsection"],
+
+Cell[TextData[{
+  "The trace function ",
+  StyleBox["tr",
+    FontSlant->"Italic"],
+  " may be generated automatically. The following example illustrates this. \
+Let\[CloseCurlyQuote]s consider an amplitude of muon decay."
+}], "Text"],
+
+Cell[BoxData[
+    \(TextForm
+    \`\[Mu]\^\[Dash]\[LongRightArrow]e\^\[Dash] + \[Nu]\&\[LongDash]\_e + 
+      \[Nu]\_\[Mu]\)], "Text"],
+
+Cell["I skip the constant for clarity.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(M = 
+      lg[ub[e], gm[up[\[Alpha]]], 1 + gm[5], v[\[Nu]\_e]]*\n\t\tlg[
+          ub[\[Nu]\_\[Mu]], gm[\[Alpha]], 1 + gm[5], u[\[Mu]]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      TagBox[
+        RowBox[{
+          TagBox["\[LeftAngleBracket]",
+            TamarA`Private`lg1,
+            Editable->False], \(u\&_[e]\), ",", 
+          TagBox[\(\[Gamma]\^\[Alpha]\),
+            TamarA`Private`gm2,
+            Editable->False], ",", 
+          RowBox[{"1", "+", 
+            TagBox[\(\[Gamma]\_5\),
+              TamarA`Private`gm5,
+              Editable->False]}], ",", \(v[\[Nu]\_e]\), 
+          TagBox["\[RightAngleBracket]",
+            TamarA`Private`lg2,
+            Editable->False]}],
+        lg,
+        Editable->False], " ", 
+      TagBox[
+        RowBox[{
+          TagBox["\[LeftAngleBracket]",
+            TamarA`Private`lg1,
+            Editable->False], \(u\&_[\[Nu]\_\[Mu]]\), ",", 
+          TagBox[\(\[Gamma]\_\[Alpha]\),
+            TamarA`Private`gm1,
+            Editable->False], ",", 
+          RowBox[{"1", "+", 
+            TagBox[\(\[Gamma]\_5\),
+              TamarA`Private`gm5,
+              Editable->False]}], ",", \(u[\[Mu]]\), 
+          TagBox["\[RightAngleBracket]",
+            TamarA`Private`lg2,
+            Editable->False]}],
+        lg,
+        Editable->False]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+I multiply M by its Hermitian conjugation. The summation index is substituted \
+to avoid confusion with many repeated indices. \
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(M*cj[M /. \[Alpha] -> \[Beta]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      TagBox[
+        RowBox[{"tr", "[", 
+          RowBox[{
+            FractionBox[
+              RowBox[{
+                TagBox[
+                  SubscriptBox["\[Gamma]", 
+                    TagBox[\(\(\[Nu]\_e\)\&\[HorizontalLine]\),
+                      v4,
+                      Editable->False]],
+                  TamarA`Private`gm1,
+                  Editable->False], "-", 
+                TagBox[\(m\_\(\[Nu]\_e\)\),
+                  TamarA`Private`mass,
+                  Editable->False]}], 
+              RowBox[{"2", " ", 
+                TagBox[\(m\_\(\[Nu]\_e\)\),
+                  TamarA`Private`mass,
+                  Editable->False]}]], ",", 
+            TagBox[\(\[Gamma]\_0\),
+              TamarA`Private`gm1,
+              Editable->False], ",", 
+            RowBox[{"1", "+", 
+              TagBox[\(\[Gamma]\_5\),
+                TamarA`Private`gm5,
+                Editable->False]}], ",", 
+            TagBox[\(\[Gamma]\_0\),
+              TamarA`Private`gm1,
+              Editable->False], ",", 
+            TagBox[\(\[Gamma]\^\[Beta]\),
+              TamarA`Private`gm2,
+              Editable->False], ",", 
+            FractionBox[
+              RowBox[{
+                TagBox[
+                  SubscriptBox["\[Gamma]", 
+                    TagBox[\(e\&\[HorizontalLine]\),
+                      v4,
+                      Editable->False]],
+                  TamarA`Private`gm1,
+                  Editable->False], "+", 
+                TagBox[\(m\_e\),
+                  TamarA`Private`mass,
+                  Editable->False]}], 
+              RowBox[{"2", " ", 
+                TagBox[\(m\_e\),
+                  TamarA`Private`mass,
+                  Editable->False]}]], ",", 
+            TagBox[\(\[Gamma]\^\[Alpha]\),
+              TamarA`Private`gm2,
+              Editable->False], ",", 
+            RowBox[{"1", "+", 
+              TagBox[\(\[Gamma]\_5\),
+                TamarA`Private`gm5,
+                Editable->False]}]}], "]"}],
+        HoldForm], " ", 
+      TagBox[
+        RowBox[{"tr", "[", 
+          RowBox[{
+            FractionBox[
+              RowBox[{
+                TagBox[
+                  SubscriptBox["\[Gamma]", 
+                    TagBox[\(\(\[Nu]\_\[Mu]\)\&\[HorizontalLine]\),
+                      v4,
+                      Editable->False]],
+                  TamarA`Private`gm1,
+                  Editable->False], "+", 
+                TagBox[\(m\_\(\[Nu]\_\[Mu]\)\),
+                  TamarA`Private`mass,
+                  Editable->False]}], 
+              RowBox[{"2", " ", 
+                TagBox[\(m\_\(\[Nu]\_\[Mu]\)\),
+                  TamarA`Private`mass,
+                  Editable->False]}]], ",", 
+            TagBox[\(\[Gamma]\_\[Alpha]\),
+              TamarA`Private`gm1,
+              Editable->False], ",", 
+            RowBox[{"1", "+", 
+              TagBox[\(\[Gamma]\_5\),
+                TamarA`Private`gm5,
+                Editable->False]}], ",", 
+            FractionBox[
+              RowBox[{
+                TagBox[
+                  SubscriptBox["\[Gamma]", 
+                    TagBox[\(\[Mu]\&\[HorizontalLine]\),
+                      v4,
+                      Editable->False]],
+                  TamarA`Private`gm1,
+                  Editable->False], "+", 
+                TagBox[\(m\_\[Mu]\),
+                  TamarA`Private`mass,
+                  Editable->False]}], 
+              RowBox[{"2", " ", 
+                TagBox[\(m\_\[Mu]\),
+                  TamarA`Private`mass,
+                  Editable->False]}]], ",", 
+            TagBox[\(\[Gamma]\_0\),
+              TamarA`Private`gm1,
+              Editable->False], ",", 
+            RowBox[{"1", "+", 
+              TagBox[\(\[Gamma]\_5\),
+                TamarA`Private`gm5,
+                Editable->False]}], ",", 
+            TagBox[\(\[Gamma]\_0\),
+              TamarA`Private`gm1,
+              Editable->False], ",", 
+            TagBox[\(\[Gamma]\_\[Beta]\),
+              TamarA`Private`gm1,
+              Editable->False]}], "]"}],
+        HoldForm]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The generated tr functions are held until the Mathematica ReleaseHold \
+function is applied. This is done on purpose to give the user a chance to \
+examine intermediate results.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(% // ReleaseHold\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"(", 
+        RowBox[{
+          RowBox[{"-", 
+            FractionBox[
+              RowBox[{"2", " ", "\[ImaginaryI]", " ", 
+                TagBox[
+                  SubsuperscriptBox["\[Epsilon]", 
+                    RowBox[{
+                      TagBox["\[CenterDot]",
+                        TamarA`Private`ep3ind3,
+                        Editable->False], 
+                      TagBox["\[CenterDot]",
+                        TamarA`Private`ep3ind4,
+                        Editable->False], 
+                      TagBox[
+                        TagBox[\(e\&\[HorizontalLine]\),
+                          v4,
+                          Editable->False],
+                        TamarA`Private`ep3ind5,
+                        Editable->False], 
+                      TagBox[
+                        TagBox[\(\(\[Nu]\_e\)\&\[HorizontalLine]\),
+                          v4,
+                          Editable->False],
+                        TamarA`Private`ep3ind6,
+                        Editable->False]}], 
+                    RowBox[{
+                      TagBox["\[Alpha]",
+                        TamarA`Private`ep3ind1,
+                        Editable->False], 
+                      TagBox["\[Beta]",
+                        TamarA`Private`ep3ind2,
+                        Editable->False]}]],
+                  TamarA`Private`eps3,
+                  Editable->False]}], 
+              RowBox[{
+                TagBox[\(m\_e\),
+                  TamarA`Private`mass,
+                  Editable->False], " ", 
+                TagBox[\(m\_\(\[Nu]\_e\)\),
+                  TamarA`Private`mass,
+                  Editable->False]}]]}], "-", 
+          FractionBox[
+            RowBox[{"2", " ", 
+              TagBox[
+                SuperscriptBox["g", 
+                  RowBox[{
+                    TagBox["\[Alpha]",
+                      TamarA`Private`met2ind1,
+                      Editable->False], 
+                    TagBox["\[Beta]",
+                      TamarA`Private`met2ind2,
+                      Editable->False]}]],
+                TamarA`Private`met2,
+                Editable->False], " ", 
+              TagBox[
+                RowBox[{
+                  TagBox["(",
+                    TamarA`Private`scv1,
+                    Editable->False], 
+                  TagBox["e",
+                    TamarA`Private`scv2,
+                    Editable->False], 
+                  TagBox["\[CenterDot]",
+                    TamarA`Private`scv3,
+                    Editable->False], 
+                  TagBox[\(\[Nu]\_e\),
+                    TamarA`Private`scv3,
+                    Editable->False], 
+                  TagBox[")",
+                    TamarA`Private`scv4,
+                    Editable->False]}],
+                sc,
+                Editable->False]}], 
+            RowBox[{
+              TagBox[\(m\_e\),
+                TamarA`Private`mass,
+                Editable->False], " ", 
+              TagBox[\(m\_\(\[Nu]\_e\)\),
+                TamarA`Private`mass,
+                Editable->False]}]], "+", 
+          FractionBox[
+            RowBox[{"2", " ", 
+              TagBox[\(e\^\[Beta]\),
+                TamarA`Private`vec1,
+                Editable->False], " ", 
+              TagBox[\(\[Nu]\_e\^\[Alpha]\),
+                TamarA`Private`vec1,
+                Editable->False]}], 
+            RowBox[{
+              TagBox[\(m\_e\),
+                TamarA`Private`mass,
+                Editable->False], " ", 
+              TagBox[\(m\_\(\[Nu]\_e\)\),
+                TamarA`Private`mass,
+                Editable->False]}]], "+", 
+          FractionBox[
+            RowBox[{"2", " ", 
+              TagBox[\(e\^\[Alpha]\),
+                TamarA`Private`vec1,
+                Editable->False], " ", 
+              TagBox[\(\[Nu]\_e\^\[Beta]\),
+                TamarA`Private`vec1,
+                Editable->False]}], 
+            RowBox[{
+              TagBox[\(m\_e\),
+                TamarA`Private`mass,
+                Editable->False], " ", 
+              TagBox[\(m\_\(\[Nu]\_e\)\),
+                TamarA`Private`mass,
+                Editable->False]}]]}], ")"}], " ", 
+      RowBox[{"(", 
+        RowBox[{
+          FractionBox[
+            RowBox[{"2", " ", "\[ImaginaryI]", " ", 
+              TagBox[
+                SubscriptBox["\[Epsilon]", 
+                  RowBox[{
+                    TagBox["\[Alpha]",
+                      TamarA`Private`ep1ind1,
+                      Editable->False], 
+                    TagBox["\[Beta]",
+                      TamarA`Private`ep1ind2,
+                      Editable->False], 
+                    TagBox[
+                      TagBox[\(\[Mu]\&\[HorizontalLine]\),
+                        v4,
+                        Editable->False],
+                      TamarA`Private`ep1ind3,
+                      Editable->False], 
+                    TagBox[
+                      TagBox[\(\(\[Nu]\_\[Mu]\)\&\[HorizontalLine]\),
+                        v4,
+                        Editable->False],
+                      TamarA`Private`ep1ind4,
+                      Editable->False]}]],
+                TamarA`Private`eps1,
+                Editable->False]}], 
+            RowBox[{
+              TagBox[\(m\_\[Mu]\),
+                TamarA`Private`mass,
+                Editable->False], " ", 
+              TagBox[\(m\_\(\[Nu]\_\[Mu]\)\),
+                TamarA`Private`mass,
+                Editable->False]}]], "-", 
+          FractionBox[
+            RowBox[{"2", " ", 
+              TagBox[
+                SubscriptBox["g", 
+                  RowBox[{
+                    TagBox["\[Alpha]",
+                      TamarA`Private`met3ind1,
+                      Editable->False], 
+                    TagBox["\[Beta]",
+                      TamarA`Private`met3ind2,
+                      Editable->False]}]],
+                TamarA`Private`met3,
+                Editable->False], " ", 
+              TagBox[
+                RowBox[{
+                  TagBox["(",
+                    TamarA`Private`scv1,
+                    Editable->False], 
+                  TagBox["\[Mu]",
+                    TamarA`Private`scv2,
+                    Editable->False], 
+                  TagBox["\[CenterDot]",
+                    TamarA`Private`scv3,
+                    Editable->False], 
+                  TagBox[\(\[Nu]\_\[Mu]\),
+                    TamarA`Private`scv3,
+                    Editable->False], 
+                  TagBox[")",
+                    TamarA`Private`scv4,
+                    Editable->False]}],
+                sc,
+                Editable->False]}], 
+            RowBox[{
+              TagBox[\(m\_\[Mu]\),
+                TamarA`Private`mass,
+                Editable->False], " ", 
+              TagBox[\(m\_\(\[Nu]\_\[Mu]\)\),
+                TamarA`Private`mass,
+                Editable->False]}]], "+", 
+          FractionBox[
+            RowBox[{"2", " ", 
+              TagBox[\(\[Mu]\_\[Beta]\),
+                TamarA`Private`vec2,
+                Editable->False], " ", 
+              TagBox[\(\(\[Nu]\_\[Mu]\)\_\[Alpha]\),
+                TamarA`Private`vec2,
+                Editable->False]}], 
+            RowBox[{
+              TagBox[\(m\_\[Mu]\),
+                TamarA`Private`mass,
+                Editable->False], " ", 
+              TagBox[\(m\_\(\[Nu]\_\[Mu]\)\),
+                TamarA`Private`mass,
+                Editable->False]}]], "+", 
+          FractionBox[
+            RowBox[{"2", " ", 
+              TagBox[\(\[Mu]\_\[Alpha]\),
+                TamarA`Private`vec2,
+                Editable->False], " ", 
+              TagBox[\(\(\[Nu]\_\[Mu]\)\_\[Beta]\),
+                TamarA`Private`vec2,
+                Editable->False]}], 
+            RowBox[{
+              TagBox[\(m\_\[Mu]\),
+                TamarA`Private`mass,
+                Editable->False], " ", 
+              TagBox[\(m\_\(\[Nu]\_\[Mu]\)\),
+                TamarA`Private`mass,
+                Editable->False]}]]}], ")"}]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+I need to apply Mathematica Expand and Together functions to simplify the \
+result: Expand opens parenthesizes to make the summations visible, Together \
+collects the expression to a common denominator.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(% // Expand\) // Together\)], "Input"],
+
+Cell[BoxData[
+    FractionBox[
+      RowBox[{"16", " ", 
+        TagBox[
+          RowBox[{
+            TagBox["(",
+              TamarA`Private`scv1,
+              Editable->False], 
+            TagBox["e",
+              TamarA`Private`scv2,
+              Editable->False], 
+            TagBox["\[CenterDot]",
+              TamarA`Private`scv3,
+              Editable->False], 
+            TagBox[\(\[Nu]\_\[Mu]\),
+              TamarA`Private`scv3,
+              Editable->False], 
+            TagBox[")",
+              TamarA`Private`scv4,
+              Editable->False]}],
+          sc,
+          Editable->False], " ", 
+        TagBox[
+          RowBox[{
+            TagBox["(",
+              TamarA`Private`scv1,
+              Editable->False], 
+            TagBox["\[Mu]",
+              TamarA`Private`scv2,
+              Editable->False], 
+            TagBox["\[CenterDot]",
+              TamarA`Private`scv3,
+              Editable->False], 
+            TagBox[\(\[Nu]\_e\),
+              TamarA`Private`scv3,
+              Editable->False], 
+            TagBox[")",
+              TamarA`Private`scv4,
+              Editable->False]}],
+          sc,
+          Editable->False]}], 
+      RowBox[{
+        TagBox[\(m\_e\),
+          TamarA`Private`mass,
+          Editable->False], " ", 
+        TagBox[\(m\_\[Mu]\),
+          TamarA`Private`mass,
+          Editable->False], " ", 
+        TagBox[\(m\_\(\[Nu]\_e\)\),
+          TamarA`Private`mass,
+          Editable->False], " ", 
+        TagBox[\(m\_\(\[Nu]\_\[Mu]\)\),
+          TamarA`Private`mass,
+          Editable->False]}]]], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["A. Reference.", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Metric Tensor.", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Physics",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Output",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Input",
+            FontVariations->{"Underline"->True}]},
+        {
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Alpha]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Beta]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]], 
+          SubscriptBox["g", 
+            RowBox[{
+              TagBox["\[Alpha]",
+                TamarA`Private`met3ind1,
+                Editable->False], 
+              TagBox["\[Beta]",
+                TamarA`Private`met3ind2,
+                Editable->False]}]], \(g[\[Alpha], \[Beta]]\)},
+        {
+          TagBox[\(g\_\[Alpha]\%\[Beta]\),
+            TamarA`Private`met1,
+            Editable->False], 
+          TagBox[\(g\_\[Alpha]\%\[Beta]\),
+            TamarA`Private`met1,
+            Editable->False], \(g[\[Alpha], up[\[Beta]]]\)},
+        {
+          TagBox[
+            SuperscriptBox["g", 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`met2ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`met2ind2,
+                  Editable->False]}]],
+            TamarA`Private`met2,
+            Editable->False], 
+          TagBox[
+            SuperscriptBox["g", 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`met2ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`met2ind2,
+                  Editable->False]}]],
+            TamarA`Private`met2,
+            Editable->False], \(g[up[\[Alpha], \[Beta]]], 
+          \[IndentingNewLine]g[up[\[Alpha]], up[\[Beta]]]\)}
+        }]], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Gamma Matrices.", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Physics",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Output",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Input",
+            FontVariations->{"Underline"->True}]},
+        {
+          TagBox[\(\[Gamma]\_\[Alpha]\),
+            TamarA`Private`gm1,
+            Editable->False], \(\[Gamma]\_\[Alpha]\), \(gm[\[Alpha]]\)},
+        {
+          TagBox[\(\[Gamma]\^\[Alpha]\),
+            TamarA`Private`gm2,
+            Editable->False], \(\[Gamma]\^\[Alpha]\), \(gm[up[\[Alpha]]]\)},
+        {
+          TagBox[\(\[Gamma]\_5\),
+            TamarA`Private`gm5,
+            Editable->False], 
+          TagBox[\(\[Gamma]\_5\),
+            TamarA`Private`gm5,
+            Editable->False], \(gm[5]\)}
+        }]], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Sigma Matrices.", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Physics",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Output",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Input",
+            FontVariations->{"Underline"->True}]},
+        {
+          TagBox[
+            SubscriptBox["\[Sigma]", 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`sg1ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`sg1ind2,
+                  Editable->False]}]],
+            TamarA`Private`sg1,
+            Editable->False], 
+          TagBox[
+            SubscriptBox["\[Sigma]", 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`sg1ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`sg1ind2,
+                  Editable->False]}]],
+            TamarA`Private`sg1,
+            Editable->False], \(sg[\[Alpha], \[Beta]]\)},
+        {
+          TagBox[
+            SubsuperscriptBox["\[Sigma]", 
+              RowBox[{
+                TagBox["\[CenterDot]",
+                  TamarA`Private`sg2ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`sg2ind2,
+                  Editable->False]}], "\[Alpha]"],
+            TamarA`Private`sg2,
+            Editable->False], 
+          TagBox[
+            SubsuperscriptBox["\[Sigma]", 
+              RowBox[{
+                TagBox["\[CenterDot]",
+                  TamarA`Private`sg2ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`sg2ind2,
+                  Editable->False]}], "\[Alpha]"],
+            TamarA`Private`sg2,
+            Editable->False], \(sg[up[\[Alpha]], \[Beta]]\)},
+        {
+          TagBox[
+            SuperscriptBox["\[Sigma]", 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`sg5ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`sg5ind2,
+                  Editable->False]}]],
+            TamarA`Private`sg5,
+            Editable->False], 
+          TagBox[
+            SuperscriptBox["\[Sigma]", 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`sg5ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`sg5ind2,
+                  Editable->False]}]],
+            TamarA`Private`sg5,
+            Editable->False], \(sg[up[\[Alpha], \[Beta]]], 
+          \[IndentingNewLine]sg[up[\[Alpha]], up[\[Beta]]]\)}
+        }]], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Non-Commutative Product.", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Physics",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Output",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Input",
+            FontVariations->{"Underline"->True}]},
+        {
+          RowBox[{
+            TagBox[\(\[Gamma]\_\[Alpha]\),
+              TamarA`Private`gm1,
+              Editable->False], 
+            TagBox[\(\[Gamma]\_\[Beta]\),
+              TamarA`Private`gm1,
+              Editable->False]}], 
+          TagBox[
+            RowBox[{
+              TagBox["\[LeftAngleBracket]",
+                TamarA`Private`lg1,
+                Editable->False], 
+              TagBox[\(\[Gamma]\_\[Alpha]\),
+                TamarA`Private`gm1,
+                Editable->False], ",", 
+              TagBox[\(\[Gamma]\_\[Beta]\),
+                TamarA`Private`gm1,
+                Editable->False], 
+              TagBox["\[RightAngleBracket]",
+                TamarA`Private`lg2,
+                Editable->False]}],
+            lg,
+            Editable->False], \(gm[\[Alpha], \[Beta]], 
+          \[IndentingNewLine]gm[\[Alpha]]**gm[\[Beta]], 
+          \[IndentingNewLine]lg[gm[\[Alpha]], gm[\[Beta]]]\)},
+        {\(\(\[Gamma]\_\[Alpha]\) \((a + b\ \[Gamma]\_\[Beta])\)\), 
+          TagBox[
+            RowBox[{
+              TagBox["\[LeftAngleBracket]",
+                TamarA`Private`lg1,
+                Editable->False], 
+              TagBox[\(\[Gamma]\_\[Alpha]\),
+                TamarA`Private`gm1,
+                Editable->False], ",", 
+              RowBox[{"a", "+", 
+                RowBox[{"b", " ", 
+                  TagBox[\(\[Gamma]\_\[Beta]\),
+                    TamarA`Private`gm1,
+                    Editable->False]}]}], 
+              TagBox["\[RightAngleBracket]",
+                TamarA`Private`lg2,
+                Editable->False]}],
+            lg,
+            Editable->False], \(lg[gm[\[Alpha]], a + b*gm[\[Beta]]]\)}
+        }]], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Vectors .", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Physics",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Output",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Input",
+            FontVariations->{"Underline"->True}]},
+        {
+          TagBox[\(p\_\[Alpha]\),
+            TamarA`Private`vec2,
+            Editable->False], 
+          TagBox[\(p\_\[Alpha]\),
+            TamarA`Private`vec2,
+            Editable->False], \(vec[p, \[Alpha]]\)},
+        {
+          TagBox[\(p\^\[Alpha]\),
+            TamarA`Private`vec1,
+            Editable->False], 
+          TagBox[\(p\^\[Alpha]\),
+            TamarA`Private`vec1,
+            Editable->False], \(vec[p, up[\[Alpha]]]\)},
+        {
+          RowBox[{
+            TagBox[\(p\_\[Alpha]\),
+              TamarA`Private`vec2,
+              Editable->False], "-", 
+            RowBox[{"2", " ", 
+              TagBox[\(q\_\[Alpha]\),
+                TamarA`Private`vec2,
+                Editable->False]}]}], 
+          RowBox[{
+            TagBox[\(p\_\[Alpha]\),
+              TamarA`Private`vec2,
+              Editable->False], "-", 
+            RowBox[{"2", " ", 
+              TagBox[\(q\_\[Alpha]\),
+                TamarA`Private`vec2,
+                Editable->False]}]}], \(vec[p - 2  q, \[Alpha]]\)}
+        }]], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Scalar Product.", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Physics",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Output",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Input",
+            FontVariations->{"Underline"->True}]},
+        {
+          TagBox[
+            RowBox[{
+              TagBox["(",
+                TamarA`Private`scv1,
+                Editable->False], 
+              TagBox["a",
+                TamarA`Private`scv2,
+                Editable->False], 
+              TagBox["\[CenterDot]",
+                TamarA`Private`scv3,
+                Editable->False], 
+              TagBox["b",
+                TamarA`Private`scv3,
+                Editable->False], 
+              TagBox[")",
+                TamarA`Private`scv4,
+                Editable->False]}],
+            sc,
+            Editable->False], 
+          TagBox[
+            RowBox[{
+              TagBox["(",
+                TamarA`Private`scv1,
+                Editable->False], 
+              TagBox["a",
+                TamarA`Private`scv2,
+                Editable->False], 
+              TagBox["\[CenterDot]",
+                TamarA`Private`scv3,
+                Editable->False], 
+              TagBox["b",
+                TamarA`Private`scv3,
+                Editable->False], 
+              TagBox[")",
+                TamarA`Private`scv4,
+                Editable->False]}],
+            sc,
+            Editable->False], \(sc[a, b]\)}
+        }]], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Mass Notation.", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Physics",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Output",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Input",
+            FontVariations->{"Underline"->True}]},
+        {
+          TagBox[\(m\_p\),
+            TamarA`Private`mass,
+            Editable->False], 
+          TagBox[\(m\_p\),
+            TamarA`Private`mass,
+            Editable->False], \(m[p]\)},
+        {
+          RowBox[{
+            RowBox[{"2", " ", 
+              TagBox[\(m\_n\),
+                TamarA`Private`mass,
+                Editable->False]}], "+", 
+            TagBox[\(m\_p\),
+              TamarA`Private`mass,
+              Editable->False]}], 
+          RowBox[{"(", 
+            RowBox[{
+              RowBox[{"2", " ", 
+                TagBox[\(m\_n\),
+                  TamarA`Private`mass,
+                  Editable->False]}], "+", 
+              TagBox[\(m\_p\),
+                TamarA`Private`mass,
+                Editable->False]}], ")"}], \(m[p + 2  n]\)}
+        }]], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Slash Notation.", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Physics",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Output",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Input",
+            FontVariations->{"Underline"->True}]},
+        {\(p\&^ = \(\[Gamma]\_\[Alpha]\) p\^\[Alpha]\), 
+          TagBox[
+            SubscriptBox["\[Gamma]", 
+              TagBox[\(p\&\[HorizontalLine]\),
+                v4,
+                Editable->False]],
+            TamarA`Private`gm1,
+            Editable->False], \(sl[p], \[IndentingNewLine]gm[v4[p]]\)},
+        {\(\(a\&^\) b\&^\), 
+          TagBox[
+            RowBox[{
+              TagBox["\[LeftAngleBracket]",
+                TamarA`Private`lg1,
+                Editable->False], 
+              TagBox[
+                SubscriptBox["\[Gamma]", 
+                  TagBox[\(a\&\[HorizontalLine]\),
+                    v4,
+                    Editable->False]],
+                TamarA`Private`gm1,
+                Editable->False], ",", 
+              TagBox[
+                SubscriptBox["\[Gamma]", 
+                  TagBox[\(b\&\[HorizontalLine]\),
+                    v4,
+                    Editable->False]],
+                TamarA`Private`gm1,
+                Editable->False], 
+              TagBox["\[RightAngleBracket]",
+                TamarA`Private`lg2,
+                Editable->False]}],
+            lg,
+            Editable->False], \(sl[a, b], \[IndentingNewLine]sl[a]**sl[b], 
+          \[IndentingNewLine]gm[v4[a, b]], 
+          \[IndentingNewLine]lg[sl[a], sl[b]], \)},
+        {
+          RowBox[{\(p\&^\), 
+            TagBox[\(\[Gamma]\_\[Alpha]\),
+              TamarA`Private`gm1,
+              Editable->False]}], 
+          TagBox[
+            RowBox[{
+              TagBox["\[LeftAngleBracket]",
+                TamarA`Private`lg1,
+                Editable->False], 
+              TagBox[
+                SubscriptBox["\[Gamma]", 
+                  TagBox[\(p\&\[HorizontalLine]\),
+                    v4,
+                    Editable->False]],
+                TamarA`Private`gm1,
+                Editable->False], ",", 
+              TagBox[\(\[Gamma]\_\[Alpha]\),
+                TamarA`Private`gm1,
+                Editable->False], 
+              TagBox["\[RightAngleBracket]",
+                TamarA`Private`lg2,
+                Editable->False]}],
+            lg,
+            Editable->False], \(sl[p]**gm[\[Alpha]], 
+          \[IndentingNewLine]gm[v4[p], \[Alpha]]\)},
+        {\(p\&^ - 2  q\&^\), 
+          RowBox[{"(", 
+            RowBox[{
+              TagBox[
+                SubscriptBox["\[Gamma]", 
+                  TagBox[\(p\&\[HorizontalLine]\),
+                    v4,
+                    Editable->False]],
+                TamarA`Private`gm1,
+                Editable->False], "-", 
+              RowBox[{"2", " ", 
+                TagBox[
+                  SubscriptBox["\[Gamma]", 
+                    TagBox[\(q\&\[HorizontalLine]\),
+                      v4,
+                      Editable->False]],
+                  TamarA`Private`gm1,
+                  Editable->False]}]}], ")"}], \(sl[p - 2  q], 
+          \[IndentingNewLine]sl[p] - 2  sl[q]\)}
+        }]], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Absolute anti-symmetric tensor.", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Physics",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Output",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Input",
+            FontVariations->{"Underline"->True}]},
+        {
+          TagBox[
+            SubscriptBox["\[Epsilon]", 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`ep1ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`ep1ind2,
+                  Editable->False], 
+                TagBox["\[Gamma]",
+                  TamarA`Private`ep1ind3,
+                  Editable->False], 
+                TagBox["\[Delta]",
+                  TamarA`Private`ep1ind4,
+                  Editable->False]}]],
+            TamarA`Private`eps1,
+            Editable->False], 
+          TagBox[
+            SubscriptBox["\[Epsilon]", 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`ep1ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`ep1ind2,
+                  Editable->False], 
+                TagBox["\[Gamma]",
+                  TamarA`Private`ep1ind3,
+                  Editable->False], 
+                TagBox["\[Delta]",
+                  TamarA`Private`ep1ind4,
+                  Editable->False]}]],
+            TamarA`Private`eps1,
+            Editable->False], 
+          \(eps[\[Alpha], \[Beta], \[Gamma], \[Delta]]\)},
+        {
+          RowBox[{\(p\^\[Beta]\), 
+            SubscriptBox["\[Epsilon]", 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`ep1ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`ep1ind2,
+                  Editable->False], 
+                TagBox["\[Gamma]",
+                  TamarA`Private`ep1ind3,
+                  Editable->False], 
+                TagBox["\[Delta]",
+                  TamarA`Private`ep1ind4,
+                  Editable->False]}]]}], 
+          TagBox[
+            SubscriptBox["\[Epsilon]", 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`ep1ind1,
+                  Editable->False], 
+                TagBox["\[Gamma]",
+                  TamarA`Private`ep1ind2,
+                  Editable->False], 
+                TagBox["\[Delta]",
+                  TamarA`Private`ep1ind3,
+                  Editable->False], 
+                TagBox[
+                  TagBox[\(p\&\[HorizontalLine]\),
+                    v4,
+                    Editable->False],
+                  TamarA`Private`ep1ind4,
+                  Editable->False]}]],
+            TamarA`Private`eps1,
+            Editable->False], \(eps[\[Alpha], v4[p], \[Gamma], \[Delta]]\)},
+        {
+          TagBox[
+            SubsuperscriptBox["\[Epsilon]", 
+              RowBox[{
+                TagBox["\[CenterDot]",
+                  TamarA`Private`ep3ind3,
+                  Editable->False], 
+                TagBox["\[CenterDot]",
+                  TamarA`Private`ep3ind4,
+                  Editable->False], 
+                TagBox["\[Gamma]",
+                  TamarA`Private`ep3ind5,
+                  Editable->False], 
+                TagBox["\[Delta]",
+                  TamarA`Private`ep3ind6,
+                  Editable->False]}], 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`ep3ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`ep3ind2,
+                  Editable->False]}]],
+            TamarA`Private`eps3,
+            Editable->False], 
+          TagBox[
+            SubsuperscriptBox["\[Epsilon]", 
+              RowBox[{
+                TagBox["\[CenterDot]",
+                  TamarA`Private`ep3ind3,
+                  Editable->False], 
+                TagBox["\[CenterDot]",
+                  TamarA`Private`ep3ind4,
+                  Editable->False], 
+                TagBox["\[Gamma]",
+                  TamarA`Private`ep3ind5,
+                  Editable->False], 
+                TagBox["\[Delta]",
+                  TamarA`Private`ep3ind6,
+                  Editable->False]}], 
+              RowBox[{
+                TagBox["\[Alpha]",
+                  TamarA`Private`ep3ind1,
+                  Editable->False], 
+                TagBox["\[Beta]",
+                  TamarA`Private`ep3ind2,
+                  Editable->False]}]],
+            TamarA`Private`eps3,
+            Editable->False], 
+          \(eps[up[\[Alpha], \[Beta]], \[Gamma], \[Delta]]\)}
+        }]], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3D Objects.", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Physics",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Output",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Input",
+            FontVariations->{"Underline"->True}]},
+        {
+          TagBox[
+            SubscriptBox["\[Delta]", 
+              RowBox[{
+                TagBox["i",
+                  TamarA`Private`del3ind1,
+                  Editable->False], 
+                TagBox["j",
+                  TamarA`Private`del3ind2,
+                  Editable->False]}]],
+            TamarA`Private`del3,
+            Editable->False], 
+          TagBox[
+            SubscriptBox["\[Delta]", 
+              RowBox[{
+                TagBox["i",
+                  TamarA`Private`del3ind1,
+                  Editable->False], 
+                TagBox["j",
+                  TamarA`Private`del3ind2,
+                  Editable->False]}]],
+            TamarA`Private`del3,
+            Editable->False], \(delta[i, j]\)},
+        {
+          TagBox[\(\[Sigma]\_i\),
+            TamarA`Private`pm1,
+            Editable->False], 
+          TagBox[\(\[Sigma]\_i\),
+            TamarA`Private`pm1,
+            Editable->False], \(s[i]\)},
+        {\(\(\[Sigma]\_i\) \[Sigma]\_j\), 
+          TagBox[
+            RowBox[{
+              TagBox["\[LeftAngleBracket]",
+                TamarA`Private`ls1,
+                Editable->False], 
+              TagBox[\(\[Sigma]\_i\),
+                TamarA`Private`pm1,
+                Editable->False], ",", 
+              TagBox[\(\[Sigma]\_j\),
+                TamarA`Private`pm1,
+                Editable->False], 
+              TagBox["\[RightAngleBracket]",
+                TamarA`Private`ls2,
+                Editable->False]}],
+            TamarA`Private`lst,
+            Editable->False], \(s[i, j], 
+          \[IndentingNewLine]ls[s[i], s[j]]\)},
+        {\(\(\[Sigma]\_i\) \((a + b\ \[Sigma]\_j)\)\), 
+          TagBox[
+            RowBox[{
+              TagBox["\[LeftAngleBracket]",
+                TamarA`Private`ls1,
+                Editable->False], 
+              TagBox[\(\[Sigma]\_i\),
+                TamarA`Private`pm1,
+                Editable->False], ",", 
+              RowBox[{"a", "+", 
+                RowBox[{"b", " ", 
+                  TagBox[\(\[Sigma]\_j\),
+                    TamarA`Private`pm1,
+                    Editable->False]}]}], 
+              TagBox["\[RightAngleBracket]",
+                TamarA`Private`ls2,
+                Editable->False]}],
+            TamarA`Private`lst,
+            Editable->False], \(ls[s[i], a + b*s[j]]\)},
+        {\(p\_i\), 
+          TagBox[
+            SubscriptBox[
+              TagBox[
+                OverscriptBox["p", 
+                  TagBox["\[Tilde]",
+                    TamarA`Private`vec32,
+                    Editable->False]],
+                TamarA`Private`vec31,
+                Editable->False], "i"],
+            vec3,
+            Editable->False], \(vec3[p, i]\)},
+        {\(p\_i - 2  q\_i\), 
+          RowBox[{"(", 
+            RowBox[{
+              TagBox[
+                SubscriptBox[
+                  TagBox[
+                    OverscriptBox["p", 
+                      TagBox["\[Tilde]",
+                        TamarA`Private`vec32,
+                        Editable->False]],
+                    TamarA`Private`vec31,
+                    Editable->False], "i"],
+                vec3,
+                Editable->False], "-", 
+              RowBox[{"2", " ", 
+                TagBox[
+                  SubscriptBox[
+                    TagBox[
+                      OverscriptBox["q", 
+                        TagBox["\[Tilde]",
+                          TamarA`Private`vec32,
+                          Editable->False]],
+                      TamarA`Private`vec31,
+                      Editable->False], "i"],
+                  vec3,
+                  Editable->False]}]}], ")"}], \(vec3[p - 2  q, i]\)},
+        {\(\(p\_i\) \[Sigma]\_i\), 
+          TagBox[
+            SubscriptBox["\[Sigma]", 
+              TagBox[\(p\&\[RightArrow]\),
+                v3,
+                Editable->False]],
+            TamarA`Private`pm1,
+            Editable->False], \(s[v3[p]]\)},
+        {
+          TagBox[
+            RowBox[{
+              TagBox["(",
+                TamarA`Private`sc3v1,
+                Editable->False], 
+              TagBox[\(a\&\[RightArrow]\),
+                TamarA`Private`sc3v2,
+                Editable->False], 
+              TagBox["\[CenterDot]",
+                TamarA`Private`sc3v3,
+                Editable->False], 
+              TagBox[\(b\&\[RightArrow]\),
+                TamarA`Private`sc3v4,
+                Editable->False], 
+              TagBox[")",
+                TamarA`Private`sc3v5,
+                Editable->False]}],
+            sc3,
+            Editable->False], 
+          TagBox[
+            RowBox[{
+              TagBox["(",
+                TamarA`Private`sc3v1,
+                Editable->False], 
+              TagBox[\(a\&\[RightArrow]\),
+                TamarA`Private`sc3v2,
+                Editable->False], 
+              TagBox["\[CenterDot]",
+                TamarA`Private`sc3v3,
+                Editable->False], 
+              TagBox[\(b\&\[RightArrow]\),
+                TamarA`Private`sc3v4,
+                Editable->False], 
+              TagBox[")",
+                TamarA`Private`sc3v5,
+                Editable->False]}],
+            sc3,
+            Editable->False], \(sc3[a, b]\)},
+        {
+          TagBox[
+            SubscriptBox["\[Epsilon]", 
+              RowBox[{
+                TagBox["i",
+                  TamarA`Private`ep31ind1,
+                  Editable->False], 
+                TagBox["j",
+                  TamarA`Private`ep31ind2,
+                  Editable->False], 
+                TagBox["k",
+                  TamarA`Private`ep31ind3,
+                  Editable->False]}]],
+            TamarA`Private`eps31,
+            Editable->False], 
+          TagBox[
+            SubscriptBox["\[Epsilon]", 
+              RowBox[{
+                TagBox["i",
+                  TamarA`Private`ep31ind1,
+                  Editable->False], 
+                TagBox["j",
+                  TamarA`Private`ep31ind2,
+                  Editable->False], 
+                TagBox["k",
+                  TamarA`Private`ep31ind3,
+                  Editable->False]}]],
+            TamarA`Private`eps31,
+            Editable->False], \(ep3[i, j, k]\)},
+        {
+          RowBox[{\(p\_i\), 
+            SubscriptBox["\[Epsilon]", 
+              RowBox[{
+                TagBox["i",
+                  TamarA`Private`ep31ind1,
+                  Editable->False], 
+                TagBox["j",
+                  TamarA`Private`ep31ind2,
+                  Editable->False], 
+                TagBox["k",
+                  TamarA`Private`ep31ind3,
+                  Editable->False]}]]}], 
+          TagBox[
+            SubscriptBox["\[Epsilon]", 
+              RowBox[{
+                TagBox["i",
+                  TamarA`Private`ep31ind1,
+                  Editable->False], 
+                TagBox["j",
+                  TamarA`Private`ep31ind2,
+                  Editable->False], 
+                TagBox[
+                  TagBox[\(p\&\[RightArrow]\),
+                    v3,
+                    Editable->False],
+                  TamarA`Private`ep31ind3,
+                  Editable->False]}]],
+            TamarA`Private`eps31,
+            Editable->False], \(ep3[i, j, v3[p]]\)},
+        {
+          TagBox[
+            SubscriptBox[
+              RowBox[{
+                TagBox["(",
+                  TamarA`Private`vp1in1,
+                  Editable->False], 
+                TagBox[
+                  TagBox[\(a\&\[RightArrow]\),
+                    v3,
+                    Editable->False],
+                  TamarA`Private`vp1in2,
+                  Editable->False], 
+                TagBox["\[Cross]",
+                  TamarA`Private`vp1in3,
+                  Editable->False], 
+                TagBox[
+                  TagBox[\(b\&\[RightArrow]\),
+                    v3,
+                    Editable->False],
+                  TamarA`Private`vp1in4,
+                  Editable->False], 
+                TagBox[")",
+                  TamarA`Private`vp1in5,
+                  Editable->False]}], 
+              TagBox["i",
+                TamarA`Private`vp1in6,
+                Editable->False]],
+            TamarA`Private`vp1,
+            Editable->False], 
+          TagBox[
+            SubscriptBox[
+              RowBox[{
+                TagBox["(",
+                  TamarA`Private`vp1in1,
+                  Editable->False], 
+                TagBox[
+                  TagBox[\(a\&\[RightArrow]\),
+                    v3,
+                    Editable->False],
+                  TamarA`Private`vp1in2,
+                  Editable->False], 
+                TagBox["\[Cross]",
+                  TamarA`Private`vp1in3,
+                  Editable->False], 
+                TagBox[
+                  TagBox[\(b\&\[RightArrow]\),
+                    v3,
+                    Editable->False],
+                  TamarA`Private`vp1in4,
+                  Editable->False], 
+                TagBox[")",
+                  TamarA`Private`vp1in5,
+                  Editable->False]}], 
+              TagBox["i",
+                TamarA`Private`vp1in6,
+                Editable->False]],
+            TamarA`Private`vp1,
+            Editable->False], \(ep3[i, v3[a, b]]\)},
+        {
+          TagBox[
+            RowBox[{
+              TagBox["(",
+                TamarA`Private`mp1,
+                Editable->False], 
+              TagBox[
+                TagBox[\(a\&\[RightArrow]\),
+                  v3,
+                  Editable->False],
+                TamarA`Private`mp2,
+                Editable->False], 
+              TagBox["\[CenterDot]",
+                TamarA`Private`mp3,
+                Editable->False], 
+              TagBox["[",
+                TamarA`Private`mp4,
+                Editable->False], 
+              TagBox[
+                TagBox[\(b\&\[RightArrow]\),
+                  v3,
+                  Editable->False],
+                TamarA`Private`mp5,
+                Editable->False], 
+              TagBox["\[Cross]",
+                TamarA`Private`mp6,
+                Editable->False], 
+              TagBox[
+                TagBox[\(c\&\[RightArrow]\),
+                  v3,
+                  Editable->False],
+                TamarA`Private`mp7,
+                Editable->False], 
+              TagBox["]",
+                TamarA`Private`mp8,
+                Editable->False], 
+              TagBox[")",
+                TamarA`Private`mp9,
+                Editable->False]}],
+            TamarA`Private`mp,
+            Editable->False], 
+          TagBox[
+            RowBox[{
+              TagBox["(",
+                TamarA`Private`mp1,
+                Editable->False], 
+              TagBox[
+                TagBox[\(a\&\[RightArrow]\),
+                  v3,
+                  Editable->False],
+                TamarA`Private`mp2,
+                Editable->False], 
+              TagBox["\[CenterDot]",
+                TamarA`Private`mp3,
+                Editable->False], 
+              TagBox["[",
+                TamarA`Private`mp4,
+                Editable->False], 
+              TagBox[
+                TagBox[\(b\&\[RightArrow]\),
+                  v3,
+                  Editable->False],
+                TamarA`Private`mp5,
+                Editable->False], 
+              TagBox["\[Cross]",
+                TamarA`Private`mp6,
+                Editable->False], 
+              TagBox[
+                TagBox[\(c\&\[RightArrow]\),
+                  v3,
+                  Editable->False],
+                TamarA`Private`mp7,
+                Editable->False], 
+              TagBox["]",
+                TamarA`Private`mp8,
+                Editable->False], 
+              TagBox[")",
+                TamarA`Private`mp9,
+                Editable->False]}],
+            TamarA`Private`mp,
+            Editable->False], \(ep3[v3[a, b, c]]\)}
+        }]], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Hermitian Conjugation.", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Physics",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Output",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Input",
+            FontVariations->{"Underline"->True}]},
+        {
+          SuperscriptBox[
+            RowBox[{"(", 
+              TagBox[\(\[Gamma]\_\[Mu]\),
+                TamarA`Private`gm1,
+                Editable->False], ")"}], "\[Dagger]"], 
+          SuperscriptBox[
+            RowBox[{"(", 
+              TagBox[\(\[Gamma]\_\[Mu]\),
+                TamarA`Private`gm1,
+                Editable->False], ")"}], "\[Dagger]"], \(cj[gm[\[Mu]]]\)}
+        }]], "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Dirac Spinors.", "Subsection"],
+
+Cell[BoxData[GridBox[{
+        {
+          StyleBox["Physics",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Output",
+            FontVariations->{"Underline"->True}], 
+          StyleBox["Input",
+            FontVariations->{"Underline"->True}]},
+        {\(u \((p, s)\)\), \(u[p, s]\), \(u[p, s]\)},
+        {\(u \((p)\)\), \(u[p]\), \(u[p]\)},
+        {\(\(u\&_\) \((p, s)\)\), \(u\&_[p, s]\), \(ub[p, s]\)},
+        {\(\(u\&_\) \((p)\)\), \(u\&_[p]\), \(ub[p]\)},
+        {\(v \((p, s)\)\), \(v[p, s]\), \(v[p, s]\)},
+        {\(v \((p)\)\), \(v[p]\), \(v[p]\)},
+        {\(\(v\&_\) \((p, s)\)\), \(v\&_[p, s]\), \(vb[p, s]\)},
+        {\(\(v\&_\) \((p)\)\), \(v\&_[p]\), \(vb[p]\)}
+        }]], "Text"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["B. License Agreement and Disclaimer of Warranty.", "Section"],
+
+Cell[TextData[{
+  StyleBox[
+  "The author hereby grants permission to use, copy, and distribute this \
+software and its documentation for any purpose, provided that existing \
+copyright notices are retained in all copies and that this notice is included \
+verbatim in any distributions. Additionally, the author grants permission to \
+modify this software and its documentation for any purpose, provided that \
+such modifications are not distributed without the explicit consent of the \
+authors and that existing copyright notices are retained in all copies. Users \
+of the software are asked to feed back problems, benefits, and/or suggestions \
+about the software to the author (tetervak@sc.edu). Support for this software \
+- fixing of bugs, incorporation of new features - is done on a best effort \
+basis. All bug fixes and enhancements will be made available under the same \
+terms and conditions as the original software.\nIN NO EVENT SHALL THE AUTHOR \
+OR DISTRIBUTORS BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, \
+INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OF THIS SOFTWARE, \
+ITS DOCUMENTATION, OR ANY DERIVATIVES THEREOF, EVEN IF THE AUTHOR HAS BEEN \
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. THE AUTHOR AND DISTRIBUTORS \
+SPECIFICALLY DISCLAIM ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE \
+IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND \
+NON-INFRINGEMENT. THIS SOFTWARE IS PROVIDED ON AN \"AS IS\" BASIS, AND THE \
+AUTHOR AND DISTRIBUTORS HAVE NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, \
+UPDATES, ENHANCEMENTS, OR MODIFICATIONS",
+    FontFamily->"Times New Roman"],
+  StyleBox[".",
+    FontFamily->"Times New Roman",
+    FontSlant->"Italic"]
+}], "Text",
+  FontFamily->"Courier"]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"4.0 for Microsoft Windows",
+ScreenRectangle->{{0, 800}, {0, 555}},
+ScreenStyleEnvironment->"Presentation",
+PrintingStyleEnvironment->"Presentation",
+WindowSize->{590, 464},
+WindowMargins->{{28, Automatic}, {-80, Automatic}},
+PrintingCopies->1,
+PrintingPageRange->{Automatic, Automatic},
+StyleDefinitions -> "Report.nb"
+]
+
+
+(***********************************************************************
+Cached data follows.  If you edit this Notebook file directly, not using
+Mathematica, you must remove the line containing CacheID at the top of 
+the file.  The cache data will then be recreated when you save this file 
+from within Mathematica.
+***********************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1739, 51, 39, 0, 68, "Title"],
+Cell[1781, 53, 666, 10, 140, "Abstract"],
+
+Cell[CellGroupData[{
+Cell[2472, 67, 35, 0, 57, "Section"],
+Cell[2510, 69, 2122, 31, 584, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4669, 105, 49, 0, 57, "Section"],
+Cell[4721, 107, 280, 5, 78, "Text"],
+
+Cell[CellGroupData[{
+Cell[5026, 116, 56, 0, 39, "Subsection"],
+Cell[5085, 118, 344, 9, 78, "Text"],
+
+Cell[CellGroupData[{
+Cell[5454, 131, 47, 1, 45, "Input"],
+Cell[5504, 134, 38, 1, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5579, 140, 47, 1, 45, "Input"],
+Cell[5629, 143, 39, 1, 44, "Output"]
+}, Open  ]],
+Cell[5683, 147, 325, 11, 56, "Text"],
+Cell[6011, 160, 440, 12, 78, "Text"],
+
+Cell[CellGroupData[{
+Cell[6476, 176, 65, 1, 45, "Input"],
+Cell[6544, 179, 38, 1, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6619, 185, 65, 1, 45, "Input"],
+Cell[6687, 188, 39, 1, 44, "Output"]
+}, Open  ]],
+Cell[6741, 192, 198, 6, 56, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6976, 203, 57, 0, 39, "Subsection"],
+Cell[7036, 205, 222, 3, 78, "Text"],
+Cell[7261, 210, 131, 5, 34, "Text"],
+Cell[7395, 217, 218, 6, 56, "Text"],
+Cell[7616, 225, 349, 8, 78, "Text"],
+
+Cell[CellGroupData[{
+Cell[7990, 237, 56, 1, 45, "Input"],
+Cell[8049, 240, 411, 14, 44, "Output"]
+}, Open  ]],
+Cell[8475, 257, 248, 5, 100, "Text"],
+Cell[8726, 264, 349, 8, 78, "Text"],
+Cell[9078, 274, 239, 6, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[9342, 284, 44, 1, 45, "Input"],
+Cell[9389, 287, 99, 3, 46, "Output"]
+}, Open  ]],
+Cell[9503, 293, 147, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[9675, 300, 44, 1, 45, "Input"],
+Cell[9722, 303, 313, 11, 44, "Output"]
+}, Open  ]],
+Cell[10050, 317, 164, 5, 34, "Text"],
+Cell[10217, 324, 248, 6, 56, "Text"],
+Cell[10468, 332, 214, 6, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[10707, 342, 44, 1, 45, "Input"],
+Cell[10754, 345, 39, 1, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10830, 351, 51, 1, 45, "Input"],
+Cell[10884, 354, 38, 1, 44, "Output"]
+}, Open  ]],
+Cell[10937, 358, 201, 5, 56, "Text"],
+Cell[11141, 365, 224, 6, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[11390, 375, 57, 1, 45, "Input"],
+Cell[11450, 378, 39, 1, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11526, 384, 67, 1, 45, "Input"],
+Cell[11596, 387, 38, 1, 44, "Output"]
+}, Open  ]],
+Cell[11649, 391, 201, 4, 78, "Text"],
+Cell[11853, 397, 197, 6, 56, "Text"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12099, 409, 37, 0, 57, "Section"],
+Cell[12139, 411, 225, 5, 100, "Text"],
+
+Cell[CellGroupData[{
+Cell[12389, 420, 56, 0, 39, "Subsection"],
+Cell[12448, 422, 76, 0, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[12549, 426, 76, 1, 45, "Input"],
+Cell[12628, 429, 286, 8, 88, "Output"]
+}, Open  ]],
+Cell[12929, 440, 92, 2, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[13046, 446, 57, 1, 45, "Input"],
+Cell[13106, 449, 112, 3, 45, "Output"]
+}, Open  ]],
+Cell[13233, 455, 220, 4, 78, "Text"],
+
+Cell[CellGroupData[{
+Cell[13478, 463, 112, 3, 45, "Input"],
+Cell[13593, 468, 112, 3, 45, "Output"]
+}, Open  ]],
+Cell[13720, 474, 117, 2, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[13862, 480, 103, 2, 45, "Input"],
+Cell[13968, 484, 678, 23, 44, "Output"]
+}, Open  ]],
+Cell[14661, 510, 270, 5, 100, "Text"],
+
+Cell[CellGroupData[{
+Cell[14956, 519, 89, 1, 45, "Input"],
+Cell[15048, 522, 792, 25, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15877, 552, 872, 26, 45, "Input"],
+Cell[16752, 580, 512, 16, 45, "Output"]
+}, Open  ]],
+Cell[17279, 599, 127, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[17431, 606, 44, 1, 45, "Input"],
+Cell[17478, 609, 360, 12, 44, "Output"]
+}, Open  ]],
+Cell[17853, 624, 215, 6, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[18093, 634, 58, 1, 45, "Input"],
+Cell[18154, 637, 153, 3, 45, "Message"],
+Cell[18310, 642, 69, 2, 44, "Output"]
+}, Open  ]],
+Cell[18394, 647, 120, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[18539, 654, 69, 1, 45, "Input"],
+Cell[18611, 657, 318, 11, 44, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[18978, 674, 35, 0, 39, "Subsection"],
+Cell[19016, 676, 308, 5, 100, "Text"],
+
+Cell[CellGroupData[{
+Cell[19349, 685, 53, 1, 45, "Input"],
+Cell[19405, 688, 96, 3, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[19538, 696, 50, 1, 45, "Input"],
+Cell[19591, 699, 304, 11, 44, "Output"]
+}, Open  ]],
+Cell[19910, 713, 152, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[20087, 720, 49, 1, 45, "Input"],
+Cell[20139, 723, 346, 12, 44, "Output"]
+}, Open  ]],
+Cell[20500, 738, 161, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[20686, 745, 69, 1, 45, "Input"],
+Cell[20758, 748, 449, 14, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[21244, 767, 66, 1, 45, "Input"],
+Cell[21313, 770, 1221, 38, 47, "Output"]
+}, Open  ]],
+Cell[22549, 811, 94, 2, 34, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[22680, 818, 42, 0, 39, "Subsection"],
+Cell[22725, 820, 67, 0, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[22817, 824, 64, 1, 45, "Input"],
+Cell[22884, 827, 497, 19, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[23418, 851, 61, 1, 45, "Input"],
+Cell[23482, 854, 541, 19, 47, "Output"]
+}, Open  ]],
+Cell[24038, 876, 286, 5, 100, "Text"],
+
+Cell[CellGroupData[{
+Cell[24349, 885, 63, 1, 45, "Input"],
+Cell[24415, 888, 2025, 63, 44, "Output"]
+}, Open  ]],
+Cell[26455, 954, 157, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[26637, 961, 1240, 41, 45, "Input"],
+Cell[27880, 1004, 1908, 58, 51, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[29825, 1067, 2044, 59, 52, "Input"],
+Cell[31872, 1128, 1132, 40, 44, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[33053, 1174, 59, 0, 39, "Subsection"],
+Cell[33115, 1176, 266, 5, 78, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[33418, 1186, 51, 0, 39, "Subsection"],
+Cell[33472, 1188, 309, 5, 100, "Text"],
+
+Cell[CellGroupData[{
+Cell[33806, 1197, 64, 1, 45, "Input"],
+Cell[33873, 1200, 990, 31, 44, "Output"]
+}, Open  ]],
+Cell[34878, 1234, 162, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[35065, 1241, 48, 1, 45, "Input"],
+Cell[35116, 1244, 306, 10, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[35459, 1259, 48, 1, 45, "Input"],
+Cell[35510, 1262, 306, 10, 44, "Output"]
+}, Open  ]],
+Cell[35831, 1275, 171, 3, 56, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[36039, 1283, 53, 0, 39, "Subsection"],
+Cell[36095, 1285, 227, 4, 78, "Text"],
+
+Cell[CellGroupData[{
+Cell[36347, 1293, 51, 1, 45, "Input"],
+Cell[36401, 1296, 660, 22, 44, "Output"]
+}, Open  ]],
+Cell[37076, 1321, 325, 5, 100, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[37438, 1331, 70, 0, 39, "Subsection"],
+Cell[37511, 1333, 735, 11, 232, "Text"],
+
+Cell[CellGroupData[{
+Cell[38271, 1348, 42, 1, 45, "Input"],
+Cell[38316, 1351, 202, 7, 46, "Output"]
+}, Open  ]],
+Cell[38533, 1361, 111, 3, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[38669, 1368, 52, 1, 45, "Input"],
+Cell[38724, 1371, 769, 26, 48, "Output"]
+}, Open  ]],
+Cell[39508, 1400, 19, 0, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[39552, 1404, 48, 1, 45, "Input"],
+Cell[39603, 1407, 912, 31, 48, "Output"]
+}, Open  ]],
+Cell[40530, 1441, 198, 4, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[40753, 1449, 57, 1, 45, "Input"],
+Cell[40813, 1452, 835, 26, 48, "Output"]
+}, Open  ]],
+Cell[41663, 1481, 138, 3, 56, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[41838, 1489, 42, 0, 39, "Subsection"],
+Cell[41883, 1491, 266, 5, 78, "Text"],
+
+Cell[CellGroupData[{
+Cell[42174, 1500, 47, 1, 45, "Input"],
+Cell[42224, 1503, 580, 19, 45, "Output"]
+}, Open  ]],
+Cell[42819, 1525, 203, 4, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[43047, 1533, 55, 1, 45, "Input"],
+Cell[43105, 1536, 200, 7, 46, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[43366, 1550, 36, 0, 57, "Section"],
+Cell[43405, 1552, 90, 2, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[43520, 1558, 42, 0, 39, "Subsection"],
+Cell[43565, 1560, 402, 7, 122, "Text"],
+
+Cell[CellGroupData[{
+Cell[43992, 1571, 41, 1, 45, "Input"],
+Cell[44036, 1574, 44, 1, 44, "Output"]
+}, Open  ]],
+Cell[44095, 1578, 168, 3, 56, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[44300, 1586, 49, 0, 39, "Subsection"],
+Cell[44352, 1588, 155, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[44532, 1595, 48, 1, 45, "Input"],
+Cell[44583, 1598, 146, 4, 45, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[44778, 1608, 43, 0, 39, "Subsection"],
+Cell[44824, 1610, 102, 3, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[44951, 1617, 757, 23, 45, "Input"],
+Cell[45711, 1642, 2217, 70, 44, "Output"]
+}, Open  ]],
+Cell[47943, 1715, 148, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[48116, 1722, 90, 1, 45, "Input"],
+Cell[48209, 1725, 2217, 70, 44, "Output"]
+}, Open  ]],
+Cell[50441, 1798, 104, 3, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[50570, 1805, 52, 1, 45, "Input"],
+Cell[50625, 1808, 486, 15, 45, "Output"]
+}, Open  ]],
+Cell[51126, 1826, 175, 3, 56, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[51338, 1834, 48, 0, 39, "Subsection"],
+Cell[51389, 1836, 96, 2, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[51510, 1842, 65, 1, 45, "Input"],
+Cell[51578, 1845, 1096, 34, 44, "Output"]
+}, Open  ]],
+Cell[52689, 1882, 108, 3, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[52822, 1889, 59, 1, 45, "Input"],
+Cell[52884, 1892, 2870, 91, 45, "Output"]
+}, Open  ]],
+Cell[55769, 1986, 102, 3, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[55896, 1993, 1010, 32, 48, "Input"],
+Cell[56909, 2027, 4797, 153, 51, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[61755, 2186, 58, 0, 39, "Subsection"],
+Cell[61816, 2188, 234, 6, 56, "Text"],
+Cell[62053, 2196, 134, 3, 33, "Text"],
+Cell[62190, 2201, 48, 0, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[62263, 2205, 168, 3, 65, "Input"],
+Cell[62434, 2210, 1173, 35, 45, "Output"]
+}, Open  ]],
+Cell[63622, 2248, 151, 3, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[63798, 2255, 63, 1, 45, "Input"],
+Cell[63864, 2258, 4087, 113, 111, "Output"]
+}, Open  ]],
+Cell[67966, 2374, 201, 4, 56, "Text"],
+
+Cell[CellGroupData[{
+Cell[68192, 2382, 49, 1, 45, "Input"],
+Cell[68244, 2385, 8017, 215, 127, "Output"]
+}, Open  ]],
+Cell[76276, 2603, 226, 4, 78, "Text"],
+
+Cell[CellGroupData[{
+Cell[76527, 2611, 60, 1, 45, "Input"],
+Cell[76590, 2614, 1602, 53, 64, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[78253, 2674, 32, 0, 57, "Section"],
+
+Cell[CellGroupData[{
+Cell[78310, 2678, 36, 0, 39, "Subsection"],
+Cell[78349, 2680, 1960, 56, 109, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[80346, 2741, 37, 0, 39, "Subsection"],
+Cell[80386, 2743, 823, 23, 81, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[81246, 2771, 37, 0, 39, "Subsection"],
+Cell[81286, 2773, 2744, 78, 109, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[84067, 2856, 46, 0, 39, "Subsection"],
+Cell[84116, 2858, 1989, 53, 109, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[86142, 2916, 31, 0, 39, "Subsection"],
+Cell[86176, 2918, 1337, 39, 81, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[87550, 2962, 37, 0, 39, "Subsection"],
+Cell[87590, 2964, 1492, 47, 45, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[89119, 3016, 36, 0, 39, "Subsection"],
+Cell[89158, 3018, 1086, 33, 65, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[90281, 3056, 37, 0, 39, "Subsection"],
+Cell[90321, 3058, 3219, 88, 245, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[93577, 3151, 53, 0, 39, "Subsection"],
+Cell[93633, 3153, 4693, 130, 89, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[98363, 3288, 33, 0, 39, "Subsection"],
+Cell[98399, 3290, 12123, 359, 313, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[110559, 3654, 44, 0, 39, "Subsection"],
+Cell[110606, 3656, 693, 19, 47, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[111336, 3680, 36, 0, 39, "Subsection"],
+Cell[111375, 3682, 732, 16, 171, "Text"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[112156, 3704, 67, 0, 57, "Section"],
+Cell[112226, 3706, 1763, 28, 474, "Text"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+
+(***********************************************************************
+End of Mathematica Notebook file.
+***********************************************************************)
+

@@ -1,0 +1,5 @@
+/* Magnus.mac */
+Hp: mu*B*matrix([cos(theta),exp(-%i*omega*tp)*sin(theta)],[exp(%i*omega*tp)*sin(theta), -cos(theta) ] );
+Hpp: mu*B*matrix ([cos(theta), exp(-%i*omega*tpp) *sin(theta) ],[exp(%i*omega*tpp)*sin(theta), -cos(theta) ]);
+Comm: Hp*Hpp-Hpp*Hp;
+Print ( "Comm=", Comm);

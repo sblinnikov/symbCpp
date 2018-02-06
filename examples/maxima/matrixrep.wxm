@@ -1,0 +1,81 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 13.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Steeb and Hardy Ch.5. Matrix Representation in the Hilbert Space
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+Basis vectors phi_k are functions (%i28) exp(%i*k*x)/sqrt(2*pi) 
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+phi(k)=exp(%i*k*x)/sqrt(2*pi);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Matrix A_kl is <phi(k)*x*phi(l)>
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+batch(matrixrep);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+r1 is equivalent to A_kk and is shown to be zero:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r1:integrate(exp(%i*k*x)*x*exp(-%i*k*x),x,-%pi,%pi);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+print(r1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+r2 is A_kl:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r2:integrate(x*exp(%i*(k-l)*x),x,-%pi,%pi);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r3:r2/(2*%pi);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r4:subst(cos(%pi*k),exp(%i*%pi*k),r3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r5:subst(cos(%pi*l),exp(%i*%pi*l),r4);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r6:subst((-i)^k,cos(%pi*k),r5);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r7:subst((-i)^l,cos(%pi*1),r6);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r8:expand(r7);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r9:subst(0,k,r8);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r10:subst(2,l,r9);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+print(r10);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

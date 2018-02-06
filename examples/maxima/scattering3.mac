@@ -1,0 +1,47 @@
+/*  scattering3.mac */
+depends (u1,r);
+depends (u2,r);
+depends (v1,r);
+depends (v2,r);
+
+r1: -hb*hb/(2*m)*(diff(u1,r,2)+(2/r)*diff(u1,r))-en*u1;
+r2: -hb*hb/(2*m)*(diff(u2,r,2)+(2/r)*diff(u2,r))-(V0+en)*u2;
+r3: subst(v1/r,u1,r1);
+r4: ev(r3,diff);
+r5: ratsimp(r4);
+r6: num(r5);
+
+r7: subst(v2/r,u2,r2);
+r8: ev(r7,diff);
+r9: ratsimp(r8);
+r10: num(r9);
+
+r11: subst(c1*exp(-alpha*r),v1,r6);
+r12: r11/exp(-alpha*r);
+r13: ev(r12,diff);
+r14: expand(r13);
+print("r14=",r14);
+
+r15: subst(c2*sin(beta*r),v2,r10);
+r16: r15/sin(beta*r);
+r17: ev(r16,diff);
+
+print ("r17=" ,r17);
+r18: expand(r17);
+
+list1: solve(r14=0,alpha);
+print("list1=",list1);
+list2: solve(r18=0,beta);
+print("list2=",list2);
+
+v1: c1*exp(-alpha*r);
+v2: c2*sin(beta*r);
+v1d: diff(v1,r);
+v2d: diff(v2,r);
+v1a: subst(a,r,v1);
+v2a: subst(a,r,v2);
+v1da: subst(a,r,v1d);
+v2da: subst(a,r,v2d);
+r19: v1da/v1a-v2da/v2a;
+list3: solve(r19=0,alpha);
+print("list3=",list3);

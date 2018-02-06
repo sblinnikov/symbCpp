@@ -1,0 +1,58 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: title   start ]
+Wavepacket.mac Steeb-Hardy book
+
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(psi,[x,t]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(f1,[x,t]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(f2,[x,t]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+f1: B/(sqrt(1+%i*hb*t/(m*a2)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+f2: exp(-(x*x)/(2*a2*(1+%i*hb*t/(m*a2))));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+psi: f1*f2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+res1: hb*hb*diff(psi,x,2)/(2*m);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+res2: %i*hb*diff(psi,t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+result1: (res1+res2)/f2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+result2: expand(result1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+print(result2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sqrt(-1);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

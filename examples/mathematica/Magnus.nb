@@ -1,0 +1,155 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.4' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      4584,        147]
+NotebookOptionsPosition[      4123,        128]
+NotebookOutlinePosition[      4460,        143]
+CellTagsIndexPosition[      4417,        140]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+/* Magnus.mac 
+Hp: mu*B*matrix([cos(theta),exp(-%i*omega*tp)*sin(theta)],[exp(%i*omega*tp)*\
+sin(theta), -cos(theta) ] );
+Hpp: mu*B*matrix ([cos(theta), exp(-%i*omega*tpp) *sin(theta) \
+],[exp(%i*omega*tpp)*sin(theta), -cos(theta) ]);
+Comm: Hp*Hpp-Hpp*Hp;
+Print ( \[OpenCurlyDoubleQuote]Comm=\[CloseCurlyDoubleQuote], Comm); */
+\
+\>", "Text",
+ CellChangeTimes->{{3.682271816087764*^9, 3.682271818579967*^9}, {
+  3.682272959178585*^9, 3.682272965220832*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Hp", "=", " ", 
+  RowBox[{"\[Mu]", "*", "B", "*", 
+   RowBox[{"MatrixForm", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Cos", "[", "\[Theta]", "]"}], ",", 
+        RowBox[{
+         RowBox[{"Exp", "[", 
+          RowBox[{
+           RowBox[{"-", "I"}], "*", "\[Omega]", " ", "*", "tp"}], "]"}], "*", 
+         
+         RowBox[{"Sin", "[", "\[Theta]", "]"}]}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Exp", "[", 
+          RowBox[{"I", "*", "\[Omega]", "*", "tp"}], "]"}], "*", 
+         RowBox[{"Sin", "[", "\[Theta]", "]"}]}], ",", 
+        RowBox[{"-", 
+         RowBox[{"Cos", "[", "\[Theta]", "]"}]}]}], "}"}]}], "}"}], 
+    "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.6822721335031557`*^9, 3.682272214576538*^9}, 
+   3.682272286658225*^9, {3.6822723300901623`*^9, 3.682272482260614*^9}, {
+   3.68227263162661*^9, 3.682272801869999*^9}, {3.6822728389726477`*^9, 
+   3.682272874926408*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Hpp", "=", " ", 
+  RowBox[{"\[Mu]", "*", "B", "*", 
+   RowBox[{"MatrixForm", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Cos", "[", "\[Theta]", "]"}], ",", 
+        RowBox[{
+         RowBox[{"Exp", "[", 
+          RowBox[{
+           RowBox[{"-", "I"}], "*", "\[Omega]", " ", "*", "tpp"}], "]"}], "*", 
+         RowBox[{"Sin", "[", "\[Theta]", "]"}]}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Exp", "[", 
+          RowBox[{"I", "*", "\[Omega]", "*", "tpp"}], "]"}], "*", 
+         RowBox[{"Sin", "[", "\[Theta]", "]"}]}], ",", 
+        RowBox[{"-", 
+         RowBox[{"Cos", "[", "\[Theta]", "]"}]}]}], "}"}]}], "}"}], 
+    "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.682272679089366*^9, 3.682272693808049*^9}, {
+  3.682272774137686*^9, 3.6822728308881693`*^9}, {3.68227291548875*^9, 
+  3.6822729332126627`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Comm", "=", " ", 
+  RowBox[{
+   RowBox[{"Hp", ".", "Hpp"}], "-", 
+   RowBox[{"Hpp", ".", "Hp"}]}]}]], "Input",
+ CellChangeTimes->{{3.682273087592434*^9, 3.682273104048029*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Simplify", "[", "%", "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.682273134334918*^9, 3.6822731604902687`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Commutator", "[", 
+    RowBox[{"a_", ",", "b_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"a", ".", "b"}], "-", 
+    RowBox[{"b", ".", "a"}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Anticommutator", "[", 
+    RowBox[{"a_", ",", "b_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"a", ".", "b"}], "+", 
+    RowBox[{"b", ".", "a"}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Adjoint", "[", "m_", "]"}], ":=", 
+   RowBox[{"Transpose", "[", 
+    RowBox[{"Conjugate", "[", "m", "]"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.682273263541183*^9, 3.6822732635590897`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Commutator", "[", 
+  RowBox[{"Hp", ",", "Hpp"}], "]"}]], "Input",
+ CellChangeTimes->{{3.6822732759054813`*^9, 3.682273294928665*^9}}]
+},
+WindowSize->{1366, 713},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.4 for Linux x86 (64-bit) (February 25, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 467, 11, 143, "Text"],
+Cell[1028, 33, 1010, 27, 32, "Input"],
+Cell[2041, 62, 927, 25, 32, "Input"],
+Cell[2971, 89, 200, 5, 32, "Input"],
+Cell[3174, 96, 147, 3, 32, "Input"],
+Cell[3324, 101, 635, 20, 77, "Input"],
+Cell[3962, 123, 157, 3, 32, "Input"]
+}
+]
+*)
+

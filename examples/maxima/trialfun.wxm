@@ -1,0 +1,74 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: title   start ]
+Trial function
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends (u,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+u: x*exp(-a*x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r1: -hb*hb/(2*m)*diff(u,x,2) + c*x*u;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r2: integrate(u*r1,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r3: -subst(0,x,r2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r4: integrate(u*u,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+norm: -substitute(0,x,r4);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+expe: r3/norm;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+minim: diff(expe,a);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+minim: expand(minim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r5: solve(minim=O,a);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+print ("r5=",r5);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+after line with r5:
+we can write
+rectform(%);
+or
+rectform(r5);
+then
+trigsimp(%);
+or
+trigsimp(r5);
+to simplify the expression,
+but this does not help much in this case
+
+in the end we get 3 solutions of the cubic equation, the real one is equal to
+(3mc/2\hbar^2)^(1/3)
+   [wxMaxima: comment end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

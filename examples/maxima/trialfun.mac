@@ -1,0 +1,13 @@
+/* trial.mac */
+depends (u,x);
+u: x*exp(-a*x);
+r1: -hb*hb/(2*m)*diff(u,x,2) + c*x*u;
+r2: integrate(u*r1,x);
+r3: -subst(0,x,r2);
+r4: integrate(u*u,x);
+norm: -substitute(0,x,r4);
+expe: r3/norm;
+minim: diff(expe,a);
+minim: expand(minim);
+r5: solve(minim=O,a);
+print ("r5=",r5);
