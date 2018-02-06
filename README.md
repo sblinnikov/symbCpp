@@ -1,6 +1,6 @@
 # symbCpp
 
-[The source for this project is taken from](http://issc.uj.ac.za/symbolic/symbolic.html "Official website")
+The source for this project is taken from ["Official website"](http://issc.uj.ac.za/symbolic/symbolic.html)
 
 (seems to be not updated after 2010) with examples from
 
