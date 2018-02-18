@@ -131,6 +131,8 @@ This builds libsymbcgf.a in HOME/lib. Then quick translation is possible:
 ```shell
 g++ -I ./include -L ~/lib -o test1.exe examples/test1.cpp -fno-elide-constructors -lsymbcgf
 g++ -I ./include -L ~/lib -o matrix.exe examples/matrix.cpp -fno-elide-constructors -lsymbcgf
+g++ -I ./include -L ~/lib -o loperators.exe examples/loperators.cpp -fno-elide-constructors -lsymbcgf
+
 ```
 
 For 32bit systems use gf32libsymb.sh, and commands like
