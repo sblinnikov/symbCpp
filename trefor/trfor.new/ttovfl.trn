@@ -1,0 +1,38 @@
+-- simplest test for Trefor
+_define @ins 'aa(@tt )'
+_define @tt qq 
+ @ttt TestTrf
+ @ap "'"
+ ;
+Program @ttt;
+<*vars: declarations *>;
+<*n: request *>;
+a=b;
+qq=3;
+b=@tt;
+cc=@ins; ! 
+write(*,*)' ichar(''1'')=',ichar('1');
+write(*,*)' char(49)=',char(49);
+write(*,*)' char(91)=',char(91);
+write(*,*)' char(93)=',char(93);
+do i=41,50;
+ write(*,*)' char(',i,')=',char(i);
+ write(*,*)' char(',i,')=',char(i);
+ a=1./float(50-i)
+enddo;
+write(*,*)' ichar('';'')=',ichar(';');
+write(*,*)' ichar(''$'')=',ichar('$');
+write(*,*)' a,b,c=',a,b,c;
+
+stop cstop
+end
+
+%_vars:
+
+ dimension aa(5);
+ integer i,qq;
+ character c(80),cstop*80;
+ parameter(cstop='normal stop of'//@ap@ttt@ap);
+
+%n:
+c='this is a node'

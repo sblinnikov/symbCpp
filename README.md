@@ -147,3 +147,14 @@ For intel icpc  use library built with iclibsymb.sh and
 icpc -I ./include -L ~/lib -o test1.exe examples/test1.cpp  -lsymbc
 icpc -I ./include -L ~/lib -o matrix.exe examples/matrix.cpp -lsymbc
 ```
+
+## Addendum for numerics
+
+### TREFOR
+
+Use directory trefor to build a useful  preprocessor for structured program design 
+in fortran.
+
+TREFOR==TREe FORtran
+
+Read README there

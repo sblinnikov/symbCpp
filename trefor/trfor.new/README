@@ -1,0 +1,82 @@
+Here one can build old reliable trefor from *.for sources and from
+*.trf sources (if trf is working in any version)
+
+If trf works already and you want new t95 go to Section 2.
+
+Section 1. 
+
+If trf is not installed yet or you want another version of trf
+(building not from C source but from fortran source):
+
+Initial (very old) make working now is for Lahey-Fujutsu compiler (lf95)
+ make -f lffor.mak
+from .for files
+
+Other makefiles require explicit -save, or equivalent options like -fno-automatic
+
+Both ifcfor.mak for intel fortran and gffor.mak for gfortran are working now:
+
+   make -f ifcfor.mak clean
+   make -f ifcfor.mak
+
+   make -f gffor.mak clean
+   make -f gffor.mak
+
+On the next stage trefor is built from *trf source.
+
+make -f trefortrf.mak clean
+make -f trefortrf.mak trefor
+will make otrefor
+
+To test trefor (after successful build), without a wrapper trf, run simply:
+
+  ./trefor sel.trf . 1
+or
+  ./otrefor sel.trf . 1
+etc.
+
+To install
+
+sudo mv trf trefor /usr/local/bin/
+
+or 
+
+sudo mv trf otrefor /usr/local/bin/
+
+etc.
+
+Use the needed version of trefor in .trfrc in your home dir.
+
+
+Section 2. 
+
+If trf works in any version then you can build t95.
+
+For gfortran
+
+ make -f gftrefor95trf.mak
+
+use options t95 and trefor95:
+
+ make -f gftrefor95trf.mak t95
+
+ make -f gftrefor95trf.mak trefor95
+
+-- it will build t95-wrapper and btrefor95 preprocessor.
+
+The same for ifort:
+
+ make -f trefor95trf.mak 
+
+Use trefor95trf.mak and change variable SYSTYPE there for other compilers.
+
+
+To install
+
+sudo mv t95 btrefor95 /usr/local/bin/
+
+Do not forget
+
+cp -i sample.trnrc ~/.trnrc
+
+and edit ~/.trnrc for your fortran compiler, editor, viewer etc.

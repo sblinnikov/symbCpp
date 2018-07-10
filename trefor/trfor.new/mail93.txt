@@ -1,0 +1,551 @@
+
+From blinnikov@vxitep.itep.msk.su Sat Apr  3 16:56:09 1993
+Return-Path: <blinnikov@vxitep.itep.msk.su>
+Received: from sunitep.desy.de by mira.astro.ku.dk (4.1/SMI-4.1)
+	id AA19276; Sat, 3 Apr 93 16:56:07 +0200
+Received: from  by sunitep.desy.de (4.1/SMI-4.1)
+	id AB03169; Sat, 3 Apr 93 16:57:02 +0100
+Message-Id: <9304031557.AB03169@sunitep.desy.de>
+Date: 3 Apr 93 13:54:00 GMT+109:13
+From: "Sergej Blinnikov" <blinnikov@vxitep.itep.msk.su>
+Subject: TRF.BAT
+To: "blinn" <blinn@astro.ku.dk>
+Status: RO
+
+blinn@astro.ku.dk
+trefor
+
+Hi,Sergej !
+I think the only problem with Trefor implementation on SUN is
+the @eqbyte. TREFOR has three arguments:
+1: name of program
+2: temp. region for fortran and listing files
+3: 1 - listing, 0 - no listing
+
+I think that easy way is "TREFOR name.ext . 1"
+
+
+Could you make the copy of SN1993J image ?
+
+    A PostScript Finding chart of SN 1993J is available through
+anonymous ftp at cfa0.harvard.edu (128.103.40.1).  It is in 
+the directory pub/brian/  and you can get the compressed
+version 93J.finder.ps.Z (use UNIX uncompress), or the full
+PostScript File "93J.finder.ps".  Print it out on a PostScript
+printer with 1 Mbyte of memory or more.
+
+-------------------------------------------
+@echo off
+if "%1" == "" goto NONAME
+If EXIST %1.TRF goto NAME
+If EXIST %1     goto EXTENSION
+echo File %1 not found.
+goto END
+:EXTENSION
+  if "%TMP%" == "" goto NOTMPE
+     echo "Create TREFOR listing & FORTRAN file at %TMP% directory."
+     goto TREFORE
+  :NOTMPE
+     echo "Create TREFOR listing & FORTRAN file at your directory."
+  :TREFORE
+     trefor %1 %TMP% 1
+goto END
+:NAME
+  trefor %1.trf %TMP% 1
+  if errorlevel 5 goto end
+  if "%TMP%" == "" goto NOTMP
+    fl /c /Fo%1.obj %Tmp%\%1.for
+    if errorlevel 1 goto end
+    del %TMP%\%1.for
+    del %TMP%\%1.lst
+    goto END
+  :NOTMP
+    fl /c /Fo%1.obj %1.for
+    if errorlevel 1 goto end
+    del %1.for
+    del %1.lst
+    goto END
+:NONAME
+  echo Missing File Name.
+:end
+
+
+From MAILER-DAEMON@danpost.uni-c.dk Sun Apr  4 12:51:27 1993
+Return-Path: <MAILER-DAEMON@danpost.uni-c.dk>
+Received: from danpost.uni-c.dk by mira.astro.ku.dk (4.1/SMI-4.1)
+	id AA20811; Sun, 4 Apr 93 12:51:25 +0200
+Received: by danpost.uni-c.dk (5.65c+/1.34)
+	id AA14660; Sun, 4 Apr 1993 12:49:31 +0200
+Date: Sun, 4 Apr 1993 12:49:31 +0200
+From: Mail Delivery Subsystem <MAILER-DAEMON@uni-c.dk>
+Subject: Returned mail: Host unknown
+Message-Id: <199304041049.AA14660@danpost.uni-c.dk>
+To: blinn@astro.ku.dk
+Status: RO
+
+   ----- Transcript of session follows -----
+550 vxitep.msk.su (tcp)... 550 Host unknown
+554 <imshennik@vxitep.msk.su>... 550 Host unknown (Authoritative answer from name server)
+
+   ----- Unsent message follows -----
+Received: from mira.astro.ku.dk by danpost.uni-c.dk (5.65c+/1.34)
+	id AA14658; Sun, 4 Apr 1993 12:49:31 +0200
+Received: by mira.astro.ku.dk (4.1/SMI-4.1)
+	id AA20807; Sun, 4 Apr 93 12:50:53 +0200
+Date: Sun, 4 Apr 93 12:50:53 +0200
+From: blinn@astro.ku.dk (Sergej Blinnikov)
+Message-Id: <9304041050.AA20807@astro.ku.dk>
+To: oleg@sai.msk.su
+Subject: SN93J
+Cc: imshennik@vxitep.msk.su
+
+
+>From allan@dsri.dk Tue Mar 30 18:31:44 1993
+Return-Path: <allan@dsri.dk>
+Received: from danpost.uni-c.dk by mira.astro.ku.dk (4.1/SMI-4.1)
+	id AA11792; Tue, 30 Mar 93 18:31:43 +0200
+Received: from uhuru.dsri.dk by danpost.uni-c.dk (5.65c+/1.34)
+	id AA01804; Tue, 30 Mar 1993 18:30:09 +0200
+Received: by uhuru.dsri.dk (4.1/SMI-4.1)
+	id AA22904; Tue, 30 Mar 93 18:30:10 +0200
+Date: Tue, 30 Mar 93 18:30:10 +0200
+From: Allan Hornstrup <allan@dsri.dk>
+Message-Id: <9303301630.AA22904@uhuru.dsri.dk>
+To: IAU@dsri.dk         Subject: IAU circular 5731            Status: RO
+                                                  Circular No. 5731
+Central Bureau for Astronomical Telegrams
+INTERNATIONAL ASTRONOMICAL UNION
+Postal Address: Central Bureau for Astronomical Telegrams
+Smithsonian Astrophysical Observatory, Cambridge, MA 02138, U.S.A.
+Telephone 617-495-7244/7440/7444 (for emergency use only)
+TWX 710-320-6842 ASTROGRAM CAM     EASYLINK 62794505
+MARSDEN@CFA or GREEN@CFA (.SPAN, .BITNET or .HARVARD.EDU)
+ 
+SUPERNOVA 1993J IN NGC 3031
+     J. Ripero, Madrid, Spain, reports that F. Garcia, Lugo, Spain,
+discovered a possible supernova on Mar. 28 as much as 5' southwest
+of the nucleus of NGC 3031 = M81.  The object was also recorded in an
+ST-4 CCD image obtained by D. Rodriguez as some 30" northeast of a
+mag 14 foreground star.  Magnitude estimates: Mar.26.9 UT, [14.0 (Garcia
+and P. Pujol); 28.86, 12.0 (Garcia, visual), 29.1, 11.8 (Rodriguez, CCD
+unfiltered); 29.88, 11.3 (Pujol); 29.88, 11.0 (Rodriguez).
+ 
+     A. V. Filippenko, University of California at Berkeley, reports:
+"A CCD image of M81 obtained on Mar. 30.1 UT by R. R. Treffers
+and Y. Paik (also of Berkeley) with the 0.8-m reflector at Leuschner
+Observatory confirms the presence of a new stellar object roughly
+45" west and 160" south of the nucleus.  The visual magnitude is
+approximately 11.  Inspection of CCD spectra (range 356-731 nm)
+obtained on Mar. 30.3 by M. Davis and D. Schlegel (also of Berkeley)
+with the Lick 3-m Shane reflector reveals that the object is indeed
+a supernova.  The continuum is very blue and remarkably featureless.
+The only clear absorption lines are narrow Na I D and Ca II H + K,
+undoubtedly of interstellar origin.  It is probable, but not yet
+certain, that the object is a type II supernova observed only a few
+days after the explosion.  Note, however, that the type Ia SN 1991T
+exhibited a relatively featureless spectrum well before maximum
+brightness (Filippenko et al. 1992, Ap.J. 384, L15).  Depending on its
+spectral type, distance and extinction, SN 1993J may reach eighth
+magnitude during the next two weeks.  Aside from SN 1987A in the LMC,
+it is therefore the brightest supernova since SN 1972E in NGC 5253.
+Further observations throughout the electromagnetic spectrum are urged."
+ 
+     F. D. A. Hartwick, D. D. Balam, D. Zurek and R. M. Robb,
+Climenhaga Observatory, University of Victoria, provide the following
+precise position for the supernova, measured by Balam from a CCD image
+obtained with the 0.5-m reflector on Mar. 30.25 UT: R.A. =
+9h51m19s.27, Decl. = +69D15'25".7 (equinox 1950.0).  Photometry
+yields V = 10.2 +/- 0.1.
+ 
+     P. Garnavich and B. A. Hong, Dominion Astrophysical Observatory,
+communicate: "Spectra (range 550-690 nm, resolution 0.6 nm) of the
+supernova were taken with the DAO 1.8-m telescope on Mar. 30.25 UT.
+The spectrum shows a strong, flat continuum with weak H alpha and He I
+587.5 nm) features, consistent with that of a type II supernova."
+ 
+1993 March 30                  (5731)              Brian G. Marsden
+>From allan@dsri.dk Wed Mar 31 03:31:56 1993
+Return-Path: <allan@dsri.dk>
+Received: from danpost.uni-c.dk by mira.astro.ku.dk (4.1/SMI-4.1)
+	id AA12544; Wed, 31 Mar 93 03:31:48 +0200
+Received: from uhuru.dsri.dk by danpost.uni-c.dk (5.65c+/1.34)
+	id AA12121; Wed, 31 Mar 1993 03:30:17 +0200
+Received: by uhuru.dsri.dk (4.1/SMI-4.1)
+	id AA25734; Wed, 31 Mar 93 03:30:18 +0200
+Date: Wed, 31 Mar 93 03:30:18 +0200
+From: Allan Hornstrup <allan@dsri.dk>
+Message-Id: <9303310130.AA25734@uhuru.dsri.dk>
+To: IAU@dsri.dk         Subject: IAU circular 5732             Status: R
+                                                  Circular No. 5732
+Central Bureau for Astronomical Telegrams
+INTERNATIONAL ASTRONOMICAL UNION
+Postal Address: Central Bureau for Astronomical Telegrams
+Smithsonian Astrophysical Observatory, Cambridge, MA 02138, U.S.A.
+Telephone 617-495-7244/7440/7444 (for emergency use only)
+TWX 710-320-6842 ASTROGRAM CAM     EASYLINK 62794505
+MARSDEN@CFA or GREEN@CFA (.SPAN, .BITNET or .HARVARD.EDU)
+ 
+ALPHA PISCIS AUSTRINI
+     S. A. Stern, Southwest Research Institute, San Antonio; M. C.
+Festou, Observatoire Midi-Pyrenees, Toulouse; and D. A. Weintraub,
+Vanderbilt University, Nashville, report: "Mapping observations on
+Feb. 20-21 revealed 1.3-mm continuum emission in a broad, disk-like
+region around the nearby, main-sequence star alpha PsA (Fomalhaut, A3V;
+distance 6.7 pc).  The observations supporting this discovery were made
+using the 7-channel MPIfR bolometer of the IRAM 30-m telescope on Pico
+Vileta, with a halfpower bandwidth at 1.3 mm of 12".  The emission
+geometry appears to be a tilted disk with the position angle of the
+major axis near 100 deg and an aspect ratio of 2:1; the major-axis
+emission exceeds 20 mJy at the 450-500-AU contour (about 1' from the star).
+Additional emission may be present at larger distances.  The peak 1.3-mm
+emission detected is 50 mJy, centered on the line of sight to the star.
+The emission is ascribed to an assemblage of cold, orbiting dust grains
+around the star.  Although IRAS revealed that Fomalhaut is an infrared-
+excess source, these observations constitute the first detection of this
+extended, disk-like emission.  Thus, after beta Pic (also A3V), this is
+the second main-sequence star to have a detected disk, and the disk is
+the first one around a main-sequence star to be mapped in thermal
+emission.  The fact that alpha PsA is 2.5 times closer to the earth
+than beta Pic is makes it an ideal object for intensive study."
+ 
+SU TAURI
+     This R-CrB variable is fading, as indicated by the following
+visual magnitude estimates, communicated mainly by B. H. Granslo,
+Fjellhamar, Norway: Mar. 20.51, 10.0 (M. Iida, Nagano, Japan); 23.42,
+10.2 (M. Yamada,  Ishikawa, Japan); 25.84, 10.4 (Granslo); 26.47,
+10.5 (Yamada); 27.44, 10.8 (Yamada); 28.85, 11.3 (Granslo); 29.82,
+11.6 (Granslo).
+ 
+ 
+COMET SHOEMAKER-LEVY (1993e)
+     A. Cochran, University of Texas, reports that she obtained
+spectra (range 300-570 nm) of this comet with the large cassegrain
+spectrograph on the McDonald Observatory's 2.7-m telescope on Mar. 28.
+The long slit was placed along the major axis of the object.  A
+preliminary look at the raw data shows no obvious emissions.  The
+comet was approximately uniformly bright over the inner 30".  There was
+an approximately uniform section of lower intensity to a total length of
+1'.  A weak condensation was visible near the western end.
+ 
+1993 March 30                  (5732)              Brian G. Marsden
+>From allan@dsri.dk Wed Mar 31 04:32:18 1993
+Return-Path: <allan@dsri.dk>
+Received: from danpost.uni-c.dk by mira.astro.ku.dk (4.1/SMI-4.1)
+	id AA12576; Wed, 31 Mar 93 04:32:16 +0200
+Received: from uhuru.dsri.dk by danpost.uni-c.dk (5.65c+/1.34)
+	id AA13140; Wed, 31 Mar 1993 04:30:49 +0200
+Received: by uhuru.dsri.dk (4.1/SMI-4.1)
+	id AA26224; Wed, 31 Mar 93 04:30:43 +0200
+Date: Wed, 31 Mar 93 04:30:43 +0200
+From: Allan Hornstrup <allan@dsri.dk>
+Message-Id: <9303310230.AA26224@uhuru.dsri.dk>
+To: IAU@dsri.dk         Subject: IAU circular 5733             Status: R
+
+                                                  Circular No. 5733
+Central Bureau for Astronomical Telegrams
+INTERNATIONAL ASTRONOMICAL UNION
+Postal Address: Central Bureau for Astronomical Telegrams
+Smithsonian Astrophysical Observatory, Cambridge, MA 02138, U.S.A.
+Telephone 617-495-7244/7440/7444 (for emergency use only)
+TWX 710-320-6842 ASTROGRAM CAM     EASYLINK 62794505
+MARSDEN@CFA or GREEN@CFA (.SPAN, .BITNET or .HARVARD.EDU)
+ 
+ 
+SUPERNOVA 1993K IN NGC 2223
+     A. Williams, University of Western Australia; and R. Martin,
+Perth Observatory, report their discovery of a possible supernova
+of mag 14.5 approximately 30" east and 31" north of the nucleus of
+NGC 2223 (R.A. = 6h22m.5, Decl. = -22D49', equinox 1950.0).  The
+discovery was made on Mar. 28.55 UT in the course of the Perth
+Observatory Research Group's automated supernova search program,
+using the 0.61-m Perth-Lowell automated telescope.  The object was
+reobserved on Mar. 29.5, but it had not been present on Mar. 10.5 UT.
+ 
+     P. C. Schmidtke, Arizona State University, obtained BVRI images
+of the field with the 0.9-m telescope at the Cerro Tololo Interamerican
+Observatory, starting on Mar. 30.09 UT.  He confirmed the presence
+of a star approximately 30" east and 28" north of the center of the
+galaxy, quick-look photometry yielding V = 15.4, B-V = +0.2, V-R = +0.1.
+ 
+     M. M. Phillips, Cerro Tololo Interamerican Observatory, reports
+that J. Maza and M. Wischnjewsky, University of Chile, obtained a
+low-resolution spectrum (range 320-760 nm) of the object with the CTIO
+1.5-m telescope.  The spectrum is essentially featureless, suggesting
+that this supernova--like 1993J--is a type II event in an early stage.
+ 
+ 
+SUPERNOVA 1993J IN NGC 3031
+     G. Gomez, Instituto de Astrofisica de Canarias; and R. Lopez,
+University of Barcelona, report: "A spectrum (range 500-850 nm,
+resolution 0.3 nm) taken on Mar. 30 by E. Perez with the 2.5-m Isaac
+Newton Telescope shows some similarity to the premaximum spectrum
+of the type II supernova 1990E.  In particular, there is a very broad
+(FWZI about 70 nm) emission band toward 650 nm that could correspond
+to H alpha."
+ 
+     Corrigenda.  On IAUC 5731, the names P. Pujol and B. A. Hong
+should have been given as F. Pujol and H. B. Ann, respectively, and
+the time of the first CCD image should have been Mar. 28.89, rather
+than Mar. 29.1.
+ 
+     Further visual magnitude estimates: Mar. 29.95 UT, 11.1 (F.
+Garcia, Lugo, Spain); 30.84, 10.3 (P. Schmeer, Bischmisheim, Germany).
+ 
+1993 March 30                  (5733)              Brian G. Marsden
+>From allan@dsri.dk Wed Mar 31 05:31:39 1993
+Return-Path: <allan@dsri.dk>
+Received: from danpost.uni-c.dk by mira.astro.ku.dk (4.1/SMI-4.1)
+	id AA12648; Wed, 31 Mar 93 05:31:37 +0200
+Received: from uhuru.dsri.dk by danpost.uni-c.dk (5.65c+/1.34)
+	id AA14028; Wed, 31 Mar 1993 05:30:15 +0200
+Received: by uhuru.dsri.dk (4.1/SMI-4.1)
+	id AA26567; Wed, 31 Mar 93 05:30:11 +0200
+Date: Wed, 31 Mar 93 05:30:11 +0200
+From: Allan Hornstrup <allan@dsri.dk>
+Message-Id: <9303310330.AA26567@uhuru.dsri.dk>
+To: IAU@dsri.dk         Subject: IAU circular 5734             Status: R
+
+                                                  Circular No. 5734
+Central Bureau for Astronomical Telegrams
+INTERNATIONAL ASTRONOMICAL UNION
+Postal Address: Central Bureau for Astronomical Telegrams
+Smithsonian Astrophysical Observatory, Cambridge, MA 02138, U.S.A.
+Telephone 617-495-7244/7440/7444 (for emergency use only)
+TWX 710-320-6842 ASTROGRAM CAM     EASYLINK 62794505
+MARSDEN@CFA or GREEN@CFA (.SPAN, .BITNET or .HARVARD.EDU)
+ 
+ 
+SUPERNOVA 1993I IN MCG +2-32-144
+     M. Turatto, C. Zanin and V. Buondi, Asiago Observatory, confirm
+the existence of this object on CCD frames taken with the 1.8-m
+telescope on Feb. 28, when the object, located 13".5 west and 8".4
+south of the galaxy's nucleus, had B = 17.95, B-V = +0.20.
+ 
+     A. Clocchiatti and J. C. Wheeler, University of Texas, report that a
+spectrum (range 450-720 nm, dispersion 0.34 nm/pixel) obtained on Mar.
+29.3 UT with the 2.7-m telescope of the McDonald Observatory shows
+that SN 1993I is of type Ia close to maximum light.  The typical
+spectral features show a redshift consistent with the radial velocity
+of MCG +02-32-144 (12 924 km/s) reported by Zwicky in Stars and
+Stellar Systems 8, 375.
+ 
+ 
+GRO J0422+32
+     C. Chevalier and S. A. Ilovaisky, Observatoire de Haute-Provence,
+report: "New CCD photometry of the optical counterpart of this x-ray
+transient has been obtained with the Haute-Provence 1.2-m telescope on
+Jan. 19-23, Feb. 10-20 and Mar. 12-13.  When combined with the earlier
+January data (IAUC 5692) our 1993 observations made on 23 nights over
+a 2.5-month interval show that, after a slow-down in its decline during
+early January just after the secondary x-ray maximum (IAUC 5685), the
+average decline rate returned to a value near 0.01 mag/day, close to
+what was seen earlier in the outburst (IAUC 5644, 5650).  This decay
+rate is half that seen in V616 Mon = A0620-00 during its 1975 outburst.
+On 1993 Mar. 13 the optical counterpart of GRO J0422+32 was 1.4 mag
+fainter in V than in early Sept. 1992 when we started our monitoring
+program.  Calibration of our differential photometry using Guide Star
+Photometric Catalogue stars gives V = 14.6 for this March observation.
+The 5.1-hr periodic modulation detected in the January data was also
+present in February but with a reduced amplitude."
+ 
+PERIODIC COMET SWIFT-TUTTLE (1992t)
+     Total visual magnitude estimates: Feb. 24.76 UT, 9.2 (D. A. J.
+Seargent, The Entrance, N.S.W., 25 x 100 binoculars); 26.76, 9.4
+(P. Camilleri, Cobram, Vic., Australia, 20 x 80 binoculars);
+Mar. 3.76, 9.7 (Camilleri); 21.77, 10.0 (Camilleri, 0.20-m reflector);
+23.74, 10.2 (Camilleri).
+ 
+1993 March 30                  (5734)              Brian G. Marsden
+>From allan@dsri.dk Wed Mar 31 08:32:08 1993
+Return-Path: <allan@dsri.dk>
+Received: from danpost.uni-c.dk by mira.astro.ku.dk (4.1/SMI-4.1)
+	id AA13059; Wed, 31 Mar 93 08:32:06 +0200
+Received: from uhuru.dsri.dk by danpost.uni-c.dk (5.65c+/1.34)
+	id AA16694; Wed, 31 Mar 1993 08:30:17 +0200
+Received: by uhuru.dsri.dk (4.1/SMI-4.1)
+	id AA27879; Wed, 31 Mar 93 08:30:12 +0200
+Date: Wed, 31 Mar 93 08:30:12 +0200
+From: Allan Hornstrup <allan@dsri.dk>
+Message-Id: <9303310630.AA27879@uhuru.dsri.dk>
+To: IAU@dsri.dk         Subject: IAU circular 5735             Status: R
+                                                  Circular No. 5735
+Central Bureau for Astronomical Telegrams
+INTERNATIONAL ASTRONOMICAL UNION
+Postal Address: Central Bureau for Astronomical Telegrams
+Smithsonian Astrophysical Observatory, Cambridge, MA 02138, U.S.A.
+Telephone 617-495-7244/7440/7444 (for emergency use only)
+TWX 710-320-6842 ASTROGRAM CAM     EASYLINK 62794505
+MARSDEN@CFA or GREEN@CFA (.SPAN, .BITNET or .HARVARD.EDU)
+ 
+ 
+NOTICE TO SUBSCRIBERS
+     As an experiment, the Central Bureau decided not to issue
+telegrams (telexes, mailgrams) recently, specifically with regard
+to the comets and supernovae discovered during the past week.  It
+has been felt for some time that the Circulars are getting such
+rapid and wide distribution electronically that the telegrams have
+become superfluous.  There are now very few countries with active
+observatories that cannot receive electronic mail, and any amateur
+astronomer who subscribes to a widespread network, such as
+Compuserve, can also easily subscribe to the e-mail Circulars.  It
+certainly seems not to be the case that the absence of telegrams in
+the past week has caused important observations to be missed.  On
+the other hand, in comparison with the Circulars, the telegrams
+contain extremely little information, and they are also expensive
+both for subscribers to receive and for the Central Bureau to send
+(and to maintain address lists with the telegraph company).  Comments
+from telegram subscribers are solicited.  Unless there are good
+reasons for continuing the telegram service, the Central Bureau would
+like to phase it out, transferring any remaining credit balances to
+the corresponding Circulars accounts.
+ 
+ 
+PERIODIC COMET FORBES (1993f)
+     Ephemeris from the orbital elements on MPC 16379:
+ 
+1993 TT     R. A. (2000) Decl.     Delta      r    Elong. Phase      m1
+Mar. 24    21 34.74    -18 07.0    2.002    1.450   43.5   28.2     13.9
+Apr.  3    22 05.21    -15 03.4    1.979    1.462   45.4   29.1     14.0
+     13    22 33.85    -11 51.4    1.960    1.481   47.5   30.0     14.0
+     23    23 00.72    - 8 36.4    1.943    1.507   49.9   30.7     14.1
+May   3    23 25.85    - 5 23.0    1.926    1.540   52.6   31.4     14.2
+     13    23 49.34    - 2 14.9    1.909    1.579   55.7   31.9     14.4
+     23     0 11.22    + 0 45.0    1.890    1.622   59.1   32.4     14.5
+June  2     0 31.50    + 3 34.8    1.867    1.671   62.9   32.7     14.7
+     12     0 50.17    + 6 13.1    1.840    1.723   67.2   32.9     14.9
+     22     1 07.15    + 8 39.0    1.808    1.778   71.9   32.9     15.0
+July  2     1 22.28    +10 51.9    1.771    1.836   77.2   32.7     15.2
+     12     1 35.41    +12 51.7    1.730    1.896   83.0   32.1     15.4
+     22     1 46.27    +14 37.9    1.684    1.958   89.4   31.3     15.5
+Aug.  1     1 54.57    +16 10.3    1.636    2.021   96.5   29.9     15.7
+ 
+1993 March 30                  (5735)              Brian G. Marsden
+>From allan@dsri.dk Wed Mar 31 09:48:40 1993
+Return-Path: <allan@dsri.dk>
+Received: from danpost.uni-c.dk by mira.astro.ku.dk (4.1/SMI-4.1)
+	id AA14231; Wed, 31 Mar 93 09:48:38 +0200
+Received: from uhuru.dsri.dk by danpost.uni-c.dk (5.65c+/1.34)
+	id AA18306; Wed, 31 Mar 1993 09:47:10 +0200
+Received: by uhuru.dsri.dk (4.1/SMI-4.1)
+	id AA29113; Wed, 31 Mar 93 09:47:06 +0200
+Date: Wed, 31 Mar 93 09:47:06 +0200
+From: Allan Hornstrup <allan@dsri.dk>
+Message-Id: <9303310747.AA29113@uhuru.dsri.dk>
+To: IAU@dsri.dk         Subject: IAU circular 5736             Status: R
+
+                                                  Circular No. 5736
+Central Bureau for Astronomical Telegrams
+INTERNATIONAL ASTRONOMICAL UNION
+Postal Address: Central Bureau for Astronomical Telegrams
+Smithsonian Astrophysical Observatory, Cambridge, MA 02138, U.S.A.
+Telephone 617-495-7244/7440/7444 (for emergency use only)
+TWX 710-320-6842 ASTROGRAM CAM     EASYLINK 62794505
+MARSDEN@CFA or GREEN@CFA (.SPAN, .BITNET or .HARVARD.EDU)
+ 
+ 
+SUPERNOVA 1993J in NGC 3031
+    Spectrograms obtained with the 1.93-m Observatoire de Haute Provence
+telescope by Y. Andrillat on Mar. 30.95 UT showed no feature in the
+region of the near-infrared Ca II triplet.  On Mar. 31.00 H alpha was
+detected in emission with an equivalent width of 0.03 nm and a FWHM of
+190 km/s.
+ 
+     CCD photometry by P. Prugniel at the 0.8-m Observatoire de Haute
+Provence telescope on Mar. 31.00 UT gave B = 11.05, B-R = +0.3.
+ 
+     J.-M. Perelmuter, Observatoire du Mont Megantic, Universite de
+Montreal, notes the presence on Canada-France-Hawaii Telescope 1980
+plates and Kitt Peak National Observatory 1990 CCD images of an object
+within 0".2 of the position of SN 1993J quoted by Hartwick et al.
+on IAUC 5731.  The object appears stellar on images with FWHM as small
+as 1".0 and had V = 20.0, B-V = +1.1, V-R = +0.7 (uncertainty 0.1 mag)
+in Mar. 1990.
+ 
+     Visual magnitude estimates: Mar. 30.94 UT, 10.5 (J. D. Shanklin,
+Cambridge, England); 31.1, 10 (R. Kohl, Lakewood, NY; independent
+discovery); 31.13, 10.5 (F. Cianciolo, R. Gearhart and A. Dosaj,
+Austin, TX).
+ 
+ 
+SUPERNOVA 1993K IN NGC 2223
+     M. Della Valle, European Southern Observatory; and J. M. Alcala,
+Landessternwarte, Heidelberg, report: "Analysis of a spectrogram
+(range 480-710 nm, resolution about 0.5 nm) obtained with the 1.52-m
+telescope at La Silla on Mar.31.0 UT shows a featureless blue continuum,
+indicating a possible type II supernova caught during an early stage."
+ 
+    G.Massone, Osservatorio di Torino, reports the following magnitudes,
+obtained on Mar. 31.1 UT with the 0.9-m Dutch telescope at La Silla:
+V = 15.3, B-V = +0.1, V-R = +0.2.
+ 
+     P.C.Schmidtke, Arizona State University, provides further BVRI
+photometry with the 0.9-m telescope at the Cerro Tololo Interamerican
+Observatory.  Quick-look estimates, starting on Mar. 31.12 UT, gave V =
+15.3, B-V = +0.2, V-R = +0.2 (uncertainty 0.1 mag).
+ 
+1993 March 31                  (5736)              Brian G. Marsden
+>From allan@dsri.dk Thu Apr  1 07:31:41 1993
+Return-Path: <allan@dsri.dk>
+Received: from danpost.uni-c.dk by mira.astro.ku.dk (4.1/SMI-4.1)
+	id AA22746; Thu, 1 Apr 93 07:31:39 +0200
+Received: from uhuru.dsri.dk by danpost.uni-c.dk (5.65c+/1.34)
+	id AA15873; Thu, 1 Apr 1993 07:30:16 +0200
+Received: by uhuru.dsri.dk (4.1/SMI-4.1)
+	id AA09547; Thu, 1 Apr 93 07:30:07 +0200
+Date: Thu, 1 Apr 93 07:30:07 +0200
+From: Allan Hornstrup <allan@dsri.dk>
+Message-Id: <9304010530.AA09547@uhuru.dsri.dk>
+To: IAU@dsri.dk         Subject: IAU circular 5737             Status: R
+                                                  Circular No. 5737
+Central Bureau for Astronomical Telegrams
+INTERNATIONAL ASTRONOMICAL UNION
+Postal Address: Central Bureau for Astronomical Telegrams
+Smithsonian Astrophysical Observatory, Cambridge, MA 02138, U.S.A.
+Telephone 617-495-7244/7440/7444 (for emergency use only)
+TWX 710-320-6842 ASTROGRAM CAM     EASYLINK 62794505
+MARSDEN@CFA or GREEN@CFA (.SPAN, .BITNET or .HARVARD.EDU)
+ 
+SUPERNOVA 1993J IN NGC 3031
+     M. Richmond, Princeton University, provides the following J2000.0
+position of the supernova, reduced from the Treffers CCD images (IAUC
+5731) using the Guide Star Catalogue: R.A. = 9h55m25s.00, Decl. =
++69D01'13".3.  The corresponding end figures for the position by
+Hartwick et al. (IAUC 5731) are 25s.00, 13".7.  Richmond gives the
+offset from the mag 14 foreground star mentioned on IAUC 5731 (= GSC
+4383.0340) as 7".4 east, 24".3 north (7".2 east, 24".3 north at 1950.0).
+     W. van Driel, Institute of Astronomy, University of Tokyo, reports:
+"On Mar. 25.60 UT an R-band CCD image of M81 was obtained with the
+1.05-m Schmidt telescope at the Kiso Observatory by K.-I. Wakamatsu and
+myself.  The 5-min exposure was made through a thin cloud layer.  We can
+not see the supernova in this image, though we can see the mag 17 star
+50" due north of GSC 4383.0340.  On Mar. 31 we took R and V band images
+of the supernova for comparison.  The Kiso CCD is 1018 x 1000 pixels of
+0".75 square each, giving a field-of-view of about 12'.7 x 12'.5.  We
+have performed the bias substraction and flatfielding of the images."
+     A. V. Filippenko, University of California at Berkeley, notes:
+"The V magnitude and colors (B-V, V-R) of the starlike object reported
+on IAUC 5736 at the position of SN 1993J are consistent
+with those of an unreddened or slightly reddened K0 Ia supergiant at
+the distance of NGC 3031 (distance modulus 27.5 mag).  On page 16 of
+the Atlas of Galaxies by Sandage and Bedke (1988) the object is
+clearly visible as a stellar or semistellar condensation in the middle
+of a spiral arm.  An extended progenitor (red supergiant, rather than
+blue supergiant like that of SN 1987A) is consistent with the fact
+that SN 1993J is not subluminous in B."
+     J. C. Wheeler, University of Texas at Austin, reports: "E. Barker
+obtained an essentially featureless spectrum from 300 to 840 nm with
+the es2 spectrograph on the 2.1-m telescope at the McDonald Observatory
+on Mar. 31.2 UT.  D. Lester, N. Gaffney and B. Smith obtained spectra
+with the McDonald Observatory infrared spectrometer on the 2.7-m
+telescope, covering the J and K bands at low (R = 100-200) resolution.
+These spectra are also basically featureless with no evidence for
+Brackett, Paschen or He lines.  Approximate photometry is K = 10.6, J =
+10.9 on Mar. 31.2."
+     Visual magnitude estimate by M. V. Zanotta and S. Pesci (Milan,
+Italy): Mar. 31.84 UT, 10.5.
+ 
+     Corrigendum.  IAUC 5733: for FWZI about 70 nm read FWZI about
+37 nm.
+ 
+1993 April 1                   (5737)              Brian G. Marsden
+

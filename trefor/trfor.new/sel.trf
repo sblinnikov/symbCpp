@@ -1,0 +1,35 @@
+_outcom ;
+-- _fortran 
+Program Tselect;
+_Define
+ @New_Tree ntr
+ @Lfn 72
+ <*variables: descriptions test long request here with line more than  80 columns    *>;
+/*  comment */
+ _select
+   _ a>b [a=b] 
+   _ c==d [c=c+1]
+ _end
+ a=c+d; -- a simple operation, test comment
+ _while Ltmp<len _do
+   Ltmp=Ltmp+1
+ _od
+ stop 'normal stop of sel.trf';
+ END;
+
+%_variables:
+REAL Cputim,Ttime;
+INTEGER*4 Id,Imn,Iy,Ih,Im,Is,Iss,Ih1,Im1,Is1,Iss1;
+CHARACTER*8 TIME/'00:00:00'/,PATH*@Lfn,Filename*@Lfn,FN*@Lfn,Temp*@Lfn,&
+FT/' TREFOR '/,FM*2/'A1'/,USER,WORK/'IBM-PCAT'/;
+ Character DATE*10/'01/01/1999'/, LSTchar*1;
+ Integer*2 Cardn/0/;
+ Integer LTmp,len;
+ Logical @New_Tree;
+ Integer*4 Concod,Totcod;
+
+ /*
+
+%2:
+ READ(5,'(4(A8,1X),I1,2(1X,A8),1X,A2)')
+        USER,WORK,DATE,TIME,LST,FN,FT,FM; */

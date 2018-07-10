@@ -1,0 +1,87 @@
+_Define @0 48 ; -- Change for EBCDIC codes
+_include chargen;
+_include trfgunx;
+ SUBROUTINE DTCDIA(DIAGN,NTEXT,PARAM,Idiag,Retcod);
+--   Character*1 DIAGN(34); -- check  _IF Diagn(34* below!!!
+   Character*34 DIAGN;
+--   Character*(*) DIAGN; -- does not work OK
+   Integer NTEXT,Idiag;
+   INTEGER*2 PARAM;
+   Integer*4 Retcod;
+   <*1:TABLICA TEKCTOB DLINOY PO 36 BAYTA *>;
+   <*2:KONSTANTY I PEREMENNYE PODPROGRAMMY *>;
+--       write(*,*)' in DTCDIA';
+   <*3:PERESLAT@ TEKCT HOMEP NTEXT DLINOY 34 BAYTA I3 TTEX B DIAGN*>;
+   _IF Diagn(34:34)==Caster _THEN -- this line is for case of  Character*34 DIAGN
+--   _IF Diagn(34)==Caster _THEN -- this line is for case of  Character*1 DIAGN(34)
+     <*4: OTREDAKTIROVAT@ PARAM B PRAVYY KONEC DIAGN *>
+   _FI;
+   _Case Ntext _Of
+   Idiag=1
+      _1  Retcod=3;Idiag=2
+      _2  Retcod=3;Idiag=2
+      _3  Retcod=max0(Retcod,2);Idiag=3
+      _4
+      _5  Idiag=1
+      _6
+      _7  Retcod=max0(Retcod,2);Idiag=2
+      _8  Retcod=max0(Retcod,2);Idiag=2
+      _9  Retcod=3;Idiag=2
+      _10 Retcod=3;Idiag=2
+      _11 Retcod=3;Idiag=2
+      _12 Retcod=max0(Retcod,2);Idiag=2
+      _13 Idiag=3
+      _14 Idiag=3
+      _15 Retcod=3;Idiag=2
+      _16 Retcod=3;Idiag=2
+      _17 Idiag=3;
+      _18 Idiag=2;Retcod=3;
+      _19 Idiag=1
+      _20 Idiag=1;Retcod=max0(Retcod,2)
+      _21 Idiag=1
+      _22 Idiag=2;Retcod=3
+      _23 Idiag=2;Retcod=3
+   _Esac;
+ RETURN; END;
+%3:
+   DIAGN=TTEXT(NTEXT);
+--   Write(*,*)'in dtcdiunx.trf TTEXT(NTEXT)=',TTEXT(NTEXT),' NTEXT=',NTEXT;
+--   Write(*,*)'in dtcdiunx.trf DIAGN=',DIAGN;
+%4:
+ DIAGN(34:34)=CZERO; <*'0'*> I5=PARAM; J5=34;
+ _WHILE I5^=0_DO
+   <*1: POSLEDWW CIFRU I5 B DIAGN(J5); UMEN@6IT@ I5 B 10 RA3 *>;
+   J5=J5-1
+ _OD
+%41:
+ K5=I5/10; K5=I5-K5*10+@0; <*POSL.CIFRA + '0' *>
+ DIAGN(J5:j5)=MK5(@Eqbyte);  I5=I5/10
+%1:
+ Character*34 TTEXT(23)
+  /'Error in service word             ',
+   'Local index repeated              ',
+   '   The node is not requested      ',
+   '   The node requested in line    *',
+   '   Text ignored until the node end',
+   '   Its  design begins in line    *',
+   'No design for node from line     *',
+   'Reference to nonexistent node     ',
+   'Case or Select not opened.        ',
+   'Alias not identified              ',
+   'Unrecognizable symbol in Fileid.  ',
+   'Unable to open include file.      ',
+   'Caution: TREFOR TRACE active!     ',
+   'Caution: COMMENTS will be output! ',
+   'Deflist basis is too short        ',
+   'Forbidden alias definition        ',
+   'Current tree completed.           ',
+   'Include level e xceeds max.level! ',
+   'Print full listing forced.        ',
+   'Warning:Unknown service word !!!  ',
+   'Print full listing started.       ',
+   '   Node head already in line     *',
+   'Procedure not found               '/;
+%2:
+ Character*1 CASTER/'*'/,CZERO/'0'/;
+ INTEGER*2 I5,J5,K5;
+ Character*1 MK5(2); EQUIVALENCE (K5,MK5(1))

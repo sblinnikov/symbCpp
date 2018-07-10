@@ -1,0 +1,24 @@
+Hear we collect different versions of trefor.
+
+You may run
+
+buildTrf.sh
+
+to build the standard version written in C is in ctrf2005.
+
+If it is not OK, to begin building modern trefor, first go to ctrf2005 and read README there.
+Just do 
+
+ make 
+
+there and follow the instructions in README.
+For more details on Trefor language: read tex and html documentation.
+
+Another way is to go to trfor.new directory.
+Here one can build old reliable trefor executable using a fortran compiler 
+from *.for sources and from *.trf sources 
+(if trf is working in any version, e.g. from ctrf) -- read README in trfor.new.
+
+Thus go to trfor.new and do 
+ make -f *trefor95trf.mak 
+there, with a version of trefor95trf.mak suitable for your compiler, e.g. gftrefor95trf.mak.

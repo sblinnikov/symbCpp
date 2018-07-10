@@ -1,0 +1,4 @@
+_outcom ;
+_fortran 
+Program ttt -- Ada comment 
+end;

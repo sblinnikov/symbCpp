@@ -1,0 +1,127 @@
+_Define @Lfn 80 ;
+Program Trefor;
+_Define
+ @New_Tree ntr
+ /*  Ppeppoceccop ctpyªtypnoy pa3pabotªi ppogpamm dlj j3yªa FORTRAN
+  PC/AT. Bxodnoy fayl FT01F001, c nego v fopmate pepfoªapt poctypaet
+  depevo pa3pabotªi. Vyxodnoy fayl FT02F001 - pe3yl@tipywqaj ppogpamma
+  na j3yªe FORTRAN. Fayl FT06F001 - licting depeva pa3pabotªi i diagno-
+  cti4ecªie coobqenij */
+_Include chargen;
+_Include trfgen;
+_include tree;
+ <*Variables: describtions *>;
+ <*2* GET INFORMATION *>;
+      call GETTIM(Ih,Im,Is,Iss);
+      call GETDAT(Iy,Imn,Id);
+      write(DATE,'(I2,A,I2,A,I4)') Id,'/',Imn,'/',Iy;
+      write(TIME,'(I2,A,I2,A,I2)') Ih,':',Im,':',Is;
+      Npar=Nargs();  -- the number of parameters in command line
+      call GetArg(1, Path, @Lfn);
+      LPath=LENGTH(Path);
+     -- Call Trfin('S',0,fn//' '//ft//' '//fm,irc,80);
+      OPEN(7,FILE=Path(1:LPath),status='OLD',IOSTAT=IRC);
+      If ( IRC <> 0 ) stop 28; -- file not found
+      call GetArg(2, TEMP, @Lfn);
+      if( Npar<3 ) TEMP(:2)='.\'; -- current directory if no TEMP
+      LTMP=LENGTH(Temp);
+      call GetArg(3, LSTchar,1);
+      if ( Npar<4 ) LSTchar='1'; -- creates LISTING in default
+      read(LSTchar,'(I1)') LST;
+      <*filename: get filename and extension, LFN - length *>;
+      OPEN(8,FILE=Filename(1:LFN)//'.FOR');
+      OPEN(3,FILE='PROFILE.TRF',status='OLD', IOSTAT=IRC);
+      If ( LST==1 ) Then;
+         OPEN(6,FILE=Filename(1:LFN)//'.LST');
+      ELSE;
+         OPEN(6,FILE='NUL');
+      Endif;
+ iii=@eqbyte;
+ NUMERR=0;RETCOD=1;
+ cardn=0;nodall=0;Ttime=0.;Itime=0;inbyte=0;Ntrees=0;
+      WRITE(6,1111) DATE,TIME,Path(1:Lpath);
+ 1111: FORMAT(1X,120('=')/1X,
+      ' LEVEL 4.1.2 (Oct 1992)   PC Trefor      Date:',A,
+      ' Time:',A,'   File compiled: ',A/1X,120('='));
+ Write(*,*)'PC TREFOR ( Version 4.11 ) compiling file: "',
+                                                  Path(1:Lpath),'"';
+ Write(*,*)'Copyright (c) Weinstein et al. 1983-2008.';
+ _Repeat
+   Llab=32757; Ndef=@Ndef0;
+--   CALL VTIME(TimeB);
+   NTREES=NTREES+1;
+   CALL DTCF1(@New_Tree,cardn); -- PERVYY PROHOD
+   CALL DTCF2; -- VTOROY PROHOD
+   Rewind 3;
+   _CASE RETCOD _OF
+      _1   CONCOD=0
+      _2   CONCOD=4
+      _3   CONCOD=8
+ _ESAC;
+-- CALL VTIME(TimeE);
+ call GETTIM(Ih1,Im1,Is1,Iss1);
+ CPutim=((ih1-ih)*60+(im1-im))*60+(is1-is)+0.01*(iss1-iss);
+ IF(NUMERR ^= 0 ) WRITE(6,
+    '('' ====>> Count of Trefor syntaxis errors: '',I3)') NUMERR;
+ If( @New_Tree ! Ntrees>1) Then;
+   WRITE(6,'(1X,120(''='')/''  Trefor compiling time(sec) - '',F6.2,
+   ''     Length of compressed text(bytes) - '',I6/
+    2X,''Condition code = '',I1,10X,
+    ''     Number of nodes - '',I4
+    )')Cputim,NBYTE,CONCOD,Nodtot;
+  Endif;
+  Write(6,'(1X,120(''=''))');
+  nodall=nodall+nodtot;ttime=ttime+cputim;inbyte=inbyte+nbyte;
+  iconcd=max(iconcd,concod);  -- Total condition code
+  TOTCOD=max(Totcod,retcod);  -- Total return code
+ _Until ^@New_Tree;
+ WRITE(6,'('' Number of Trees Compiled -'',I3,8X,
+''Total Trefor compiling time(sec)  -    '',F6.2,5X,
+'' Total number of nodes - '',I6,/,
+      '' Highest Condition code='',I6,7X,
+      '' Total Length of compressed text(bytes):'',I8, 6X,
+''Count for Local indeces:'',I6,/,
+      '' (c) Copyright  Weinstein et al. 1983-2008'',
+      36X,''User: '',A8,'' at  '',A8,
+  /1X,120(''=''))')NTREES,tTIME,NODALL,ICONCD,INBYTE,CLIND,USER,WORK;
+ _Case TOTCOD _of
+  _ STOP 0
+  _ STOP 4
+  _ STOP 8
+ _Esac;
+ END;
+<*string: a set of useful string functions *>;
+%_filename:
+  If ( Temp(LTMP:LTMP)<>':' & Temp(LTMP:LTMP)<>'\' ) Then;
+    LTMP=LTMP+1;
+    Temp(LTMP:LTMP)='\';
+  Endif;
+  Filename(1:LTMP)=Temp(1:LTMP);
+  i=Lpath;
+  _While Path(i:i) <> '.' & i>=1 _Do
+    i=i-1;
+  _Od;
+  Filename(LTMP+1:)=Path(1:i-1);
+  Lfn=LTMP+i-1;
+%_variables:
+REAL Cputim,Ttime;
+INTEGER*4 Id,Imn,Iy,Ih,Im,Is,Iss,Ih1,Im1,Is1,Iss1;
+CHARACTER*8 TIME/'00:00:00'/,PATH*@Lfn,Filename*@Lfn,FN*@Lfn,Temp*@Lfn,
+            FT/' TREFOR '/,FM*2/'A1'/,USER,WORK/'IBM-PCAT'/;
+ Character DATE*10/'01/01/1999'/, LSTchar*1;
+ Integer*2 Cardn/0/;
+ Integer LTmp,len;
+ Logical @New_Tree;
+ Integer*4 Concod,Totcod;
+ /*
+%2:
+ READ(5,'(4(A8,1X),I1,2(1X,A8),1X,A2)')
+        USER,WORK,DATE,TIME,LST,FN,FT,FM; */
+%_string:
+Integer function LENGTH(Needle); -- LENGTH of TAIL STRIPPED string Needle
+  Character*(*) Needle;
+  LENGTH=LEN(Needle);
+  _While LENGTH>0 & Needle(LENGTH:LENGTH)==' ' _Do
+     LENGTH=LENGTH-1;
+  _Od;
+Return;end;

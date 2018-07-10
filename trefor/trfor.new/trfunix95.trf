@@ -1,0 +1,218 @@
+_Define @Lfn 80 ;
+Program Trefor;
+_Define
+ @New_Tree ntr
+ /*  Preprocessor for structured program design for FORTRAN and
+  other languages in Unix. The input unit is 7, output 8
+   */
+_Include chargen;
+_Include trfgunx95;
+_include tree;
+ <*Variables: describtions *>;
+ <*2* GET INFORMATION *>;
+--      call GETTIM(Ih,Im,Is,Iss);
+
+CALL DATE_AND_TIME (REAL_CLOCK(1), REAL_CLOCK(2),
+                      REAL_CLOCK (3), DATE_TIME);
+
+/*
+   write(*,*)' REAL_CLOCK(1)=',REAL_CLOCK(1);
+   write(*,*)' REAL_CLOCK(2)=',REAL_CLOCK(2);
+   write(*,*)' REAL_CLOCK(3)=',REAL_CLOCK(3);
+   write(*,*)' DATE_TIME=', DATE_TIME;
+   */
+
+--    CALL DATE_AND_TIME(TIME = tf90, ZONE = zonef90); -- only f90
+/*   write(*,*)' time=',tf90;
+   write(*,*)' zone=',zonef90;*/
+   write(Date,'(I4,''/'',I2,''/'',I2)')
+     Date_time(1), -- Year,
+     Date_time(2), -- Month,
+     Date_time(3); -- Day;
+  Hour=Date_time(5);
+  minute=Date_time(6);
+  second=Date_time(7);
+  write(Time,'(I2,'':'',I2,'':'',I2)') Hour,minute,second;
+
+/*      call ITIME(Itmarr);
+      Ih=Itmarr(1); Im=Itmarr(2); Is=Itmarr(3);
+--      call GETDAT(Iy,Imn,Id);
+      call IDATE(Idtarr);
+      Id=Idtarr(1); Imn=Idtarr(2); Iy=Idtarr(3);
+      write(DATE,'(I2,A,I2,A,I4)') Id,'/',Imn,'/',Iy;
+      write(TIME,'(I2,A,I2,A,I2)') Ih,':',Im,':',Is;*/
+      Npar=iargc();  -- the number of parameters in command line
+      call GetArg(1, Path);
+      LPath=LENGTH(Path);
+     -- Call Trfin('S',0,fn//' '//ft//' '//fm,irc,80);
+      OPEN(7,FILE=Path(1:LPath),status='OLD',IOSTAT=IRC);
+      If ( IRC <> 0 ) stop 28; -- file not found
+      call GetArg(2, TEMP);
+      if( Npar<3 ) TEMP(:2)='./'; -- current directory if no TEMP
+      LTMP=LENGTH(Temp);
+      call GetArg(3, LSTchar);
+      if ( Npar<4 ) LSTchar='1'; -- creates LISTING in default
+      read(LSTchar,'(I1)') LST;
+      <*filename: get filename and extension, LFN - length *>;
+      OPEN(8,FILE=Filename(1:LFN)//'.f90');
+--      OPEN(3,FILE='PROFILE.TRF',status='OLD', IOSTAT=IRC);
+      If ( LST==1 ) Then;
+         OPEN(6,FILE=Filename(1:LFN)//'.lst');
+      ELSE;
+         OPEN(6,FILE='NUL');
+      Endif;
+
+ NUMERR=0;
+ RETCOD=1;
+ iconcd=0;
+ cardn=0;
+ nodall=0;
+ Ttime=0.;
+-- Itime=0; -- what for?
+ inbyte=0;
+ Ntrees=0;
+ WRITE(6,1111) DATE,TIME,Path(1:Lpath);
+ 1111: FORMAT(1X,120('=')/1X,
+      ' Version 6.0.0 (Jul 2012)   Unix Trefor95  Date:',A,
+      ' Time:',A,'   File compiled: ',A/1X,120('='));
+ Write(0,*)'Unix TREFOR ( Version 6.0.0 Jul 2012 ) compiling file: "',
+                                                  Path(1:Lpath),'"';
+ Write(0,*)'Copyright (c) Weinstein et al. 1983-2012.';
+ _Repeat
+   Llab=32757; Ndef=@Ndef0;
+--   CALL VTIME(TimeB);
+--    CALL eTIME(tmarr);
+   call cpu_time(tcpu);
+--    TimeB=tmarr(1);
+   TimeB=tcpu;
+   NTREES=NTREES+1;
+   CALL DTCF1(@New_Tree,cardn); -- PERVYY PROHOD
+   CALL DTCF2; -- VTOROY PROHOD
+   Rewind 3;
+   _CASE RETCOD _OF
+      _1   CONCOD=0
+      _2   CONCOD=4
+      _3   CONCOD=8
+   _ESAC;
+   write(*,*)' RETCOD,CONCOD=',RETCOD,CONCOD;
+--    call mypause;
+-- CALL VTIME(TimeE);
+-- call GETTIM(Ih1,Im1,Is1,Iss1);
+--    CALL eTIME(tmarr);
+   call cpu_time(tcpu);
+   TimeE=tcpu;
+--    TimeE=tmarr(1);
+/* call ITIME(Itmarr);
+ Ih1=Itmarr(1); Im1=Itmarr(2); Is1=Itmarr(3);*/
+ --CPutim=((ih1-ih)*60+(im1-im))*60+(is1-is)+0.01*(iss1-iss);
+ CPutim=TimeE-TimeB;
+ IF(NUMERR ^= 0 ) WRITE(6,
+    '('' ====>> Count of Trefor syntaxis errors: '',I3)') NUMERR;
+ If( @New_Tree ! Ntrees>1) Then;
+   WRITE(6,'(1X,120(''='')/''  Trefor compiling time(sec) - '',F6.2,
+   ''     Length of compressed text(bytes) - '',I6/
+    2X,''Condition code = '',I1,10X,
+    ''     Number of nodes - '',I4
+    )')Cputim,NBYTE,CONCOD,Nodtot;
+  Endif;
+  Write(6,'(1X,120(''=''))');
+  nodall=nodall+nodtot;ttime=ttime+cputim;inbyte=inbyte+nbyte;
+  iconcd=max(iconcd,concod);  -- Total condition code
+  TOTCOD=max(Totcod,retcod);  -- Total return code
+ _Until ^@New_Tree;
+ <*2:     iret=system('echo $USER');
+           *>;
+ WRITE(6,'('' Number of Trees Compiled -'',I3,8X,
+''Total Trefor compiling time(sec)  -    '',F6.2,5X,
+'' Total number of nodes - '',I6,/,
+      '' Highest Condition code='',I6,7X,
+      '' Total Length of compressed text(bytes):'',I8, 6X,
+''Count for Local indeces:'',I6,/,
+      '' (c) Copyright  Weinstein et al. 1983-2012'',
+      36X,''User: '',A8,'' at  '',A8,
+  /1X,120(''=''))')NTREES,tTIME,NODALL,ICONCD,INBYTE,CLIND,USER,WORK;
+ _Case TOTCOD _of
+  _ STOP 0
+  _ STOP 4
+  _ STOP 8
+ _Esac;
+ END;
+<*string: a set of useful string functions *>;
+<*mypause: a suboutine mypause() replacig depricated pause *>;
+
+%_filename:
+  If ( Temp(LTMP:LTMP)<>':' & Temp(LTMP:LTMP)<>'/' ) Then;
+    LTMP=LTMP+1;
+    Temp(LTMP:LTMP)='/';
+  Endif;
+  Filename(1:LTMP)=Temp(1:LTMP);
+  i=Lpath;
+  _While Path(i:i) <> '.' & i>=1 _Do
+    i=i-1;
+  _Od;
+  Filename(LTMP+1:)=Path(1:i-1);
+  Lfn=LTMP+i-1;
+
+%_variables:
+REAL Cputim,Ttime;
+real*4 tcpu
+Dimension tmarr(2),Itmarr(3),Idtarr(3);
+INTEGER*4 Id,Imn,Iy,Ih,Im,Is,Iss,Ih1,Im1,Is1,Iss1;
+CHARACTER*8 TIME/'00:00:00'/,PATH*@Lfn,Filename*@Lfn,FN*@Lfn,Temp*@Lfn,
+            FT/' TREFOR '/,FM*2/'A1'/,USER,WORK/'Unix'/;
+Character DATE*10/'01/01/1999'/, LSTchar*1;
+Integer*2 Cardn/0/;
+Integer LTmp,len;
+Logical @New_Tree;
+Integer*4 Concod,Totcod;
+-- Character*(*) Datef90,Timef90;
+Integer Hour,minute,second,hundredth;
+Integer*4 Month,Day,Year;
+INTEGER DATE_TIME(8);
+CHARACTER*12 REAL_CLOCK (3);
+CHARACTER*10 tf90;
+CHARACTER*5 zonef90;
+
+%2:
+-- READ(5,'(4(A8,1X),I1,2(1X,A8),1X,A2)')
+--        USER,WORK,DATE,TIME,LST,FN,FT,FM;
+--   inrc=hostnm(WORK);
+--   if(inrc^=0)then;
+--     WORK='unknown';
+--   endif;
+--   call getlog(USER);
+
+   iret=system('echo $USER > qquser');
+   open(10,file='qquser');
+   read(10,*)USER;
+   If (iret .eq. -1) then;
+     errnum = ierrno( );
+     print *, 'Error ', errnum;
+   end if;
+   iret=system('rm -f qquser');
+--    call mypause;
+   iret=system('echo $HOST > qqhost');
+   open(11,file='qqhost');
+   read(11,*)WORK;
+   If (iret .eq. -1) then;
+     errnum = ierrno( );
+     print *, 'Error ', errnum;
+   end if;
+   iret=system('rm -f qqhost');
+
+
+%_string:
+Integer function LENGTH(Needle); -- LENGTH of TAIL STRIPPED string Needle
+  Character*(*) Needle;
+  LENGTH=LEN(Needle);
+  _While LENGTH>0 & Needle(LENGTH:LENGTH)==' ' _Do
+     LENGTH=LENGTH-1;
+  _Od;
+  Return;
+end;
+
+%_mypause:
+         subroutine mypause();
+            print *, 'Press ''enter'' to continue';
+            read(*,*);
+         end subroutine mypause;

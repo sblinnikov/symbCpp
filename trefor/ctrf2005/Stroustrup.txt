@@ -1,0 +1,30 @@
+The C++ Programming Language, Special Edition by Bjarne Stroustrup. Copyright Ó2000 by AT&T.
+Published by Addison Wesley, Inc. ISBN 0-201-70073-5. All rights reserved.
+
+
+One of the most powerful intellectual tools for managing complexity is hierarchical ordering,
+that is, organizing related concepts into a tree structure with the most general concept as the root.
+In C++, derived classes represent such structures. A program can often be organized as a set of
+trees or directed acyclic graphs of classes. That is, the programmer specifies a number of base
+classes, each with its own set of derived classes. Virtual functions (§2.5.5, §12.2.6) can often be
+used to define operations for the most general version of a concept (a base class). When necessary,
+the interpretation of these operations can be refined for particular special cases (derived classes).
+Sometimes even a directed acyclic graph seems insufficient for organizing the concepts of a
+program; some concepts seem to be inherently mutually dependent. In that case, we try to localize
+cyclic dependencies so that they do not affect the overall structure of the program. If you cannot
+eliminate or localize such mutual dependencies, then you are most likely in a predicament that no
+programming language can help you out of. Unless you can conceive of some easily stated relationships
+between the basic concepts, the program is likely to become unmanageable.
+
+C++ was designed primarily so that my friends and I would not have to program in assembler,
+C, or various modern high-level languages. Its main purpose was to make writing good programs
+easier and more pleasant for the individual programmer.
+
+The other main source of inspiration for C++ was Simula67
+[Dahl,1970] [Dahl,1972]; the class concept (with derived classes and virtual functions) was borrowed
+from it.
+
+[Dahl,1970] O-J. Dahl, B. Myrhaug, and K. Nygaard: SIMULA Common Base Language.
+Norwegian Computing Center S-22. Oslo, Norway. 1970.
+[Dahl,1972] O-J. Dahl and C. A. R. Hoare: Hierarchical Program Construction in Structured
+Programming. Academic Press, New York. 1972.
