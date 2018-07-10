@@ -1,0 +1,18 @@
+/* stark1.mac */
+ depends (v,xi,v,eta,v,phi); /* function v(xi,eta,phi) */
+ depends (f1,xi);            /* function f1(xi) */
+ depends (f2,eta);           /* function f2(eta) */
+ v: f1*f2*exp(%i*m*phi);     /* product ansatz */
+
+ /* equation(8) */
+
+ r1: 4/(xi+eta)*(diff(xi*diff (v, xi), xi) + diff(eta*diff(v, eta), eta)
+ + (xi+eta)/(4*xi *eta)* diff(v, phi, 2) ) +2/(xi+eta) *v - (xi-eta)*ef*v+2*en*v;
+ r1: expand(r1);
+ r1: r1/exp(%i*m*phi);
+ r1: expand(r1);
+ r1: r1/(f1*f2);
+ r1: expand(r1);
+ r1: ratsimp(r1);
+ r1: ratexpand(r1);
+ print("r1=",r1);
