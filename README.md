@@ -159,7 +159,7 @@ TREFOR==TREe FORtran
 
 Read README there
 
-### Examples in Structed Programming
+### Examples in Structured Programming
 
 Directory trefor/StructProgramming has elementary examples from D.Gries etc. written in trefor (trn)
  
