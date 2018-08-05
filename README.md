@@ -158,3 +158,8 @@ in fortran.
 TREFOR==TREe FORtran
 
 Read README there
+
+### Examples in Structed Programming
+
+Directory trefor/StructProgramming has elementary examples from D.Gries etc. written in trefor (trn)
+ 
