@@ -1,0 +1,48 @@
+program quotientTest
+-- examples from Science of Programming by David Gries
+ implicit none
+ integer r, q, x, y, x0, y0
+ write(*,*)' input x  y' 
+ read(*,*)x0,y0 
+ x=x0; y=y0
+ write(*,'(a,i3,a,i3)')'divident or numenator х=',x,'     divisor or denominator y=',y 
+ <*ver0: version 0*>
+ x=x0; y=y0
+ <*ver1: version 1*>
+ <*ver2: version 2*>
+
+end 
+
+%_ver0:
+ write(*,*)'version 0 wrong for x=6, y=3'
+ r=x; q=0
+ _while r>y _do
+  r=r-y; q=q+1
+   write(*,*)'in loop quotient=',q,'   residual=',r
+   pause
+ _od
+ write(*,*)'quotient=',q,'   residual=',r
+ write(*,*)'y*q+r=',y*q+r
+
+%_ver1:
+ write(*,*)'version 1 wrong for x=6, y=3'
+ if(y<0)write(*,*)' x,y,r,q=',x,y,r,q
+ r=x; q=0
+ _while r>y _do
+  r=r-y; q=q+1
+ _od
+ if(x.ne.y*q+r) write(*,*)'x,y*q+r=',x,y*q+r
+ write(*,*)'quotient=',q,'   residual=',r
+ write(*,*)'y*q+r=',y*q+r
+ 
+%_ver2:
+ write(*,*)'version 2 OK for x=6, y=3'
+ if(y<0)write(*,*)' x,y,r,q=',x,y,r,q
+ r=x; q=0
+ _while r>=y _do
+  r=r-y; q=q+1
+ _od
+ if(x.ne.y*q+r) write(*,*)'x,y*q+r=',x,y*q+r
+ write(*,*)'quotient=',q,'   residual=',r
+ write(*,*)'y*q+r=',y*q+r
+ 
