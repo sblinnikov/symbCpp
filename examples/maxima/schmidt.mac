@@ -1,0 +1,12 @@
+/* Schmidt.mac */
+
+n: 4;
+sp(u,v) := block (subst(x=1,integrate(u*v,x))-subst(x =-1,integrate(u*v,x)))$
+sch(k) := block (if k:0 then return (1/sqrt(2)) 
+       else
+       s: x^k-sum(sp(x^k,sch(j))*sch(j)/sp(sch(j),sch(j)),j,0,k-1),
+        return (s/sqrt(sp(s,s)))
+)$
+
+for k:0 thru n do
+print (sch(k));
