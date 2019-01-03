@@ -1,23 +1,24 @@
-\documentclass[%
-%\documentclass[11pt,a4paper]{article}
-onecolumn,%
-oneside,%
-floats,%
-aps,%
- prd,%
-nobibnotes,%
-nofootinbib,%
-amsmath,%
-amssymb,%
-amsfonts,%
-amscd,%
- %   showpacs,%
-  superscriptaddress,%
-% flushbottom,%
-eqsecnum%
-]{revtex4}
-
-% \usepackage[T2A]{fontenc} % remove in english version
+% \documentclass[%
+\documentclass[11pt,a4paper]{report}
+%
+% onecolumn,%
+% oneside,%
+% floats,%
+% aps,%
+%  prd,%
+% nobibnotes,%
+% nofootinbib,%
+% amsmath,%
+% amssymb,%
+% amsfonts,%
+% amscd,%
+%  %   showpacs,%
+%   superscriptaddress,%
+% % flushbottom,%
+% eqsecnum%
+% ]{revtex4}
+\usepackage{authblk}
+\usepackage[T2A]{fontenc} % remove in english version
 \usepackage[utf8]{inputenc}
 % \usepackage[russian,english]{babel} % remove in english version
 \usepackage[english]{babel} % open in english version
@@ -26,6 +27,7 @@ eqsecnum%
 \usepackage{bm}
 \usepackage{float}
 \usepackage{wasysym}
+\usepackage{amssymb}
 % \usepackage{breqn}
 
 % \usepackage{epsfig}
@@ -60,30 +62,92 @@ eqsecnum%
 
 \begin{document}
 
-\title{Errata in }
+\title{Errata in \\
+R.P.Feynman A.R.Hibbs \\
+Quantum Mechanics and Path Integrals}
 
-\author{S.I.~Blinnikov}
-\email{Sergei.Blinnikov@itep.ru}
-\affiliation{NRC ``Kurchatov Institute'' -- ITEP, Moscow,  Russia}
-% \affiliation{Alikhanov Institute for Theoretical and Experimental Physics (ITEP) of National Research Center ``Kurchatov Institute'', Moscow, Russia}
-\affiliation{Dukhov Research Institute of Automatics (VNIIA), Moscow,  Russia}
-\affiliation{Kavli IPMU (WPI), Tokyo University, Kashiwa, Japan}
+% \author[1]{Author A}
+% \author[1]{Author B}
+% \author[1]{Author C}
+% \author[2]{Author D}
+% \author[2]{Author E}
+% \affil[1]{Department of Computer Science, \LaTeX\ University}
+% \affil[2]{Department of Mechanical Engineering, \LaTeX\ University}
+% {\textit {\{email1,email2,email3,email4,email5\}@xyz.edu}}
+%\eid{123@gmail.com}
+\author[1,2,3]{S.I.~Blinnikov}
+\affil[1]{NRC ``Kurchatov Institute'' -- ITEP, Moscow,  Russia}
+% \affil{Alikhanov Institute for Theoretical and Experimental Physics (ITEP) of National Research Center ``Kurchatov Institute'', Moscow, Russia}
+\affil[2]{Dukhov Research Institute of Automatics (VNIIA), Moscow,  Russia}
+\affil[3]{Kavli IPMU (WPI), Tokyo University, Kashiwa, Japan}
+\affil[ ]{email: {\tt Sergei.Blinnikov@itep.ru}}
 
-\author{N.V.~Nikitin}
-\affiliation{National Research Nuclear University MEPhI (Moscow Engineering Physics Institute)}
+\author[4]{N.V.~Nikitin}
+\affil[4]{National Research Nuclear University MEPhI (Moscow Engineering Physics Institute)}
 
 
-\begin{abstract}
-A list of Errata is given for the Russian edition R.P.Feynman A.R.Hibbs Quantum Mechanics and Path Integrals, Mir, Moscow, 1968.
-
-\end{abstract}
 
 \maketitle
 
-\section{Errata}
-\label{sec:errata}
+\begin{abstract}
+A list of Errata is given for the Russian edition R.P.Feynman A.R.Hibbs Quantum Mechanics and
+Path Integrals, Mir, Moscow, 1968. Hereafter denoted ФХ.
+English original (1965) is denoted FH. Many typos in FH are corrected as well.
 
-p. 64 eq.~(3.27) must read
+\end{abstract}
+
+
+% \section{Errata}
+% \label{sec:errata}
+
+\chapter{The Fundamental Concepts of Quantum Mechanics}
+
+\chapter{The Quantum-mechanicaL Law of Motion}
+
+\section{The Classical Action}
+
+\subsection*{equation 2.9}
+
+Equation (2.9) both in FH and ФХ
+
+$$
+S_{\rm cl} = \frac{m\omega}{2\sin\omega T}  (x_a^2 + x_b^2) \cos \omega T - 2x_a x_b \eqno (2.9)
+$$
+should read
+$$
+S_{\rm cl} = \frac{m\omega}{2\sin\omega T} \left[ (x_a^2 + x_b^2) \cos \omega T - 2x_a x_b \right] \eqno (2.9)
+$$
+
+
+\section{The Quantum-mechanical Amplitude}
+
+\section{The Classical Limit}
+
+\section{The Sum over Paths}
+
+\section{Events Occurring in Succession}
+
+\section{Some Remarks}
+
+
+\chapter{ Developing the Concepts with Special Examples }
+
+\section{The Free Particle}
+
+\section{Diffraction through a Slit}
+
+\subsection*{equation 3.27}
+
+p. 64 eq.~(3.27)
+
+\begin{eqnarray*}
+ \psi(x) =   \sqrt{\frac{m}{2\pi i \hbar}} \left(T + \tau + T \tau \frac{\hbar i}{m b^2}\right)^{-1/2} \times \\
+ \times \exp\left[\frac{im}{2\hbar}\left(v_0^2T + \frac{x^2}{\tau} \right)
+ + \frac{(m^2/2\hbar^2\tau^2)(x-v_0/\tau)}{(m/\hbar)(i/T+i/\tau) - 1/b^2) } \right] .
+ \qquad (3.27)
+\end{eqnarray*}
+
+must read, replacing $-v_0/\tau$ by  $-v_0\tau$ and omitting bracket after $1/b^2$,
 
 \begin{eqnarray*}
  \psi(x) =   \sqrt{\frac{m}{2\pi i \hbar}} \left(T + \tau + T \tau \frac{\hbar i}{m b^2}\right)^{-1/2} \times \\
@@ -92,11 +156,37 @@ p. 64 eq.~(3.27) must read
  \qquad (3.27)
 \end{eqnarray*}
 
-Eq.~(3.28) must read
+It is OK in English original,  denoted FH, but $\hslash$ is used instead of $\hbar$ there.
+
+\subsection*{equation 3.28}
+
+
+Eq.~(3.28)
 $$
 P(x) dx = \frac{m}{2\pi \hbar T} \frac{b}{\Delta x}
-           \exp\left[\frac{-(x-v_0\tau)^2}{2(\Delta x)^2}  \right] . \qquad (3.28)
+           \exp\left[\frac{-(x-v_0\tau)^2}{(\Delta x)^2}  \right] . \eqno (3.28)
 $$
-The same equation in the English original p.51 misses ``2'' before $(\Delta x)^2$. \textit{Must be checked!}
+must read
+$$
+P(x) dx = \frac{m}{2\pi \hbar T} \frac{b}{\Delta x}
+           \exp\left[\frac{-(x-v_0\tau)^2}{2(\Delta x)^2}  \right] . \eqno (3.28)
+$$
+The same equation in the English original FH p.51 misses ``2'' before $(\Delta x)^2$.
+% \textit{Must be checked! SB done}
+
+\subsection*{equation 3.33}
+
+
+Eq.~(3.33)
+$$
+ P(\mbox{any} \; x) = \frac{m}{2\pi\hbar T} b \sqrt{\pi} . \eqno (3.33)
+$$
+must read in ФХ and FH:
+$$
+ P(\mbox{any} \; x) = \frac{m}{2\pi\hbar T} b \sqrt{2\pi} . \eqno (3.33)
+$$
+
+\section{Results for a Sharp-edged Slit}
+
 
 \end{document}
