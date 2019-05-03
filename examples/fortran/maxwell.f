@@ -6,7 +6,18 @@
         parameter(imp=102,lmp=52)
         real*8 hx(imp,lmp),hy(imp,lmp),hz(imp,lmp), ! — массивы x,y,z-компонент магнитного поля,
      *    ex(imp,lmp),ey(imp,lmp),ez(imp,lmp), !  — массивы х,у,z-компонент электрического поля,
-     *     jx(imp,lmp),jy(imp,lmp),jz(imp,lmp) ! — массивы х,у,z-компонент плотности тока
+     *    jx(imp,lmp),jy(imp,lmp),jz(imp,lmp)  ! — массивы х,у,z-компонент плотности тока
+
+!    tx — момент времени,
+!    х0, у0 — начальное положение центра импульса,
+!    г0 — среднеквадратичная полуширина импульса по оси y
+!    r1 — среднеквадратичная полуширина импульса по оси x
+!    b0 — амплитуда импульса,
+!    wk — частота импульса,
+!    tau — временной шаг,
+!    h1 — шаг сетки по оси х,
+!    h2 — шаг сетки по оси у.
+
         im1=imp-1
         lm1=lmp-1
         c1=tau/h1
@@ -42,4 +53,44 @@ c
             ez(i,l)=ez(i,l)+c1*(hy(i,l)-hy(i-1,l))-c2*(hx(i,l)-hx(i,l-1))-tau*jz(i,l)
 6       continue
 
+c
+c—Периодические граничные условия
+c
+
+        do 7 i=1,im1
+          ex(i,1)=ex(i,lm1)
+          ex(i,lmp)=ex(i,2)
+7       continue
+        do 8 i=2,im1
+          ez(i,1)=ez(i,lm1)
+          ez(i,lmp)=ez(i,2)
+8       continue
+
+c
+c — Граничные условия, моделирующие импульс при х=0,
+c — и граничные условия свободного выхода при х=хm.
+c
+        do 9 l=1,lm2
+          ex(1,l)=0.
+          ex(imp,l)=(ex(imp,l)+c1*ex(im1,l))/(1.+c1)
+9       continue
+        do 10 l= 1,lm1
+        x=-h1/2.
+        y=(l-1.)*h2-y0
+        r=(y/r0)**2+((x+x0-tx)/r1)**2
+        b=b0*exp(-r/2.)
+        s=wk*(tx-x)
+        ey(1,l)=b*cos(s)
+        ey(imp,l)=(ey(imp,l)+c1*ey(im1,l))/(1.+c1)
+10      continue
+        do 11 l=1,lmp
+        x=-h1/2.
+        y=(l-1.5)*h2-y0
+        r=(y/r0)**2+((x+x0-tx)/r1)**2
+        b=b0*exp(-r/2.)
+        s=wk*(tx-x)
+        ez(1,l)=b*sin(s)
+        ez(imp,l)=(ez(imp,l)+c1*ez(im1,l))/(1.+c1)
+11      continue
+        return
       end subroutine emh
