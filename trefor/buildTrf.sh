@@ -19,7 +19,7 @@ Pause()
     stty icanon
 }
 
-echo This script builds trefor in local dir.  
+echo This script builds trefor in local dir.
 echo If it is successful move trf etc. to /usr/local/bin
 Pause
  #SYSTYPE="pgf"
@@ -27,7 +27,7 @@ Pause
  #SYSTYPE="ifort"
   SYSTYPE="gfortran"
  # SYSTYPE="cygwin_ifort"
- # SYSTYPE="cygwin_f90"   
+ # SYSTYPE="cygwin_f90"
  # SYSTYPE="MPA_f95n"
  echo SYSTYPE ${SYSTYPE}
  export SYSTYPE=${SYSTYPE}
@@ -55,17 +55,17 @@ Pause
             FC=f90
                ;;
  esac
-  
- echo Fortran Compiler version: 
+
+ echo Fortran Compiler version:
  $FC -v
  rc=$?
 if [ $rc != 0 ] ; then
-   echo Fortran Compiler $FC not found! 
+   echo Fortran Compiler $FC not found!
    echo I exit now due to this error...
    exit 1
 else
    echo Fortran Compiler $FC
-#   exit 0    
+#   exit 0
 fi
 
 # ----------------------------------  Start of preparations
@@ -78,13 +78,13 @@ fi
 if [ ! -e $HOMETrefor/bin  ]; then
    mkdir $HOMETrefor/bin
    echo directory $HOMETrefor/bin created
-fi  
+fi
 
 
 
 # Compile the "trf" command
 Pause				# invoke the function Pause.
-echo trf command and trefor preprocessor are needed. 
+echo trf command and trefor preprocessor are needed.
 echo If they are not found  in /usr/local/bin they will be built in $HOMETrefor/bin/trf
 echo For future work save trf and trefor in your PATH, and $HOMETrefor/trefor/.trfrc in your $HOME
 if [ ! -e $HOMETrefor/bin/trf ]; then
@@ -113,4 +113,4 @@ echo  in modern KDE:
 echo  sudo cp ctrf2005/trefor.xml  ~/.local/share/katepart5/syntax
 echo and move:
 echo  sudo mv bin/trf bin/trefor bin/trefor95 /usr/local/bin/
-echo and you are done 
+echo and you are done
