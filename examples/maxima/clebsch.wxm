@@ -1,9 +1,9 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 16.04.1 ] */
-
+/* [ Created with wxMaxima version 19.08.1-DevelopmentSnapshot ] */
 /* [wxMaxima: title   start ]
 Steeb & Hardy  Clebsch.mac
    [wxMaxima: title   end   ] */
+
 
 /* [wxMaxima: comment start ]
 In the Maxima program we calculate the Clebsch-Gordan series for
@@ -12,18 +12,22 @@ We apply the orthogonality of the spherical harmonics.
 
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
 l1: 3; m1: -2; l2: 2; m2: 1;
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: comment start ]
 another example:
 l1: 1; m1: -1; l2: 1; m2: 1;
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
 if (abs(m1) > l1) or  (abs(m2) > l2) or  (l1 < O) or  (l2 < O) then print("indices  out of range");
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 YY(l,m) := block ( [a,b],
@@ -33,21 +37,26 @@ YY(l,m) := block ( [a,b],
     b*a*exp(%i*m*phi) );
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 print(YY(l1,m1));
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 print(YY(l2,m2));
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 P: YY(l1,m1)*YY(l2,m2); print("P=",P);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 Clebsch: 0;
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 for l from abs(m1+m2) thru (l1+l2) do
@@ -59,21 +68,26 @@ for l from abs(m1+m2) thru (l1+l2) do
 )$
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 Clebsch: 2*%pi * Clebsch;
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 Clebsch: ratsimp(expand(Clebsch));
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 print ("Clebsch =" ,Clebsch);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 12*5^(3/2)*sqrt(7)/(35*6^(3/2)*sqrt(11));
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 load(orthopoly)$
@@ -85,17 +99,21 @@ plot3d (%,
  [grid,30,60])$
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 spherical_harmonic(1,0,theta,phi);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 load(clebsch_gordan)$
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 wigner_3j (j1, j2, j3, m1, m2, m3);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: comment start ]
 3j symbol
@@ -104,34 +122,43 @@ The sum of the m values should be zero. The j values should all be positive or z
 -- i.e. their sum should be an integer, and the sum of any two should be not less than the third.
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
 wigner_3j(5,3,2,2,-1,-1);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 wigner_3j(3,3,1,2,-1,-1);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 wigner_3j(2,0,2,1,-1,0);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 wigner_3j(1,1,1,1,-1,0);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 wigner_3j(0,0,0,0,0,0);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 wigner_3j(2,2,1,2,-1,-1);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: comment start ]
 compare results with http://www-stone.ch.cam.ac.uk/wigner.html
 seems to be OK
    [wxMaxima: comment end   ] */
 
-/* Maxima can't load/batch files which end with a comment! */
-"Created with wxMaxima"$
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 19.08.1-DevelopmentSnapshot"$

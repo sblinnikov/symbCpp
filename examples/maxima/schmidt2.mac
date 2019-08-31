@@ -5,7 +5,7 @@ n: 4;
 sp(u,v) := block (integrate(u*v,x,-1,1)
 )$
 
-sch(k) := block (if k:0 then return (1/sqrt(2)) 
+sch(k) := block (if k=0 then return (1/sqrt(2))
        else
        s: x^k-sum(sp(x^k,sch(j))*sch(j)/sp(sch(j),sch(j)),j,0,k-1),
         return (s/sqrt(sp(s,s)))

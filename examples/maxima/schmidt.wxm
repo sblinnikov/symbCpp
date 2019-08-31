@@ -1,0 +1,55 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 19.08.1-DevelopmentSnapshot ] */
+/* [wxMaxima: title   start ]
+Scmidt.mac
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+From Ch. 81. Gram-Schmidt Orthogonalisation Process in Steeb & Hardy p.213.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+n: 4;
+sp(u,v) := block (subst(x=1,integrate(u*v,x))-subst(x =-1,integrate(u*v,x)))$
+sch(k) := block (if k=0 then return (1/sqrt(2)) 
+       else
+       s: x^k-sum(sp(x^k,sch(j))*sch(j)/sp(sch(j),sch(j)),j,0,k-1),
+        return (s/sqrt(sp(s,s)))
+)$
+
+for k:0 thru n do
+print (sch(k));
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+n: 4;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sp(u,v) := block (subst(x=1,integrate(u*v,x))-subst(x =-1,integrate(u*v,x)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sch(k) := block (if k=0 then return (1/sqrt(2)) 
+       else
+       s: x^k-sum(sp(x^k,sch(j))*sch(j)/sp(sch(j),sch(j)),j,0,k-1),
+        return (s/sqrt(sp(s,s)))
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+for k:0 thru n do
+print (sch(k));
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 19.08.1-DevelopmentSnapshot"$
