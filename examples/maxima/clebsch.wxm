@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 19.08.1-DevelopmentSnapshot ] */
+/* [ Created with wxMaxima version 18.02.0 ] */
 /* [wxMaxima: title   start ]
 Steeb & Hardy  Clebsch.mac
    [wxMaxima: title   end   ] */
@@ -161,4 +161,4 @@ seems to be OK
 
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 19.08.1-DevelopmentSnapshot"$
+"Created with wxMaxima 18.02.0"$

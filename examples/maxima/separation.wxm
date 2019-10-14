@@ -1,49 +1,59 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 13.04.2 ] */
-
+/* [ Created with wxMaxima version 18.02.0 ] */
 /* [wxMaxima: title   start ]
 Steeb and Hardy Ch.4. Separation Ansatz and Schroedinger Equation
    [wxMaxima: title   end   ] */
+
 
 /* [wxMaxima: comment start ]
 The Schroedinger equation is given by
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
 depends(V,x);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 depends(Psi,[t,x]);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 Eq1 : %i*hbar*diff(Psi,t)=-diff(Psi,x,2)*(hbar^2)/(2*m)+V*Psi;
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: comment start ]
 We make the so-called separation ansatz (or product ansatz):
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
 Psi(x,t)=T(t)*u(x);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: comment start ]
 Inserting this ansatz into the Schroedinger equation (1) yields
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
 depends(T,t);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 depends(u,x);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 Eq4 : %i*hbar*diff(T,t)*u=-diff(Psi,x,2)*(hbar^2)/(2*m)+V*T*u;
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: comment start ]
 Symbolic x("x"), t("t"), Tm("Tm"), V("V"), u("u");
@@ -64,82 +74,103 @@ cout << "r4 = " << r4 << endl;
 
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
 depends(Tm,t);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 depends(u,x);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 depends(V,x);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 psi:Tm*u;
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: comment start ]
 Schroedinger equation:
    [wxMaxima: comment end   ] */
+
 
 /* [wxMaxima: input   start ] */
 r1 : %i*hb*diff(psi,t)+diff(psi,x,2)*(hb^2)/(2*m)-V*psi;
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 r2 : expand(r1/Tm/u);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 expand(%);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 r3 : coeff(r2,hb,2)+coeff(r2,hb,0);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 r4:coeff(r2,hb^1);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 eqn1:'r4+E=0;
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 ode2(eqn1,Tm,t);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 eqn0:%i*'diff(Tm,t)/Tm+E=0;
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 ode2(eqn0,Tm,t);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: comment start ]
 Try this: atvalue(Tm(t),t=0,1);
    [wxMaxima: comment end   ] */
+
 
 /* [wxMaxima: comment start ]
 to debug:
  debugmode(true);
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
 coeff(r2,hb,0);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 %i*%i;
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 noundisp;
 /* [wxMaxima: input   end   ] */
 
-/* Maxima can't load/batch files which end with a comment! */
-"Created with wxMaxima"$
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 18.02.0"$
