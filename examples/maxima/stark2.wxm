@@ -1,81 +1,62 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
 /* [ Created with wxMaxima version 20.04.0-DevelopmentSnapshot ] */
-/* [wxMaxima: input   start ] */
-/* batch("/home/seb/prg/gitWork/symbCpp/examples/maxima/stark1.mac")$
-read and interpret file: /home/seb/prg/gitWork/symbCpp/examples/maxima/stark1.mac */;
-/* [wxMaxima: input   end   ] */
-
-
 /* [wxMaxima: comment start ]
-In our first Maxima program (stark1.mac) we insert (9) into (8) in order to obtain (10a) and (10b).
+In our second Maxima program (stark2.mac) we insert (12) into (10a) and obtain (13).
    [wxMaxima: comment end   ] */
 
 
 /* [wxMaxima: input   start ] */
-depends(v,xi,v,eta,v,phi);
+depends(temp,xi);
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-depends(f1,xi);
+f: exp(-temp/2);
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-depends(f2,eta);
+r1: diff(f,xi)+xi*diff(f,xi,2)+(en*xi/2-m2/(4*xi)-ef*xi*xi/4+beta)*f;
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-v:f1*f2*exp(%i*m*phi);
+r1: r1/f;
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-r1:(4/(xi+eta))*(diff(xi*diff(v,xi),xi)+diff(eta*diff(v,eta),eta)
-                                             +((xi+eta)/(4*xi*eta))
-                                              *diff(v,phi,2))
-         +(2/(xi+eta))*v+(-(xi-eta))*ef*v+2*en*v;
+r1: -2*r1;
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-r1:expand(r1);
-/* [wxMaxima: input   end   ] */
-
-
-/* [wxMaxima: input   start ] */
-r1:r1/exp(%i*m*phi);
-/* [wxMaxima: input   end   ] */
-
-
-/* [wxMaxima: input   start ] */
-r1:expand(r1);
-/* [wxMaxima: input   end   ] */
-
-
-/* [wxMaxima: input   start ] */
-r1:r1/(f1*f2);
-/* [wxMaxima: input   end   ] */
-
-
-/* [wxMaxima: input   start ] */
-r1:expand(r1);
-/* [wxMaxima: input   end   ] */
-
-
-/* [wxMaxima: input   start ] */
-r1:ratsimp(r1);
-/* [wxMaxima: input   end   ] */
-
-
-/* [wxMaxima: input   start ] */
-r1:ratexpand(r1);
+r1: expand(r1);
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
 print("r1=",r1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+depends(w,xi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r2: subst(w,diff(temp,xi),r1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r3: subst(diff(w,xi),diff(temp,xi,2),r2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("r3 =",r3);
 /* [wxMaxima: input   end   ] */
 
 

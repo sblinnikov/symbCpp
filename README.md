@@ -4,8 +4,9 @@ The source for this project is mostly taken from [http://issc.uj.ac.za/symbolic/
 
 (seems to be not updated after 2010) with examples from
 
-Quantum Mechanics Using Computer Algebra: Includes Sample Programs in C++, SymbolicC++, Maxima, Maple, and Mathematica
-W.-H. Steeb, Yorick Hardy World Scientific, 2010 - Mathematics - 234 pages.
+Quantum Mechanics Using Computer Algebra: 
+Includes Sample Programs in C++, SymbolicC++, Maxima, Maple, and Mathematica
+W.-H. Steeb, Yorick Hardy: World Scientific, 2010 - Mathematics - 234 pages.
 
 The goal of this project is not developing SymbolicC++, but rather
 showing simple recipes to work with it and developing
