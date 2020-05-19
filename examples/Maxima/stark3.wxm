@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 18.02.0 ] */
+/* [ Created with wxMaxima version 20.04.0-DevelopmentSnapshot ] */
 /* [wxMaxima: comment start ]
 The third Maxima program (stark3.mac) starts by forming these symbolic series up to a given power of \tilde{cal E}, which are then inserted into (13). 
 Subsequently, by comparison of the coefficients of the powers of \tilde{cal E} and \xi we find
@@ -16,13 +16,13 @@ kmax:4;
 
 
 /* [wxMaxima: input   start ] */
-for k: 0 step 2 thru kmax do (b[k]: O, d[k+1]: 0);
+for k: 0 step 2 thru kmax do (b[k]: 0, d[k+1]: 0);
 /* polynomial ansatz for w, en, beta */
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-w: 1 - sum((-ef)^k*(sum(a[l, k]*xi^l,l,O,k)),k,1,kmax);
+w: 1 - sum((-ef)^k*(sum(a[l, k]*xi^l,l,0,k)),k,1,kmax);
 /* [wxMaxima: input   end   ] */
 
 
@@ -118,4 +118,4 @@ print("en=",en);
 
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 18.02.0"$
+"Created with wxMaxima 20.04.0-DevelopmentSnapshot"$

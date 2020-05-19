@@ -1,0 +1,90 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      2612,         82]
+NotebookOptionsPosition[      2141,         67]
+NotebookOutlinePosition[      2476,         82]
+CellTagsIndexPosition[      2433,         79]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+The third Maxima program (stark3.mac) starts by forming these symbolic series \
+up to a given power of \\tilde{cal E}, which are then inserted into (13). 
+\tSubsequently, by comparison of the coefficients of the powers of \
+\\tilde{cal E} and \\xi we find
+\tthe coefficients 
+\t    d_k, b_k, a_l^(k)
+\tIn the programs we set  \\tilde{E}=en and \\tilde{cal E}==ef
+\
+\>", "Text",
+ CellChangeTimes->{{3.798891498304553*^9, 
+  3.798891503260853*^9}},ExpressionUUID->"6d966b8b-920d-464b-b2c9-\
+d5a5f9556338"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"stark3", ".", "mac"}], "*)"}], " ", "\[IndentingNewLine]", 
+  RowBox[{"kmax", ":=", "4"}]}]], "Input",
+ CellChangeTimes->{{3.79889159881045*^9, 
+  3.798891632124775*^9}},ExpressionUUID->"667c39b0-2e6f-496e-9846-\
+4e2df0562d4c"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"For", "[", " ", 
+   RowBox[{
+    RowBox[{"k", "=", "0"}], ",", " ", "2", ",", " ", 
+    RowBox[{"k", "<=", "kmax"}], ",", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"b", "[", "k", "]"}], ":=", "0"}], ",", 
+      RowBox[{
+       RowBox[{"d", "[", 
+        RowBox[{"k", "+", "1"}], "]"}], ":=", "0"}]}], ")"}]}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{"\t", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"polynomial", " ", "ansatz", " ", "for", " ", "w"}], ",", "en", 
+    ",", "beta"}], "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.798891727074045*^9, 3.798891758942461*^9}, {
+  3.798891809497263*^9, 3.798891911359692*^9}},
+ EmphasizeSyntaxErrors->True,
+ CellLabel->"In[2]:=",ExpressionUUID->"4e2a435a-9f3a-4448-a4f1-67db3ba43cfe"]
+},
+WindowSize->{926, 583},
+WindowMargins->{{96, Automatic}, {Automatic, 104}},
+FrontEndVersion->"11.3 for Linux x86 (64-bit) (March 6, 2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 513, 12, 173, "Text",ExpressionUUID->"6d966b8b-920d-464b-b2c9-d5a5f9556338"],
+Cell[1074, 34, 280, 7, 55, "Input",ExpressionUUID->"667c39b0-2e6f-496e-9846-4e2df0562d4c"],
+Cell[1357, 43, 780, 22, 78, "Input",ExpressionUUID->"4e2a435a-9f3a-4448-a4f1-67db3ba43cfe"]
+}
+]
+*)
+
