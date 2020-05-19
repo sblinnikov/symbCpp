@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 20.04.0-DevelopmentSnapshot ] */
+/* [ Created with wxMaxima version 18.02.0 ] */
 /* [wxMaxima: comment start ]
 In our second Maxima program (stark2.mac) we insert (12) into (10a) and obtain (13).
    [wxMaxima: comment end   ] */
@@ -62,4 +62,4 @@ print("r3 =",r3);
 
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 20.04.0-DevelopmentSnapshot"$
+"Created with wxMaxima 18.02.0"$
