@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 20.04.0-DevelopmentSnapshot ] */
+/* [ Created with wxMaxima version 18.02.0 ] */
 /* [wxMaxima: comment start ]
 The third Maxima program (stark3.mac) starts by forming these symbolic series up to a given power of \tilde{cal E}, which are then inserted into (13). 
 Subsequently, by comparison of the coefficients of the powers of \tilde{cal E} and \xi we find
@@ -116,6 +116,11 @@ print("en=",en);
 /* [wxMaxima: input   end   ] */
 
 
+/* [wxMaxima: input   start ] */
+trigsimp(%);
+/* [wxMaxima: input   end   ] */
+
+
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 20.04.0-DevelopmentSnapshot"$
+"Created with wxMaxima 18.02.0"$
