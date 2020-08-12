@@ -134,20 +134,54 @@ $$
 
 \section{The Free Particle}
 
+FH p. 43. Eq. (3.4)
+\[
+ \left( \frac{2\pi i\hbar\epsilon}{m}  \right)^{-2/2}
+\]
+and in Russian ФХ
+\[
+ \left( \frac{2\pi i\hbar\epsilon}{m}  \right)^{-1/2}
+\]
+both should read
+\[
+ \left( \frac{2\pi i\hbar\epsilon}{m}   \right)^{-1}
+\]
+and in arguments to $\exp$ in (3.4), (3.5), and two formulas after (3.5),
+all factors like
+\[
+ \frac{m}{2i\hbar \cdot n\epsilon}
+\]
+should read like
+\[
+ \frac{im}{2\hbar \cdot n\epsilon}
+\]
+for $n=1,\, 2,\, 3,\, \ldots n$, then we arrive to formula (3.3).
+
 \section{Diffraction through a Slit}
+
+FH p. 47.
+
+At $t = 0$ the particle starts from the origin $x = 0$.
+
+A few lines lower:
+
+finding the particle at an additional displacement $x$ from the position $x_0$, where $x_0$ is nonzero.
+
+This leads to some confusion in equation (3.19): one should remember that $x$ has changed its zero point.
+It would be better to use another notation, say, $x'$ in (3.19) with the zero point for $x'$ at $x_0$.
 
 \subsection*{equation 3.27}
 
-p. 64 eq.~(3.27)
+ФХ p. 64 eq.~(3.27)
 
 \begin{eqnarray*}
- \psi(x) =   \sqrt{\frac{m}{2\pi i \hbar}} \left(T + \tau + T \tau \frac{\hbar i}{m b^2}\right)^{-1/2} \times \\
+ \psi(x) =   \sqrt{\frac{m}{2\pi i \hbar}} \left(T + \tau + T \tau \frac{h i}{m b^2}\right)^{-1/2} \times \\
  \times \exp\left[\frac{im}{2\hbar}\left(v_0^2T + \frac{x^2}{\tau} \right)
  + \frac{(m^2/2\hbar^2\tau^2)(x-v_0/\tau)}{(m/\hbar)(i/T+i/\tau) - 1/b^2) } \right] .
  \qquad (3.27)
 \end{eqnarray*}
 
-must read, replacing $-v_0/\tau$ by  $-v_0\tau$ and omitting bracket after $1/b^2$,
+must read, replacing $h$ by $\hbar$ in the 1st line, and then $-v_0/\tau$ by  $-v_0\tau$ and omitting the bracket after $1/b^2$,
 
 \begin{eqnarray*}
  \psi(x) =   \sqrt{\frac{m}{2\pi i \hbar}} \left(T + \tau + T \tau \frac{\hbar i}{m b^2}\right)^{-1/2} \times \\
@@ -156,7 +190,8 @@ must read, replacing $-v_0/\tau$ by  $-v_0\tau$ and omitting bracket after $1/b^
  \qquad (3.27)
 \end{eqnarray*}
 
-It is OK in English original,  denoted FH, but $\hslash$ is used instead of $\hbar$ there.
+It is OK in English original, which we denote FH, note that $\hslash$ is consistently used
+instead of $\hbar$ there.
 
 \subsection*{equation 3.28}
 
@@ -187,6 +222,20 @@ $$
 $$
 
 \section{Results for a Sharp-edged Slit}
+
+\section{The Wave Function}
+
+\section{Gaussian Integrals}
+
+
+ФХ p.~74
+
+Такое положение представляется характерным для различных методов вычисления интегралов по траекториям;
+при помощи общих приемов могут быть получены многие результаты, однако оказывается, что часто не удается полностью определить экспоненциальный коэффициент.
+
+экспоненциальный $\to$ предэкспоненциальный
+
+ a multiplying factor in FH is OK.
 
 
 \end{document}
