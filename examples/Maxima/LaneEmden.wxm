@@ -1,0 +1,580 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 21.04.0 ] */
+/* [wxMaxima: title   start ]
+Lane-Emden
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+# https://www.researchgate.net/publication/266836869_Chebyshev_Spectral_Methods_and_the_Lane-Emden_Problem/link/5472b44d0cf2d67fc035c9ed/download
+In place of n in standard polytropic relation P=K\rho^{1+1/n} the author uses m
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+reset();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* debugmode(true); */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fpprec:30; /* variable precision 30 standard */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N:7; /* no. of interpolation points 20 standard in Maple */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+nn:bfloat(N);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+m:1; /* 1; 5/2; 4; 3; 1/2; -- 0.5 does not work, use 1/2 -- Lane-Emden exponent */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+itermax: 20; /* no. of Newton iterations */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+D0Mat:zeromatrix(N,N)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+D1Mat:zeromatrix(N,N)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+D2Mat:zeromatrix(N,N)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/*array([xCheb,ta,ya0],N) ;*/
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fa0:zeromatrix(N+1,N+1)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* fa:row(fa0,1); -- fa is not needed as matrix */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* ya0:zeromatrix(1,N)$ */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* ya0; */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+ /* compute grid points xCheb */
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ta[ii]:=%pi*(ii-1)/(nn-1.0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ta[3];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+bfloat(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+not needed ta:genmatrix(ta0,N,1);
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+xCheb[ii]:=bfloat(0.5*(1.0+cos(ta[ii])));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* for ii:1 thru N do  xCheb[ii]:(0.5*(1+cos(ta[ii]))); */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ta[2];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+xCheb[2];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+bfloat(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+for ii:2 thru (N-1) step 1 do /* differentiation matrices: */
+  (t:ta[ii], ss:( sin(t)),
+  cc:( cos(t)),
+  for j:1 thru N step 1 do
+    (D0Mat[ii,j]:bfloat(cos((j-1)*t)),
+    pt:bfloat(-(j-1)*sin((j-1)*t) ),
+    ptt:bfloat(- (j-1)*(j-1)*D0Mat[ii,j]),
+    D1Mat[ii,j]:bfloat(-2*pt/ss),
+    D2Mat[ii,j]:bfloat(4*(ptt/(ss*ss)-cc*pt/(ss*ss*ss)))));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+# apply non-trig formulas at the endpoints:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+for j:1 thru N  step 1 do
+  (D0Mat[1,j] :1,
+  D0Mat[N,j]:(-1)^(j+1),
+  D1Mat[1,j]:(2*(j-1)^2),
+  D1Mat[N,j]:(2*(-1)^j *(j-1)^2),
+  D2Mat[1,j]:((j-1)^2 *((j-1)^2 -1 )*(4/3)),
+  D2Mat[N,j]:(-(-1)^j *(j-1)^2 *( (j-1)^2 - 1)*4/3)) ;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+D0Mat[3,3];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+D0Mat;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+for ii:1 thru N do
+ya00[ii]:(cos((%pi/2)*xCheb[ii]));
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fya0[ii,jj]:=bfloat(cos(%pi/2*xCheb[jj]))+ii-1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Afya0:genmatrix(fya0,N,N);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ya0:row(Afya0,1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/*for j:1 thru N do*/
+/*  (ya0[j]:cos(%pi/2*xCheb[j])); */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+xCheb[1];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ya0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+xi0:3.0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+  # ya0, xi0 are first guess for Newton iteration
+next step must be
+a0:=LinearSolve(<D0Mat|ya0 >); # Chebyshev coeffs of ya0(x);
+First, some examples from Edwin L. Woollett see in mbe4solv
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* ex3 : sin(x)^2 -2*sin(x) -3$ */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* plot2d([0.0,ex3],[x,-6,6],[y,-5,5] )$ */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+next examples from:
+https://themaximalist.org/tag/linear-system/
+
+https://themaximalist.org/2017/02/28/solving-the-matrix-vector-equation-axb-in-maxima/
+
+Is there really not a solver in Maxima that takes matrix A and vector b and returns the solution of Ax=b ?  Of course we could do invert(A).b, but that ignores consistent systems where A isn’t invertible…or even isn’t square.
+
+Here’s a little function matsolve(A,b)  that solves Ax=b for general A using the built-in Gaussian Elimination routine echelon(), with the addition of a homemade backsolve() function.  The function in turn relies on a little pivot column detector pivot() and my matrix dimension utility matsize(). This should include the possibilities of non-square A, non-invertible A, and treats the case of non-unique solutions in a more or less systematic way.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+matsolve(A,b):=block(
+   [AugU],
+   AugU:echelon(addcol(A,b)),
+   backsolve(AugU)
+ );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+backsolve(augU):=block(
+ [i,j,m,n,b,x,klist,k,np,nosoln:false],
+ [m,n]:matsize(augU),
+ b:col(augU,n),
+ klist:makelist(concat('%k,i),i,1,n-1),
+ k:0,
+ x:transpose(matrix(klist)),
+ for i:m thru 1 step -1 do (
+   np:pivot(row(augU,i)),
+   if is(equal(np,n)) then
+     (nosoln:true,return())
+   else if not(is(equal(np,0))) then
+     (x[np]:b[i],
+     for j:np+1 thru n-1 do
+       x[np]:x[np]-augU[i,j]*x[j])
+    ),
+ if nosoln then
+    return([])
+ else
+   return(expand(x))
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+matsize(A):=[length(A),length(transpose(A))]$
+
+pivot(rr):=block([i,rlen],
+ p:0,
+ rlen:length(transpose(rr)),
+ for i:1 thru rlen do(
+ if is(equal(part(rr,1,i),1)) then (p:i,return())),
+ return(p)
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+A:matrix([1,2,3],[9,18,30],[12,48,60]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+b:[1,3,5];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+matsolve(A,b);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Adiag:matrix([1,0,0],[0,2,0],[0,0,3]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+bdiag:[1,2,3];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+matsolve(Adiag,bdiag);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fbn[i,j]:=i+j-1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fbn[1,2];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+bn:[a1,a2,a3];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+bn[3]::3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+a3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 3 do bn[i]::i;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+bbn:ev(bn);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+matsolve(Adiag,bbn);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+bcn:genmatrix(fbn,3,3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+bcnrow:row(bcn,1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+matsolve(Adiag,bcnrow);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* for i:1 thru 3 do bcn[i]::i; */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+In the previous example there is included a little coding project to implement a general backsolve() function to use with the built-in maxima matrix function echelon(), producing an easy-to-call matrix solver matsolve(A,b).  The result is meant to solve a general matrix vector equation Ax=b , including cases when A is non-square and/or non-invertible.
+
+Here’s a quicker approach — convert the matrix into an explicit system of equations using a vector of dummy variables, feed the result into the built-in Maxima function linsolve(), and then extract the right hand sides of the resulting solutions and put them into a column vector.
+
+The two methods often behave identically, but here’s an
+ example that breaks the linsolve() method, where the backsolve() method gives a correct solution:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+matsolve2(A,b):=block(
+ [rhs,inp,sol,Ax,m,n,vars],
+ [m,n]:[length(A),length(transpose(A))],
+ vars:makelist(xx[i],i,1,n,1),
+ Ax:A.vars,
+ inp:makelist(part(Ax,i,1)=b[i],i,1,n,1),
+ sol:linsolve(inp,vars),
+ expand(transpose(matrix(map(rhs,sol))))
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f[i,j]:=(i+j); /*/i/j; */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+M5:genmatrix(f,5,5);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+b:M5.[1,2,3,4,5];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+s:matsolve(M5,b);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ev(s,[%k5=5,%k4=4,%k3=3]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+matsolve2(M5,b);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+matsolve2 fails here
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+now return to Emden,
+ya0, xi0 are the first guesses for Newton iteration
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+a00:matsolve(D0Mat,ya0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+a0:bfloat(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+a0 keeps Chebyshev coeffs of ya0(x)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+xi0:3.0b0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+ya0, xi0 are first guess for Newton iteration
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+a:a0$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+xi:xi0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+begin Newton-Kantorovich iteration:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Jacobian:zeromatrix(N+1,N+1)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+for iter:1 thru itermax do
+( ya:D0Mat . a,
+  for ii : 1 thru (N-2) do
+     (fa[ii]: - xi*xi*ya[ii+1]^m,
+      for j : 1 thru N do
+      (fa[ii]: fa[ii] - D2Mat[ii+1,j]*a[j] - (2 / xCheb[ii+1] ) * D1Mat[ii+1,j]*a[j]
+      )
+     ),
+  yatzero:0,
+  for j : 1 thru N do yatzero:bfloat(yatzero + D0Mat[N,j]*a[j]),
+  fa[N+1] : - (yatzero-1),
+  fa[N-1] : 0,
+  fa[N] : 0,
+  faList:makelist(fa[kk],kk,1,N+1),
+  faMat:matrix(faList),
+  Jacobian[N+1,N+1] : 0,
+  for ii : 1 thru (N-2) do
+      (for j : 1 thru N step 1 do
+        (Jacobian[ii,j]: D2Mat[ii+1,j]+(2 /xCheb[ii+1])*D1Mat[ii+1,j]
+        + xi*xi * m * ya[ii+1]^(m-1) * D0Mat[ii+1,j])
+       ),
+  for j : 1 thru N do
+    (Jacobian[N-1,j]: D0Mat[1,j],
+    Jacobian[N,j] : D1Mat[N,j],
+    Jacobian[N+1,j]: D0Mat[N,j]
+    ),
+  for ii : 1 thru (N-2) do
+    (Jacobian[ii,N+1] : 2*xi* ya[ii+1]^m),
+  Jacobian[N,N+1]: 0,
+  Jacobian[N-1,N+1]: 0,
+  delta_a_and_xi:matsolve(Jacobian,faMat),
+  for j : 1 thru N do
+    (a[j]: a[j] + bfloat(delta_a_and_xi[j,1])
+    ),
+  xidelta:bfloat(delta_a_and_xi[N+1,1]),
+  xi:xi+xidelta
+);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+(dbm:1)
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+:resume;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Jacobian[3,3];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+D0Mat[3,3];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+xi;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+xidelta;
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 21.04.0"$
