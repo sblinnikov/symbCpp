@@ -1,0 +1,12 @@
+/* wavepacket.mac taken from the purchased Steeb-Hardy e-book */
+depends (psi,x,psi,t);
+depends (f1,x,f1,t);
+depends (f2,x,f2,t);
+f1: B/(sqrt(1+%i*hb*t/(m*a2)));
+f2: exp(-(x*x)/(2*a2*(1+%i*hb*t/(m*a2))));
+psi: f1*f2;
+res1: hb*hb*diff(psi,x,2)/(2*m);
+res2: %i*hb*diff(psi,t);
+result1: (res1+res2)/f2;
+result2: expand(result1);
+print(result2);
