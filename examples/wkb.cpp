@@ -1,4 +1,10 @@
 // wkb.cpp
+// install symbolicc as described in ../README for libsymbcgf
+// compile with (if dir inclide is above):
+// g++ -I ../include -L ~/lib -o wkb.exe wkb.cpp -fno-elide-constructors -lsymbcgf
+// result saved in
+// wkb.out
+
 #include <iostream>
 #include "symbolicc++.h"
 using namespace std;
@@ -14,7 +20,7 @@ Symbolic u = exp(i*(S-i*hb*ln(A))/hb); // equation (2)
 
 // eigenvalue equation (1)
 Symbolic R1 = df(u,x,2) + (2*m)*(EN-V)*u;
-cout << "R1 = " << R1 << endl
+cout << "R1 = " << R1 << endl;
 
 // find equations (3)
 Symbolic R2 = R1/u;

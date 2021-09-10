@@ -1,7 +1,7 @@
 // momentum.cpp
-// install symbolicc as described in ../README
-// compile with
-// g++ -I ./include -L ~/lib -o momentum.exe momentum.cpp -fno-elide-constructors -lsymbcgf
+// install symbolicc as described in ../README for libsymbcgf
+// compile with (if dir inclide is above):
+// g++ -I ../include -L ~/lib -o momentum.exe momentum.cpp -fno-elide-constructors -lsymbcgf
 // result saved in
 // momentum.out
 
