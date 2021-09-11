@@ -17,9 +17,14 @@ To install to /usr/local:
   make
   sudo make install
 
-This stopped working on Sep 10 2021 when ./configure changed. 
+This stopped working on Sep 10 2021 when ./configure changed.
 It did not work due to error: AM_INIT_AUTOMAKE not found
 After returning to configure of 01 July 2021 it works somehow
+
+Thus OLDER configure01jul2021 must be used as
+ ./configure
+instead of the newer configure10sep21 !!!
+
 
 To compile a program using SymbolicC++ with GCC:
 
@@ -28,8 +33,8 @@ To compile a program using SymbolicC++ with GCC:
 To run the program:
 
   ./program
- 
-A brief PDF document describing SymbolicC++ is provided 
+
+A brief PDF document describing SymbolicC++ is provided
 (doc/introsymb.tex, produce doc/introsymb.pdf from it)
 and is installed as /usr/local/share/doc/SymbolicC++.pdf.
 
@@ -59,11 +64,11 @@ When running the program, make sure that the dynamic libraries can be located,
 for example by modifying /etc/ld.so.conf or by setting the LD_LIBRARY_PATH
 (for Bourne shell compatible shells)
 
-  $ ./program 
+  $ ./program
   Shared object "libsymbolicc++.so.3" not found
   $ LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:where_to_install/lib
   $ export LD_LIBRARY_PATH
-  $ ./program 
+  $ ./program
   ...
 
 A brief PDF document describing SymbolicC++ is provided
@@ -87,7 +92,7 @@ g++ -o test1.exe test1.cpp -fno-elide-constructors ../src/*.cpp
 
 g++ -o matrix.exe matrix.cpp -fno-elide-constructors ../src/*.cpp
 
--- but it works only if include/ dir is in a known place, e.g. in /usr/local, 
+-- but it works only if include/ dir is in a known place, e.g. in /usr/local,
 if not, then do in this directory:
 
  g++ -I include -o matrix.exe examples/matrix.cpp -fno-elide-constructors src/*.cpp
@@ -107,7 +112,7 @@ g++ -I ./include -L ~/lib -o test1.exe examples/test1.cpp -fno-elide-constructor
 
 g++ -I ./include -L ~/lib -o matrix.exe examples/matrix.cpp -fno-elide-constructors -lsymbcgf
 
-For 32bit systems use gf32libsymb.sh, and commands like 
+For 32bit systems use gf32libsymb.sh, and commands like
 
 g++ -I ./include -L ~/lib -o test1.exe examples/test1.cpp -lsymbcgf
 
