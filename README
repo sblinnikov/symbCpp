@@ -17,7 +17,9 @@ To install to /usr/local:
   make
   sudo make install
 
-This does work due to error: AM_INIT_AUTOMAKE not found
+This stopped working on Sep 10 2021 when ./configure changed. 
+It did not work due to error: AM_INIT_AUTOMAKE not found
+After returning to configure of 01 July 2021 it works somehow
 
 To compile a program using SymbolicC++ with GCC:
 
