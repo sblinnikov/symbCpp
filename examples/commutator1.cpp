@@ -1,6 +1,6 @@
 //commutator1.cpp
 // install symbolicc as described in ../README for libsymbcgf
-// compile with (if dir inclide is above):
+// compile with (if dir include is above):
 // g++ -I ../include -L ~/lib -o commutator1.exe commutator1.cpp -fno-elide-constructors -lsymbcgf
 // result saved in
 // commutator1.out

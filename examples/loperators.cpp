@@ -1,6 +1,6 @@
 // loperators.cpp
 // install symbolicc as described in ../README for libsymbcgf
-// compile with (if dir inclide is above):
+// compile with (if dir include is above):
 // g++ -I ../include -L ~/lib -o loperators.exe loperators.cpp -fno-elide-constructors -lsymbcgf
 // result saved in
 // loperators.out
