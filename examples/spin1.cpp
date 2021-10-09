@@ -1,4 +1,9 @@
 // spin1.cpp
+// install symbolicc as described in ../README for libsymbcgf
+// compile with (if dir include is above):
+// g++ -I ../include -L ~/lib -o spin1.exe spin1.cpp -fno-elide-constructors -lsymbcgf
+// result saved in
+// spin1.out
 
 #include <iostream>
 #include "symbolicc++.h"
@@ -24,7 +29,9 @@ int main(void)
     cout << "s2 = " << s2 << endl;
     return 0;
     }
-// output
+
+// output is:
+//
 // sxp =
 // [  0     0     0  ]
 // [  0     0   -i*hb]
