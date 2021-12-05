@@ -112,6 +112,14 @@ g++ -I ./include -L ~/lib -o test1.exe examples/test1.cpp -fno-elide-constructor
 
 g++ -I ./include -L ~/lib -o matrix.exe examples/matrix.cpp -fno-elide-constructors -lsymbcgf
 
+Or do
+cd examples/
+g++ -I ../include -L ~/lib -o test1.exe test1.cpp -fno-elide-constructors -lsymbcgf
+./test1.exe
+g++ -I ../include -L ~/lib -o matrix.exe matrix.cpp -fno-elide-constructors -lsymbcgf
+./matrix.exe
+
+
 For 32bit systems use gf32libsymb.sh, and commands like
 
 g++ -I ./include -L ~/lib -o test1.exe examples/test1.cpp -lsymbcgf
