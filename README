@@ -119,6 +119,17 @@ g++ -I ../include -L ~/lib -o test1.exe test1.cpp -fno-elide-constructors -lsymb
 g++ -I ../include -L ~/lib -o matrix.exe matrix.cpp -fno-elide-constructors -lsymbcgf
 ./matrix.exe
 
+In dir examples/ one can simply do
+
+buildExe.sh test1
+./test1.exe
+
+or
+
+buildExe.sh hydrogen1
+./hydrogen1.exe
+
+etc.
 
 For 32bit systems use gf32libsymb.sh, and commands like
 
