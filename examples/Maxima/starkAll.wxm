@@ -1,0 +1,84 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 21.02.0-DevelopmentSnapshot ] */
+/* [wxMaxima: input   start ] */
+/* stark1.mac */
+depends (v,xi,v,eta,v,phi);      /* function v(xi,eta,phi) */
+depends (f1,xi);                       /* function f1(xi) */
+depends (f2,eta);                    /* function f2(eta) */
+v: f1*f2*exp(%i*m*phi);             /* product ansatz */
+
+/* equation(8) */
+r1: 4/(xi+eta)*(diff(xi*diff(v,xi),xi)+diff(eta*diff(v,eta),eta)
+    +(xi+eta)/(4*xi*eta)*diff(v,phi,2))+2/(xi+eta)*v
+    -(xi-eta)*ef*v+2*en*v;
+r1: expand(r1);
+r1: r1/exp(%i*m*phi);
+r1: expand(r1);
+r1: r1/(f1*f2);
+r1: expand(r1);
+r1: ratsimp(r1);
+r1: ratexpand(r1);
+print("r1=",r1);
+
+/* stark2.mac */
+depends (temp,xi);
+f: exp(-temp/2);
+r1: diff(f,xi)+xi*diff(f,xi,2)+(en*xi/2-m2/(4*xi)-ef*xi*xi/4+beta)*f;
+r1: r1/f;
+r1: -2*r1;
+r1: expand(r1);
+print("r1=",r1);
+depends(w,xi);
+r2: subst(w,diff(temp,xi),r1);
+r3: subst(diff(w,xi),diff(temp,xi,2),r2);
+print("r3=",r3);
+
+/* stark3.mac */
+kmax: 4;
+for k: 0 step 2 thru kmax do (b[k]: 0, d[k+1]: 0);
+
+/* polynomial ansatz for w, en, beta */
+w: 1 - sum((-ef)^k*(sum(a[l,k]*xi^l,l,0,k)),k,1,kmax);
+print("w=",w);
+en: -1/2*(1 + sum(d[k]*ef^k,k,1,kmax));
+print("en=",en);
+beta: 1/2*(1 + sum(b[k]*ef^k,k,1,kmax));
+
+/* differential equation */
+u: diff(xi*w,xi)-1/2*xi*w^2-en*xi+1/2*ef*xi^2-2*beta;
+u: expand(u);
+u: subst(0,ef^5,u); 
+u: subst(0,ef^6,u);
+u: subst(0,ef^7,u); 
+u: subst(0,ef^8,u);
+
+for n:0 thru 5 do 
+   for m:0 thru 4 do 
+        g[m,n]: coeff(coeff(u,ef,m),xi,n)$
+s: grobner_basis([g[4,5]=0,g[4,4]=0,g[4,3]=0,g[4,2]=0,g[4,1]=0,g[4,0]=0,
+        g[3,4]=0,g[3,3]=0,g[3,2]=0,g[3,1]=0,g[3,0]=0,
+        g[2,3]=0,g[2,2]=0,g[2,1]=0,g[2,0]=0,
+        g[1,2]=0,g[1,1]=0,g[1,0]=0]);
+print(s);
+s: solve([g[4,5]=0,g[4,4]=0,g[4,3]=0,g[4,2]=0,g[4,1]=0,g[4,0]=0,
+        g[3,4]=0,g[3,3]=0,g[3,2]=0,g[3,1]=0,g[3,0]=0,
+        g[2,3]=0,g[2,2]=0,g[2,1]=0,g[2,0]=0,
+        g[1,2]=0,g[1,1]=0,g[1,0]=0],
+         [a[1,1],a[2,2],a[3,3],a[4,4],a[0,1],a[0,2],a[0,3],a[0,4],a[1,2],a[1,3],a[1,4],a[2,3],a[2,4],a[3,4],d[2],d[4],b[1],b[3]]);
+print(s);
+en: subst(first(s),en);
+print("en=",en);
+
+/* The output is  
+             3555            9            1   
+en =   -  ----  ef^4 - ---ef^2  - ---      in the book p. 67 they write 65 in denominator, but the code outputs 64
+               65               4            2  
+ 
+*/
+
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 21.02.0-DevelopmentSnapshot"$

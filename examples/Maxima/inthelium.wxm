@@ -1,5 +1,15 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
 /* [ Created with wxMaxima version 21.02.0-DevelopmentSnapshot ] */
+/* [wxMaxima: section start ]
+Steeb & Hardy Ch.28. Helium Atom and Trial Function
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+See also intHelium.wxm in other repos
+   [wxMaxima: comment end   ] */
+
+
 /* [wxMaxima: subsect start ]
 Helium Atom and Trial Function
    [wxMaxima: subsect end   ] */
@@ -7,11 +17,15 @@ Helium Atom and Trial Function
 
 /* [wxMaxima: comment start ]
 In the Maxima program we evaluate
-\int^1_{−1}{dx \over \sqrt{r_1^2+r_2^22−2r_1r_2x} 
-=−|r1−r2|+|r1+r2|r1r2
-={2/r1forr1>r22/r2 for r1<r2     (19)
+
+\int^1_{−1}{dx \over \sqrt{r_1^2+r_2^2−2r_1 r_2 x} 
+={−|r_1−r_2|+|r_1+r_2| \over r_1r_2}
+=2/r_1 for r_1>r2 ;  2/r_2 for r_1<r_2     (19)
+
 and
-g(μ)=∫∞0r1e−2μr1dr1(2∫r10r22e−2μr2dr2+2r1∫∞r1r2e−2μr2dr2)=64/μ^5.     (20)
+
+g(μ)=\int_0^∞ r_1 e^{−2μr_1}dr_1 \left( 2\int_0^{r_1}  r_2^2 e^{−2μr_2}dr_2 + 2r_1\int_{r_1}^∞ r_2 e^{−2μr_2}dr_2 \right)=
+={5 \over 64/μ^5}.     (20)
    [wxMaxima: comment end   ] */
 
 
