@@ -1,0 +1,77 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 21.02.0-DevelopmentSnapshot ] */
+/* [wxMaxima: subsect start ]
+Helium Atom and Trial Function
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: comment start ]
+In the Maxima program we evaluate
+\int^1_{−1}{dx \over \sqrt{r_1^2+r_2^22−2r_1r_2x} 
+=−|r1−r2|+|r1+r2|r1r2
+={2/r1forr1>r22/r2 for r1<r2     (19)
+and
+g(μ)=∫∞0r1e−2μr1dr1(2∫r10r22e−2μr2dr2+2r1∫∞r1r2e−2μr2dr2)=64/μ^5.     (20)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+depends (f,x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f: 1/sqrt(r1*r1+r2*r2-2*r1*r2*x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+I: integrate(f,x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+I: subst(1,x,I)-subst(-1,x,I);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+I: subst(abs(r1+r2),sqrt(r2^2+2*r1*r2+r1^2),I);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+I: subst(abs(r1-r2),sqrt(r2^2-2*r1*r2+r1^2),I);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("I=",I);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+gmu: 2*(subst(r1,r2,integrate(r2*r2*exp(-2*mu*r2),r2))
+-subst(0,r2,integrate(r2*r2*exp(-2*mu*r2),r2)))
+-2*r1*subst(r1,r2,integrate(r2*exp(-2*mu*r2),r2));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+gmu: expand(gmu);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+gmu: -subst(0,r1,integrate(r1*exp(-2*mu*r1)*gmu,r1));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("gmu=",gmu);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 21.02.0-DevelopmentSnapshot"$

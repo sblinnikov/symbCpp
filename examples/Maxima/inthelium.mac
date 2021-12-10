@@ -1,0 +1,18 @@
+/*  inthelium.mac */
+depends (f,x);
+
+/* Helium Atom and Trial Function */
+
+f: 1/sqrt(r1*r1+r2*r2-2*r1*r2*x);
+I: integrate(f,x);
+I: subst(1,x,I)-subst(-1,x,I);
+I: subst(abs(r1+r2),sqrt(r2^2+2*r1*r2+r1^2),I);
+I: subst(abs(r1-r2),sqrt(r2^2-2*r1*r2+r1^2),I);
+print("I=",I);
+
+gmu: 2*(subst(r1,r2,integrate(r2*r2*exp(-2*mu*r2),r2))
+-subst(0,r2,integrate(r2*r2*exp(-2*mu*r2),r2)))
+-2*r1*subst(r1,r2,integrate(r2*exp(-2*mu*r2),r2));
+gmu: expand(gmu);
+gmu: -subst(0,r1,integrate(r1*exp(-2*mu*r1)*gmu,r1));
+print("gmu=",gmu);
