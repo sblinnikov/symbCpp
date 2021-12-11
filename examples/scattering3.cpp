@@ -1,3 +1,4 @@
+/* Steeb Hardy Chapter 24 Radial Symmetric Potential and Bound States */
 // scattering3.cpp
 #include <iostream>
 #include "symbolicc++.h"
