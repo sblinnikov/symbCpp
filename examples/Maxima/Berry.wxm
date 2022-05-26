@@ -1,0 +1,88 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 21.02.0-DevelopmentSnapshot ] */
+/* [wxMaxima: section start ]
+Steeb & Hardy Ch.33. Berry Phase
+
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Let σ1, σ2, σ3 be the Pauli spin matrices. 
+Consider a spin-1/2 particle in an adiabatically rotating magnetic field B(t)
+B(t)=Bsinθcos(ωt)sinθsin(ωt)cosθ (1)
+with the explicitly time-dependent Hamilton operator
+H(t)=μB(t)·σ≡μ(B1(t)σ1+B2(t)σ2+B3(t)σ3). (2)
+Thus
+H(t)=μB(cosθe−iωt sinθ e^i ωt sinθ−cosθ). (3)
+The two eigenvectors of H(t) are given by
+|↑(t)〉=(cos(θ/2)eiωtsin(θ/2)),
+|↓(t)〉=(−sin(θ/2)eiωtcos(θ/2)) (4)
+with the corresponding eigenvalues
+E+=μB,  E−=−μB .(5)
+The dynamical phase is defined by
+θn(T)=−1∫T0En(t)dt (6)
+with
+n=1,2 and 1≡+ and 2≡−. 
+We find θ+=−μBT /, θ−=μBT /. (7)
+The geometric or Berry phase is defined by
+γn=i∮C〈n(R(t))|∇R(t)|n(R(t))〉dR (8)
+where R is the external time-dependent parameter and n=1,2 with 1≡+ and 2≡−. 
+We find
+γ+=−π(1−cosθ),γ−=−π(1 + cosθ). (9) 
+In the Maxima and SymbolicC++ programs we show that |↑(t)〉,|↓(t)〉given by equation (4) are eigenvectors of H(t) with the eigenvalues
+E+=μB and E−=−μB.
+We apply the identities 
+cos(x)≡2cos2(x/2)−1,sin(x)≡2sin(x/2) cos(x/2). (10)
+
+The Maxima program is
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* Berry.mac */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+H: mu*B*matrix([cos(theta),exp(-%i*om*t)*sin(theta)],[exp(%i*om*t)*sin(theta),-cos(theta)]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+psi: matrix([cos(theta/2)],[exp(%i*om*t)*sin(theta/2)]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+phi: H . psi;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print(phi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+phi1: subst([cos(theta)=2*cos(theta/2)*cos(theta/2)-1,sin(theta)=2*sin(theta/2)*cos(theta/2)],phi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+phi1: subst([cos(theta/2)^2=1-sin(theta/2)^2],phi1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+phi1: expand(phi1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("phi1=",phi1);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 21.02.0-DevelopmentSnapshot"$

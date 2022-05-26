@@ -1,0 +1,9 @@
+/* Berry.mac */
+H: mu*B*matrix([cos(theta),exp(-%i*om*t)*sin(theta)],[exp(%i*om*t)*sin(theta),-cos(theta)]);
+psi: matrix([cos(theta/2)],[exp(%i*om*t)*sin(theta/2)]);
+phi: H . psi;
+print(phi);
+phi1: subst([cos(theta)=2*cos(theta/2)*cos(theta/2)-1,sin(theta)=2*sin(theta/2)*cos(theta/2)],phi);
+phi1: subst([cos(theta/2)^2=1-sin(theta/2)^2],phi1);
+phi1: expand(phi1);
+print("phi1=",phi1);
