@@ -1,42 +1,50 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 13.04.2 ] */
-
+/* [ Created with wxMaxima version 19.07.0 ] */
 /* [wxMaxima: title   start ]
 Plancherel. Steeb & Hardy ch.70
    [wxMaxima: title   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 batch("plancherel.mac");
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: comment start ]
 This is integral for \hat\psi(omega)*\hat\phi(omega):
    [wxMaxima: comment end   ] */
+
 
 /* [wxMaxima: input   start ] */
 r1:integrate(exp(-alpha*omega),omega,1/2,1)
          +integrate(exp(alpha*omega),omega,-1,(-1)/2);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 print(r1);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: comment start ]
 This is integral for  \psi(t)*\phi(t):
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
 r2:integrate(sin(t)-sin(t/2),alpha/(t*(alpha^2+t^2)),t);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: comment start ]
 этот интеграл не берётся:
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
 print(r2);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: comment start ]
 In Maple the integration would be:
@@ -46,9 +54,12 @@ r1 := int(exp(alpha*omega),omega=-1..-1/2) + int(exp(-alpha*omega),omega=1/2..1)
 In maxima:
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
 r1 : integrate(exp(alpha*omega),omega,-1,-1/2) + integrate(exp(-alpha*omega),omega,1/2,1);
 /* [wxMaxima: input   end   ] */
 
-/* Maxima can't load/batch files which end with a comment! */
-"Created with wxMaxima"$
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 19.07.0"$
