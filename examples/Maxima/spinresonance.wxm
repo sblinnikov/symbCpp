@@ -1,0 +1,67 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 19.07.0 ] */
+/* [wxMaxima: section start ]
+spinresonance.mac 
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+depends (u,t); 
+depends (v,t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* ansatz for system of linear differential equations */
+u: A*exp(-%i*(Ω+ω/2)*t);
+v: B*exp(-%i*(Ω-ω/2)*t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* inserting ansatz into system of differential equations */
+r1: %i*diff(u,t)-ω0*u-ωp*exp(-%i*ω*t)*v;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r1: r1*2*exp((2*%i*t*Ω + %i*t*ω)/2);
+r1: expand(r1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r2: %i*diff(v,t)+ω0*v-ωp*exp(%i*ω*t)*u;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r2: r2*2*exp((2*%i*t*Ω+%i*t*ω)/2)/exp(%i*t*ω);
+r2: expand(r2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+M: matrix([coeff(r1,A,1),coeff(r1,B,1)],[coeff(r2,A,1),coeff(r2,B,1)]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+d: determinant(M); 
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+s: solve(d=0,Ω);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("s=",s);
+
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 19.07.0"$
