@@ -1,0 +1,45 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 21.02.0-DevelopmentSnapshot ] */
+/* [wxMaxima: input   start ] */
+/* HeisenbergModel2.mac */
+
+sx: matrix([0,1],[1,0]);
+sx: 1/2*sx;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+
+sy: matrix([0,-%i],[%i,0]);
+sy: 1/2*sy;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sz: matrix([1,0],[0,-1]);
+sz: 1/2*sz;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+H: kronecker_product(sx,sx)+kronecker_product(sy,sy)+ kronecker_product(sz,sz);
+H: 2*J*H;
+print("H=",H);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r1: eigenvalues(H);
+print("r1=",r1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r2: eigenvectors(H);
+print("r2=",r2);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 21.02.0-DevelopmentSnapshot"$
