@@ -1,0 +1,90 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 21.02.0-DevelopmentSnapshot ] */
+/* [wxMaxima: section start ]
+Steeb & Hardy Ch.53. Exceptional Points
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+/* exceptional.mac */
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+I2: matrix([1,0],[0,1]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+H0: matrix([0,0],[0,1]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+H1: matrix([0,1],[1,0]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+H1: eps*H1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+H: H0 + H1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r1: determinant(H-en*I2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r2: diff(r1,en);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+list: solve(r2=0,en);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("list=",list);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+en1: rhs(part(list,1));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print(en1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r3: subst(en1,en,r1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("r3=",r3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r4: solve(r3=0,eps);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("r4=",r4);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 21.02.0-DevelopmentSnapshot"$
