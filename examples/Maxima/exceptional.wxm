@@ -26,7 +26,7 @@ H1: matrix([0,1],[1,0]);
 
 
 /* [wxMaxima: input   start ] */
-H1: eps*H1;
+H1: ε*H1;
 /* [wxMaxima: input   end   ] */
 
 
@@ -76,7 +76,7 @@ print("r3=",r3);
 
 
 /* [wxMaxima: input   start ] */
-r4: solve(r3=0,eps);
+r4: solve(r3=0,ε);
 /* [wxMaxima: input   end   ] */
 
 
