@@ -1,7 +1,7 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 18.02.0 ] */
+/* [ Created with wxMaxima version 21.04.0 ] */
 /* [wxMaxima: title   start ]
-Steeb & Hardy  Clebsch.mac
+Steeb & Hardy Ch. 64. Clebsch.mac
    [wxMaxima: title   end   ] */
 
 
@@ -84,6 +84,26 @@ print ("Clebsch =" ,Clebsch);
 /* [wxMaxima: input   end   ] */
 
 
+/* [wxMaxima: comment start ]
+The output is
+                      -2%iphi                     2
+15 sqrt(7) %e                cos(w) sin (w)
+------------------------------------------------
+      4 sqrt(30) sqrt(%pi)
+                      %i phi
+  3 sqrt(5) %e               cos(w) sin(w)
+- ---------------------------------------------
+           2 sqrt(6) sqrt(%pi) 
+                                         - %i phi        2          3
+        45 sqrt(5) sqrt(7) %e              cos (w) sin (w)
+P= - ---------------------------------------------------------
+                      8 sqrt(6) sqrt(30) %pi
+Clebsch=(2 sqrt(2) sqrt(3) sqrt(5) sqrt(6) sqrt(7) sqrt(11)
+sqrt(30) Y(5,-1) - 231 sqrt(2) sqrt(5) sqrt(6) Y(3,-1)
+- 198 sqrt(5) sqrt(6) sqrt(7) Y(1,-1))/(462 sqrt(2) sqrt(3)sqrt(30) sqrt(%pi))
+   [wxMaxima: comment end   ] */
+
+
 /* [wxMaxima: input   start ] */
 12*5^(3/2)*sqrt(7)/(35*6^(3/2)*sqrt(11));
 /* [wxMaxima: input   end   ] */
@@ -91,17 +111,17 @@ print ("Clebsch =" ,Clebsch);
 
 /* [wxMaxima: input   start ] */
 load(orthopoly)$
-spherical_harmonic(2,0, theta, phi);
+spherical_harmonic(2,0, θ, φ);
 realpart(%);
 plot3d (%,
- [theta, 0, %pi],[phi, 0, 2*%pi],
+ [θ, 0, %pi],[φ, 0, 2*%pi],
  [transform_xy, spherical_to_xyz],
  [grid,30,60])$
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-spherical_harmonic(1,0,theta,phi);
+spherical_harmonic(1,0,θ,φ);
 /* [wxMaxima: input   end   ] */
 
 
@@ -161,4 +181,4 @@ seems to be OK
 
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 18.02.0"$
+"Created with wxMaxima 21.04.0"$

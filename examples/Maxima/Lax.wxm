@@ -1,0 +1,54 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 21.04.0 ] */
+/* [wxMaxima: section start ]
+Steeb & Hardy Ch. 85. Soliton Theory and Quantum Mechanics
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+ /* Lax.mac */
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+depends(u,x);
+depends(v,x);
+L: diff(v,x,2) + u*v;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+M: 4*diff(v,x,3) + 6*u*diff(v,x) + 3*diff(u,x)*v;
+A: subst(v=L,M);
+B: subst(v=M,L);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+commutator: A-B;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+commutator: ev(commutator,'diff);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+commutator: expand(commutator);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+print("commutator=",commutator);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+The output is given by the right-hand side of (7).
+   [wxMaxima: comment end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 21.04.0"$
