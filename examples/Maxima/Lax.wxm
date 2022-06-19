@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 21.04.0 ] */
+/* [ Created with wxMaxima version 19.07.0 ] */
 /* [wxMaxima: section start ]
 Steeb & Hardy Ch. 85. Soliton Theory and Quantum Mechanics
    [wxMaxima: section end   ] */
@@ -51,4 +51,4 @@ The output is given by the right-hand side of (7).
 
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 21.04.0"$
+"Created with wxMaxima 19.07.0"$
