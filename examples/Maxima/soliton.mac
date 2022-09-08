@@ -1,0 +1,33 @@
+/* Steeb & Hardy. Ch. 82. Soliton Theory and Quantum Mechanics */
+/* soliton.mac */
+depends(u2,x1,u2,x2,u2,x3,u2,x4);
+depends(u3,x1,u3,x2,u3,x3,u3,x4);
+depends(u4,x1,u4,x2,u4,x3,u4,x4);
+depends(p,x1);
+B4: diff(p,x1,4)+4*u2*diff(p,x1,2)+(4*u3+6*diff(u2,x1))*diff(p,x1)+4*u4*p+6*diff(u3,x1)*p+4*diff(u2,x1,2)*p+6*u2*u2*p;
+B3: diff(p,x1,3)+3*u2*diff(p,x1)+3*u3*p+3*diff(u2,x1)*p;
+A: diff(B3,x4);
+B: diff(B4,x3);
+W: subst(p=B3,B4);
+Z: subst(p=B4,B3);
+R: B-A+W-Z;
+R: ev(R,’diff);
+R: expand(R);
+print("R=",R);
+c0: coeff(R,diff(p,x1,7),1);
+print("c0=",c0);
+c1: coeff(R,diff(p,x1,6),1);
+print("c1=",c1);
+c2: coeff(R,diff(p,x1,5),1);
+print("c2=",c2);
+c3: coeff(R,diff(p,x1,4),1);
+print("c3=",c3);
+c4: coeff(R,diff(p,x1,3),1);
+print("c4=",c4);
+c5: coeff(R,diff(p,x1,2),1);
+c5: expand(c5);print("c5=",c5);
+c6: coeff(R,diff(p,x1,1),1);
+c6: expand(c6);print("c6=",c6);
+c7: coeff(R,p,1);
+c7: expand(c7);
+print("c7=",c7);
