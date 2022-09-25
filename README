@@ -25,6 +25,7 @@ Thus OLDER configure01jul2021 must be used as
  ./configure
 instead of the newer configure10sep21 !!!
 
+In fedora just ./configure works OK.
 
 To compile a program using SymbolicC++ with GCC:
 
