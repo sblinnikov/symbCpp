@@ -19,3 +19,34 @@ ctrl-d to exit
 
 Here rmaxima is aliased to 
  rlwrap -a maxima 
+
+Если установка через libsymbolic++ не работает:
+
+Now gflibsymb.sh works which has lines
+
+#!/bin/tcsh
+g++ -I include -c -fno-elide-constructors  src/*.cpp
+ar cvr ~/lib/libsymbcgf.a *.o
+ar ts  ~/lib/libsymbcgf.a
+exit
+
+
+This builds libsymbcgf.a in HOME/lib. Then quick translation is possible:
+
+g++ -I ./include -L ~/lib -o test1.exe examples/test1.cpp -fno-elide-constructors -lsymbcgf
+g++ -I ./include -L ~/lib -o matrix.exe examples/matrix.cpp -fno-elide-constructors -lsymbcgf
+g++ -I ./include -L ~/lib -o loperators.exe examples/loperators.cpp -fno-elide-constructors -lsymbcgf
+
+
+
+For 32bit systems use gf32libsymb.sh, and commands like
+
+g++ -I ./include -L ~/lib -o test1.exe examples/test1.cpp -lsymbcgf
+g++ -I ./include -L ~/lib -o bose.exe examples/bose.cpp -lsymbcgf
+g++ -I ./include -L ~/lib -o separation.exe examples/separation.cpp -lsymbcgf
+
+
+For intel icpc  use library built with iclibsymb.sh and
+
+icpc -I ./include -L ~/lib -o test1.exe examples/test1.cpp  -lsymbc
+icpc -I ./include -L ~/lib -o matrix.exe examples/matrix.cpp -lsymbc
