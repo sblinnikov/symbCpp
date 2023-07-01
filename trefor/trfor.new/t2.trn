@@ -1,3 +1,6 @@
-a=b;
+a=b
+#IF NEEDED PREP
 d=t; ! q -- w
-e=3;
+e=3
+if(e>2) write(*,*)'e=',e
+end

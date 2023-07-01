@@ -45,8 +45,8 @@ CALL DATE_AND_TIME (REAL_CLOCK(1), REAL_CLOCK(2),
       call GetArg(1, Path);
       LPath=LENGTH(Path);
      -- Call Trfin('S',0,fn//' '//ft//' '//fm,irc,80);
-      OPEN(7,FILE=Path(1:LPath),status='OLD',IOSTAT=IRC);
-      If ( IRC <> 0 ) stop 28; -- file not found
+--!       OPEN(7,FILE=Path(1:LPath),status='OLD',IOSTAT=IRC); -- old position, must be after %_filename
+--!       If ( IRC <> 0 ) stop 28; -- file not found
       call GetArg(2, TEMP);
       if( Npar<3 ) TEMP(:2)='./'; -- current directory if no TEMP
       LTMP=LENGTH(Temp);
@@ -54,6 +54,10 @@ CALL DATE_AND_TIME (REAL_CLOCK(1), REAL_CLOCK(2),
       if ( Npar<4 ) LSTchar='1'; -- creates LISTING in default
       read(LSTchar,'(I1)') LST;
       <*filename: get filename and extension, LFN - length *>;
+      write(*,'(2a)')'Filename.trf=',Filename(1:LFN)//'.trf';
+      OPEN(7,FILE=Filename(1:LFN)//'.trf',status='OLD',IOSTAT=IRC);
+--!       OPEN(7,FILE=Filename(1:LTMP+1)//'.trf',status='OLD',IOSTAT=IRC);
+      If ( IRC <> 0 ) stop 'stop 28: file not found'; -- file not found
       OPEN(8,FILE=Filename(1:LFN)//'.f');
 --      OPEN(3,FILE='PROFILE.TRF',status='OLD', IOSTAT=IRC);
       If ( LST==1 ) Then;
@@ -141,17 +145,22 @@ CALL DATE_AND_TIME (REAL_CLOCK(1), REAL_CLOCK(2),
 <*mypause: a suboutine mypause() replacig depricated pause *>;
 
 %_filename:
+
+--!   write(*,*)' in _filename1, LTMP=',LTMP;
   If ( Temp(LTMP:LTMP)<>':' & Temp(LTMP:LTMP)<>'/' ) Then;
     LTMP=LTMP+1;
     Temp(LTMP:LTMP)='/';
   Endif;
+--!   write(*,*)' in _filename2, LTMP=',LTMP,'  Temp(1:LTMP)=',Temp(1:LTMP);
   Filename(1:LTMP)=Temp(1:LTMP);
   i=Lpath;
   _While Path(i:i) <> '.' & i>=1 _Do
     i=i-1;
   _Od;
+--!   write(*,*)' in _filename3, i=',i,'  Path(1:i-1)=',Path(1:i-1);
   Filename(LTMP+1:)=Path(1:i-1);
   Lfn=LTMP+i-1;
+--!   write(*,*)' in _filename4, LTMP+1=',LTMP+1,'  Lfn=',Lfn;
 
 %_variables:
 REAL Cputim,Ttime;
@@ -202,6 +211,7 @@ CHARACTER*5 zonef90;
 
 
 %_string:
+
 Integer function LENGTH(Needle); -- LENGTH of TAIL STRIPPED string Needle
   Character*(*) Needle;
   LENGTH=LEN(Needle);

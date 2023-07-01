@@ -1,0 +1,20 @@
+program testPrepBakl;
+
+a=1.;
+write(*,*)'a=',a;
+b=a**2;
+write(*,*)'b=',b;
+
+#ifdef __GFORTRAN   
+   write(*, 110) 'Compiler         :', COMPILER_VERSION();
+   write(*, 110) 'Compiler options :', COMPILER_OPTIONS();
+#endif
+
+a=2.;
+write(*,*)'a=',a;
+
+a=3.;
+write(*,*)'a=',a;
+
+
+end program testPrepBakl;

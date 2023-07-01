@@ -5,7 +5,7 @@
 */
 --_outcom;
 --_trace "write(*,*)";
---_trace "write(*,*)'Wstate,Wp,spec,Outcar(Wpos),Wpos=',Wstate,Wp,spec,Outcar(Wpos),Wpos,";
+--! _trace "write(*,*)'Wstate,Wp,spec,Outcar(Wpos),Wpos=',Wstate,Wp,spec,Outcar(Wpos),Wpos,";
 --_trace "--------- ";
 _Define
    @FirstLab Remlab=Labs(Ssptr)
@@ -14,8 +14,8 @@ _Define
 -- @Wcard       'call dtcfio(1,Outcar);'
 --   @Wcard       "WRITE(8,5050)OUTCAR;"
    @Wcard       "WRITE(8,5050)(OUTCAR(ii),ii=1,WPOS);"
-  @Wcard       "WRITE(*,5050)(OUTCAR(ii),ii=1,WPOS);
-                WRITE(8,5050)(OUTCAR(ii),ii=1,WPOS);"
+--  @Wcard       "WRITE(*,5050)(OUTCAR(ii),ii=1,WPOS);
+  --              WRITE(8,5050)(OUTCAR(ii),ii=1,WPOS);"
 -- @WError      'call dtcfio(1,Wdia);Retcod=3;'
    @WError      "WRITE(8,5060)Wdia;Retcod=3;"
    @WError      "WRITE(8,@Eformat) CHLN ;Retcod=3;"
@@ -27,14 +27,20 @@ _Define
    _include trfcode;
    _Include tree; -- Variables for Tree of program
    <*3: VTOROY PROHOD. PO TREE POSTROIT@ VYHODNOY TEKCT HA FORTRANE*>;
- RETURN; <*F: Formats *>;END;
+ RETURN;
+ <*F: Formats *>;
+ END;
+
 %_Var:O
+
  <*C: variables for WTR *>;
  <*B: variable for SYNT *>;
  <*1: Common variables for coroutines COMPS,SYNT,WTR *>;
  <*A: variables for COMPS *>;
  <*Z: variables for ALIAS *>;
+
 %3:
+
  COMPS=1; Synt=1;  -- _NEW(COMPS)(Synt)
  RETWTR=2;    -- Return from WRITER TO Synt
  Spec=1; Wpos=1;
@@ -46,7 +52,7 @@ _Define
  GOTO @Writer_init;
  @Comps: GOTO(<*D:SPISOK METOK VO3OBNOVLENIJ COMPS*>),COMPS;
  2001: CONTINUE;
-   <*2:SOPROGRAMMA COMPS. SOBIRAET DEREVO TREE B TEKCT STRUKTURIROVAN.
+   <*2:SOPROGRAMMA COMPS. SOBIRAET DEREVO TREE B TEKCT STRUKTURIROVANNOGO
        FORTRANA, VYDAET POSIMVOL@NO B Synt, B KONCE VYDAET @Kt *>;
  @Synt: GOTO(<*E: Label List to resume Synt *>),Synt;
  3001: CONTINUE;
@@ -306,7 +312,9 @@ _Define
  @CHARACTER Alias(@lc),byte(2);
  Integer*2 Albyte; Equivalence (Albyte,byte(1));
  Logical Founda,Recals;
+
 %_Var.A:O
+
  @Integer CNSYMB,PNSYMB(@Stnode);
  INTEGER*2 CASON,CSYMB,PASON(@Stnode),PSPTR;
  @CHARACTER MCSYM(2);  EQUIVALENCE (CSYMB,MCSYM(1)); -- %321
@@ -314,7 +322,9 @@ _Define
  @CHARACTER Slind(2);  EQUIVALENCE (ILIND,Slind(1)); -- %3241
  Integer*2 CKY;
  @CHARACTER LINDT(@lc),KY(2);  EQUIVALENCE (CKY,KY(1));
+
 %33:
+
 /*  The stack automat, containing the stack states and either
     triplets of labels LAB1, LAB2, LAB3, or NCASE labels for CASE
     construction. Generates the following expansions:
@@ -489,13 +499,13 @@ _Define
             new stack state to the stack top.
    2    []  3AMENIT@ KOD HA CTEKE HA NOVYY
    0    :>  PUSTOE DEYSTVIE (B CEMAHT. PODPROGRAMME CO CTEKA
-            BUDET UDALENA VER6INA)
+            BUDET UDALENA VERSHINA)
    3    <<  SGENERIROVAT@ NCASE METOK,3ANESTI KOD CASE HA CTEK.
   -------------------------------------------------------------------
    SEMANTI4ESKIE PODPROGRAMMY:
    see %3344
   -------------------------------------------------------------------
-   P0: SOOBQENIE OB O6IBKE            !P7: VYDAT@ VHODNOY SIMVOL I
+   P0: SOOBQENIE OB OSHIBKE           !P7: VYDAT@ VHODNOY SIMVOL I
    P1: VYDAT@ TEKCT[1]                !    SOOBQENIE OB O6IBKE.
    P2: VYDAT@ LAB1, TEKCT[15]         !P8: VYDAT@ TEKCT[16], LAB1,
    P3: VYDAT@ TEKCT[2], LAB1          !    TEKCT[13];SNJT@ VER6INU CT.
@@ -517,7 +527,8 @@ _Define
    P28: _proc
   ---------------------------------------------------------------------
    */
- <*1: PEREMENNYE I PROCEDURY DLJ Synt *>;
+ <*1: PEREMENNYE I PROCEDURY DLJA Synt *>;
+
  _Proc @OutLT;
    Ioutlt=1; Numtxt=Out(1,jprog);
    _While Numtxt^=0 _Do
@@ -529,32 +540,48 @@ _Define
      Ioutlt=Ioutlt+1; Numtxt=Out(Ioutlt,jprog);
    _Od;
  _Return;
- <*2: USTANOVIT@ NA4AL@NOE SOSTOJNIE CTEKA I DR.PEREMENNYH *>;
- _WHILE <*3:HA VER6INE CTEKA HE SOSTOJNIE @KT *> _DO
-   Synt=2; GOTO @Comps;
+
+ <*2: USTANOVIT@ NACHAL@NOE SOSTOJANIE STEKA I DR. PEREMENNYH *>;
+ _WHILE <*3:NA VERSHINE CTEKA NE SOSTOJANIE @KT *> _DO
+   Synt=2;
+   GOTO @Comps;
    3002:CONTINUE;  -- RESUME COMPS
    <*4: TAKT RABOTY Synt C VHODNYM SIMVOLOM CS *>;
    3005: Continue;
  _OD
+
 %331:
+
  -- CTEK:STATE(@nstatemax),Labs(@nstatemax),Ssptr;
  -- PEREMENNAJ Llab DLJ GENERACII METOK;
  -- PEREMENNYE DLJ ABTOMATA: SCLASS,SPRED,CSTACK,SPROG.  CM.%3B
+
 %33_lab:
+
        Ilab=0; Remlab=Labs(Ssptr)+Numtxt+1;
        _WHILE Ilab < 5 _DO
-         Ilab=Ilab+1;SW=Remlab/10000;
-         Remlab=MOD(Remlab,10000)*10;SW=SW+Dig0;
-         Synt=3; GOTO @Writer;
+         Ilab=Ilab+1;
+         SW=Remlab/10000;
+         Remlab=MOD(Remlab,10000)*10;
+         SW=SW+Dig0;
+         Synt=3;
+         GOTO @Writer;
          3003: CONTINUE   -- RESUME WTR
        _OD;
+
 %33_txt:
-       ITXT=TBEG(Numtxt); CTXT=TLNG(Numtxt);  -- Outtxt
+
+       ITXT=TBEG(Numtxt);
+       CTXT=TLNG(Numtxt);  -- Outtxt
        _WHILE CTXT>0 _DO
-          MSW(@EqByte)=TXTS(ITXT);Synt=4; GOTO @Writer;
+          MSW(@EqByte)=TXTS(ITXT);
+          Synt=4;
+          GOTO @Writer;
           3004: CONTINUE; -- RESUME WTR
-          CTXT=CTXT-1; ITXT=ITXT+1
+          CTXT=CTXT-1;
+          ITXT=ITXT+1
        _OD
+
 %332:
        Ssptr=1; STATE(1)=1; -- STATE: INITIAL
        Cvardo=1;
@@ -878,14 +905,18 @@ _Esac;
      If(Fort) Numtxt=16 -- here 16 is a dummy to clear OUTCAR(1:6)
   _Fi;
   Waitbr=.false.;
+
 %3344_32:
+
   _If Fort _Then
      MSW(@Eqbyte)=@S_R_Br; SYNT=5; Goto @Writer
   _Else
      Goto @Perror
   _Fi
+
 %_Var.B:O
---  NIZE SIMVOLOM ; OBO3NA4EN SPECKOD @KO (KONEC OPERATORA):
+
+--  NIZHE SIMVOLOM ; OBOZNACHEN SPECKOD @KO (KONEC OPERATORA):
  Integer*2 Ioutlt,Jprog,Out(6,23)/  -- TXTS
   16, 1, 0, 0, 0, 0,                --  1:  IF(.NOT.(
   16,-1,15, 0, 0, 0,                --  2:  DO
@@ -953,16 +984,34 @@ INTEGER*2  CLASS(256)/
  Integer*2 Crko;
  @CHARACTER lcrko(2);
  Equivalence (Crko,Lcrko);
+ /*
  @CHARACTER TXTS(61) /':','I','F','(','.','N','O','T','.','(',
                       'D','O','.','G','T','.','L','T','.','G',
                       'E','.','L','E','.','N','E','.','E','Q',
                       '.','A','N','D','.','O','R','.',')',')',
                       'G','O','T','O',':','C','O','N','T','I',
                       'N','U','E','$','G','O','T','O','(',')',','/;
+ */
+ @CHARACTER TXTS(61) /':','I','F','(','.','N','O','T','.','(',
+                      'D','O','.','>',' ','.','<',' ','.','>',
+                      '=','.','<','=','.','/','=','.','=','=',
+                      '.','A','N','D','.','O','R','.',')',')',
+                      'G','O','T','O',':','C','O','N','T','I',
+                      'N','U','E','$','G','O','T','O','(',')',','/;
+ /*
  INTEGER*2 TBEG(22) /2,11,13,16,19,22,25,28,31,35,
                      5,39,45,54,1,54,45,55,55,61,60,45/;
+ */
+
+ INTEGER*2 TBEG(22) /2,11,14,17,20,23,26,29,31,35,
+                     5,39,45,54,1,54,45,55,55,61,60,45/;
+/*
  INTEGER*2 TLNG(22)/9,2,6*4,5,4,
                     5,6,9,5,10,1,10,4,5,1,2,1/;   --%3315
+                    */
+ INTEGER*2 TLNG(22)/9,2,1,1,2,2,2,2,5,4,
+                    5,6,9,5,10,1,10,4,5,1,2,1/;   --%3315
+
  Integer*4 Remlab,LABSEL,CURLAB;  -- %3312
  INTEGER*2 SCLASS,SPRED,CSTACK,SPROG,NSEL,NC,ICASE,Nproc;   -- %331
  INTEGER*2 SPRG(390)/
@@ -1064,7 +1113,9 @@ INTEGER*2  CLASS(256)/
  @CHARACTER VARDO(@Ndomax 0);
  INTEGER*2 Ido/0/;
  Integer*2 Lcurdo/0/;
+
 %34:S
+
  /* KONE4NYY ABTOMAT, POLU4AWQIY POSIMVOL@NO TEKCT PROGRAMMY HA
     FORTRANE CO SPECRA3DELITELJMI: @KO-KONEC OPERATORA,@KT-KONEC TEKCTA,
     @CR - Carriage Return, @BCM - Begin Comment,  @ECM - End Comment,
@@ -1159,7 +1210,9 @@ INTEGER*2  CLASS(256)/
  _WHILE WSTATE ^=0 _DO
    <*4: TAKT RABOTY ABTOMATA *>
  _OD
+
 %344:
+
 _Label @LabKO,@16;
  GOTO (@Comps,@Synt), Retwtr;
  @Writer: CONTINUE; -- RESUME Synt
@@ -1169,11 +1222,15 @@ _Label @LabKO,@16;
    _1 Outcar(Wpos)=Msw(@eqbyte); Wpos=Wpos+1
    _2 Spec=1
  _Esac;
+
 %3442:
+
  Wcl=WCLASS(SW+1,Spec);
  @LabKO: ISTATE=(WSTATE-1)*13+Wcl;
  WP=PLST(ISTATE);WSTATE=WST(ISTATE);
+
 %3443:
+
   _Case Wp _Of
       _1  --_If Chln^=Lnold _Then _call @HLN _Fi;
     --   Wpos=1
@@ -1254,7 +1311,9 @@ _Label @LabKO,@16;
           _Fi
       _20 Spec=2   -- for Fortran format I/O after _If _While _Select
   _Esac;
+
 %_Var.C:O
+
  @CHARACTER Savcar(15)/15*' '/,Symcon/@S_CONTINUATION/;
  INTEGER*2 I34,I344,Lnold,Wcl,Icont/1/;
  Integer*4 Wln;
@@ -1311,7 +1370,9 @@ INTEGER*2 WCLASS(256,2)/
    /'C-->Trefor  section begins....         '/,  -- %3443A
     Pascio
    /'(*  Pascal  section begins....       *)'/; -- %3443A
+
 %F:O
+
  5060: FORMAT(A40);
  5050: FORMAT(@Lc A1);
  @Eformat: FORMAT('CERROR(',I4,') Syntactical or Alias error');

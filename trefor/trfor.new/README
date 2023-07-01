@@ -18,15 +18,25 @@ Both ifcfor.mak for intel fortran and gffor.mak for gfortran are working now:
 
    make -f ifcfor.mak clean
    make -f ifcfor.mak
+(this is OK)
 
    make -f gffor.mak clean
    make -f gffor.mak
+(this is not OK yet, makes some garbage in the end of resulting  *.f file).
 
 On the next stage trefor is built from *trf source.
 
 make -f trefortrf.mak clean
 make -f trefortrf.mak trefor
-will make otrefor
+will make otrefor with ifort
+
+make -f gftrefortrf.mak clean
+make -f gftrefortrf.mak trefor
+will make otrefor with gfortran
+
+The options in *.mak should not (as a rule) check boundaries, 
+since then trefor fails in call DTCDIA
+(if -CB is on, then one has to change the subroutine DTCDIA and declaration of diagn).
 
 To test trefor (after successful build), without a wrapper trf, run simply:
 
@@ -34,6 +44,10 @@ To test trefor (after successful build), without a wrapper trf, run simply:
 or
   ./otrefor sel.trf . 1
 etc.
+
+For global paths now works, e.g.
+  ./otrefor `pwd`/sel.trf ' ' 1
+i.e. local dot is replaced by space
 
 To install
 
@@ -47,10 +61,13 @@ etc.
 
 Use the needed version of trefor in .trfrc in your home dir.
 
+NB. The fortran version of trefor makes extra space for line continued in output *.f file.
 
 Section 2. 
 
 If trf works in any version then you can build t95.
+NB: currently trefor made from trefor/fortran source makes errors in trn t95 compilation
+for <> it produces ". E." in place of ".NE."
 
 For gfortran
 
@@ -73,7 +90,7 @@ Use trefor95trf.mak and change variable SYSTYPE there for other compilers.
 
 To install
 
-sudo mv t95 btrefor95 /usr/local/bin/
+sudo mv -i t95 btrefor95 /usr/local/bin/
 
 Do not forget
 

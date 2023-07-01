@@ -1,0 +1,19 @@
+_outcom
+-- test apostroph in comments
+--! comments with pure ! do not allow e'
+--! comments with --! are OK with e'
+ implicit none
+ real a
+ integer i
+ real(8) :: x = 0.17_8 ! it was bad with underscore in numbers, OK in versions 2020
+  x = erf(x)
+  write(*,*) x, erf(x)
+  a=0.
+  do i=1,10
+    a=a+i
+  enddo
+  write(*,*)' a=', a
+end
+
+
+

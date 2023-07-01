@@ -30,7 +30,7 @@ issue
      make all95
 
 to get trefor95 which is more suitable for producing f90 and f95 compatible fortran
-files.    
+files (but still with .f extension, only the length of the string is up to 132).    
 
 Now you have 2 binary executables: trf* and trefor* (and/or trefor95*) -- put them
 to your executable  path (e.g. /usr/local/bin, or  local $HOME/bin/
@@ -103,3 +103,6 @@ Use, e.g.
     a2ps -p [-Pprinter] your\_code.lst
 
 command to printout Trefor listings.
+
+Update 31 aug 2021: the relations like <, >, <=, etc. are now not translated
+into .LT., .GT., .LE., etc. and remain as in input.

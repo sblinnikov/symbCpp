@@ -1,3 +1,5 @@
+_outcom ;
+_trace '---------';
 program numbers;
     integer Tot;
     real Num, Sum, Avg;

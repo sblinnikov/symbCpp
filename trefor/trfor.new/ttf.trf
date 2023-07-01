@@ -1,4 +1,19 @@
 _outcom ;
-_fortran 
-Program ttt -- Ada comment 
-end;
+--_fortran
+--_pascal
+      Program ttt; -- Ada comment
+      real :: aa, a=1., b=10.;
+      if(a/=b) write(*,'(a,1p,e11.3,a,e11.3)')'a =',a,'/=b:',b;
+      if(a<b) write(*,*)'a<b, a =',a;
+      do while (a<=b);
+       a=a+1;
+      enddo;
+      write(*,*)'end a =',a;
+      aa=a;
+      if(aa==a) write(*,*)'aa =',aa,' a=',a;
+      if(a>b) write(*,*)'a =',a,' b=',b;
+      if(a>=b) write(*,*)'a>=b, a =',a,' b=',b;
+      if(b<=a) write(*,*)'b<=a, a =',a,' b=',b;
+      write(*,*)'code < ',ichar('<'),char(60);
+      write(*,*)'code > ',ichar('>'),char(62);
+      end;

@@ -99,6 +99,7 @@ if [ ! -e $HOMETrefor/bin/trf ]; then
    echo '******'
    echo "trf (Trefor preprocessor) created"
    echo '******'
+   cd ../
   else
      echo trf found in /usr/local/bin
   fi
@@ -106,11 +107,27 @@ fi
 # add $HOMETrefor/bin/ to PATH
  export PATH=$HOMETrefor/bin:"$PATH"
 
+ cd trfor.new/
+ make -f gftrefor95trf.mak t95
+ make -f gftrefor95trf.mak trefor95
+
+   echo '******'
+   echo "t95 (Trefor preprocessor for f95) created"
+   echo '******'
+
+ make -f gftrefor95trf.mak clean
+ 
+ cd ../
+ cp ctrf2005/.trfrc ~/
+ cp trfor.new/.trnrc ~/
+
 echo Now copy
-echo  cp ctrf2005/.trfrc ~/
 echo  sudo cp ctrf2005/trefor.xml /usr/share/kde4/apps/katepart/syntax/trefor.xml
-echo  in modern KDE:
+echo in modern KDE:
 echo  sudo cp ctrf2005/trefor.xml  ~/.local/share/katepart5/syntax
+echo or
+echo sudo cp ctrf2005/trefor.xml /usr/share/org.kde.syntax-highlighting/syntax/
 echo and move:
-echo  sudo mv bin/trf bin/trefor bin/trefor95 /usr/local/bin/
+echo  sudo mv -i bin/trf bin/trefor bin/trefor95 /usr/local/bin/
+echo  sudo mv -i trfor.new/t95  trfor.new/btrefor95 /usr/local/bin/
 echo and you are done

@@ -1,5 +1,12 @@
-
--- _trace "write(*,*)'S,Symrdr,Sclass,SR,CC=',S,@Symrdr,Sclass,SR,CC,";
+--! DTCF1 -- Design Tree Compiler for Fortran 1st passage
+--! Important  variables:
+--! S  -- state of konechnyj avtomat
+--! SR -- symbol read
+--! @Symrdr -- for SR
+--! C, C1, C2, C3, CC -- symbols for processing and output
+--! Tclass - table of lexic classes
+--! TCC - table for possible symbol for recoding
+--!  _trace "write(*,*)'S,Symrdr,Sclass,SR,CC=',S,@Symrdr,Sclass,SR,CC,";
 _Label @P7,@P9,@P33,@error_format,@formprofile,
         @eofprofile, @errprofile, @synonym_header, @synonym_member,
         @f_include;
@@ -41,7 +48,9 @@ _Define
  Return;
    <*F: Formats for info & error messages *>;
  End;
+
 %2:o
+
  <*1: Common Variables for Coroutines Rdr and Anls *>;
  <*A: Variables of RDR *>;
  <*B: Variables of ANLS *>;
@@ -80,7 +89,9 @@ _Define
             After KY begins next card. Print Listing of Program *>;
  2000: Goto(<*D: List of Labels for ANLS Resuming *>),ANLS;
  2001: <*3: Body of Coroutine ANLS, construct Tree, coding spec. sym *>
+
 %21:O
+
  Integer*2 Dig0,Dig9,Colon,Zero/0/;
  Integer*4 Remlab;  -- Work var for %23223O
  Integer*2 C;@Character CL2(2);
@@ -103,7 +114,9 @@ _Define
             Lstno /'N'/;       -- Print Stop
  Logical   List  /.False./,   -- Print Full Listing
            Fort/.False./,Pascal/.False./,Oldlis(@Maxlevel),Lists;
+
 %2Z:O
+
  Integer*2 Sals,Pals,C3,Iclass, -- Variables for ALIASes
            Lroot,Pos,Alsrf;
  Integer*4  Ltxdef,Ltextd;   -- Position of Alias definition beginning
@@ -151,7 +164,9 @@ INTEGER*2 ACLASS(256)/
  10,  0,  0, 11,  9, 10,  0,  0,
  10,  0,  0, 11,  0, 10, 10,  0,
  10,  0,  0,  0, 11, 10, 10,  0/;
+
 %2P:
+
     i=@NSW;
     _Repeat
      [ -- Read(3,@formprofile,IOSTAT=IRC,End=@eofprofile) CARD;
@@ -174,7 +189,9 @@ INTEGER*2 ACLASS(256)/
        write(6,@errprofile) card; write(0,@errprofile)card;
      ];
     @Eofprofile: Numsw=i;   -- The number of Service Word Set
+
 %2P1:
+
     _While card(j)==@S_Blank _Do   -- Skip leading blanks
       j=j+1
     _Od; -- card(j)^=' '
@@ -185,15 +202,22 @@ INTEGER*2 ACLASS(256)/
       lslsl=lslsl+1; Slsl(lslsl)=@Symbol;
       j=j+1;
     _Od;
+
 %2P3=2P1:
+
 %2C:O
+
  1001,1002,1003
+
 %22:
+
  Endin=0;
  _While Endin==0 _Do
    <*1: Read and Transfer Cards until End_of_Text or End_of_Node *>
  _Od;       -- Integer Endin/0/
+
 %221:
+
   @ReadCard;
  _While (Card(1)^=@Percent .or. NCOMEN^=0) .and. Endin==0 _Do
      <*3: Transfer Card to Anls by symbol  *>;
@@ -201,7 +225,9 @@ INTEGER*2 ACLASS(256)/
      @ReadCard;
  _Od;
  <*5: Transfer to ANLS symbol @KY and print HEADER or @KT *>;
+
 %2213:
+
  IRDR=1;
  Sr=@Cr;Lcard=Lcard+1;Card(Lcard)=Lsr(@EqByte); -- Imitate Car. Ret
  _If Fort .and. (Card(1)==@S_C .or. Card(1)==@S_Aster) _Then
@@ -215,7 +241,9 @@ INTEGER*2 ACLASS(256)/
  _Od;
  Card(Lcard)=@S_Blank;    -- delete Carriage Return
  Lcard=Lcard-1; --? remove artificial CR
+
 %2214:
+
   _Case Idiag _Of
        IF(List .and. Lst==1) WRITE(6,1997) Cardn,Mark,(Card(ii),ii=1,Lcard);
    _1  WRITE(6,1997) Cardn,Mark,Card,Diagn;Idiag=0;  -- Information
@@ -224,35 +252,48 @@ INTEGER*2 ACLASS(256)/
    _3  WRITE(0,1997) Cardn,Mark,Card,Diagn;Idiag=0;  -- Warning
        WRITE(6,1997) Cardn,Mark,Card,Diagn;
  _Esac;
+
 %2215:
+
  _If Endin==0 _Then
    SR=@KY; RDR=3; Goto 2000;
    1003:CONTINUE;  -- Resume ANLS
    <*1: Print Header of Node from Card, Diagn, Cardn *>;
  _Else_If @include==0 _Then
-   SR=@KT; Goto 2000;
- _Else
-  List=Oldlis(@Include);Lst=Oldlst(@Include);
-  Close(@include);
-  @include=@include-1; cardn=cardn-1;
-  write(6,@f_include) @include;Endin=0;
-  if(@include==0) Mark=@S_Blank;
- _fi_fi;
+         SR=@KT; Goto 2000;
+      _Else
+         List=Oldlis(@Include);Lst=Oldlst(@Include);
+         Close(@include);
+         @include=@include-1; cardn=cardn-1;
+         write(6,@f_include) @include;Endin=0;
+         if(@include==0) Mark=@S_Blank;
+     _fi
+ _fi;
+
 %22151:
+
     <*1: Fill the line of the Header with Minuses  *>;
     WRITE(6,1998)Cardn,Mark,Card,Diagn;
     _If Idiag>0 _Then WRITE(0,1998) Cardn,Mark,Card,Diagn;Idiag=0 _Fi;
+
 %221511:S
+
    Lcard1=Lcard+1;
    _Do I=LCard1,@Lc [Card(I)=@S_Minus];
+
 %2A:O
+
  Integer Endin/0/;  -- %22
  Integer*2 IRDR; --= I    -- %2213
  Integer*2 SR;
  @Character LSR(2); Equivalence (SR,LSR);
+
 %2D:O
+
   2001,2002,2003,2004,2005,2006,2007,2008,2009
+
 %23:
+
  <*0: Variables for ANLS *>
  <*1: Modeling situation after succesful analysis of root header
       Node and reading 1-st symbol of the node text *>;
@@ -263,9 +304,12 @@ INTEGER*2 ACLASS(256)/
         If Header then Process it, Obtain in C 1-st symbol of text of
         Node or @KT, in Cnode - Number of Node of this Node *>;
  _Od
+
 %230:o
       -- See %2B:NUM,Lslsl,Slsl,C1,C2,CC,Cnode,Lnodes,Ltext
+
 %231:O
+
  Mark=@S_Blank;
  @Symbol=@Percent;Lind(1)=C;
  @Symbol=@zero;Dig0=C;  -- code of 0
@@ -292,7 +336,9 @@ INTEGER*2 ACLASS(256)/
  Wspec=.false.;
  Lastch=@S_Blank;
  ANLS=2; Goto 1000; 2002: CONTINUE;  -- Resume RDR
+
 %232:
+
  S=1;
  _While S^=0 _Do
    _If Sals^=0 _Then
@@ -309,7 +355,9 @@ INTEGER*2 ACLASS(256)/
         Execute program number P,
         if RF then read the next symbol into SR *>;
  _Od
+
 %232_ALD:
+
   /*       ***************************************
             Solution Table for Alias Definition
            ***************************************
@@ -375,10 +423,14 @@ INTEGER*2 ACLASS(256)/
  <*1: Get in Iclass Lexic alias class of SR ,
       in Pals - Number of Program *>;
  <*2: Perform program number Pals *>;
+
 %232_ald.1:O
+
  Iclass=Aclass(SR+1);
  Ips=(Sals-1)*8+Iclass; Pals=PPals(Ips); Sals=SSals(Ips);
+
 %232_ald.2:O
+
   _Case Pals _of
     _1 Anls=8; goto 1000;  -- Resume RDR, Return to 2008
     _2 Alpred(Ndef)=Alsprc; Alsprc=Ndef;
@@ -427,7 +479,9 @@ INTEGER*2 ACLASS(256)/
         _fi;
         Goto @P9;
   _Esac;
+
 %232_ald.2_lab:
+
       Remlab=Llab;  -- Generate Num. Label
       _do isamp=1,5;
         c2=Remlab/10000;
@@ -436,7 +490,9 @@ INTEGER*2 ACLASS(256)/
        _od;
       Llab=Llab-1;  -- Next Label
       Talfin(Ndef)=Ltext;
+
 %232_ald.2_proc:
+
 --    send @ret_procname to NALIAS and define it as RETRT//Nproc
  _Do i=1,4; Nalias(Calias)=RETL(i); Calias=Calias+1 _od;
  i=Palias(Ndef-1);
@@ -459,7 +515,9 @@ INTEGER*2 ACLASS(256)/
  _If Nc1st(Nproc)==0 _Then
      Nc1st(Nproc)=@Callmax; Retlab(@Callmax)=Llab; -- fictitious call
  _Fi;
+
 %232_ald.2_defl:
+
       <*1: Send Root into TEXT *>;
       _If Sals^=0 .or. Defr _Then
           Pos=Lroot;
@@ -477,19 +535,23 @@ INTEGER*2 ACLASS(256)/
           _Fi
       _Fi;
       Talfin(Ndef)=Ltext;
+
 %232_ald.2_defl.1:
+
  _Do Pos=1,Lroot; TEXT(Ltext)=Root(Pos);Ltext=Ltext+1 _Od;
+
 %2322:
-/*  KONE4NYY ABTOMAT DLJ ANALI3A TEKCTA U3LA.
-    RASPO3NAVAEMYE KONSTRUKCII:
-      1) SERIJ PROBELOV
-      2) 4ISLA ( STROKI TIPA 9H )
+
+/*  KONECHNYY ABTOMAT DLJA ANALIZA TEKCTA UZLA.
+    RASPOZNAVAEMYE KONSTRUKCII:
+      1) SERIJA PROBELOV
+      2) CHISLA ( STROKI TIPA 9H )
       3) IDENTIFIKATORY ( B SMYSLE ALGOL-68 )
-      4) SLUZEBNYE SLOVA (SERVICE WORDS) I PRO3VIQA (ALIAS)
-      5) TREBOVANIJ I KOMMENTARII PREPROCESSORA
-      6) KY - KONEC U3LA, KT - KONEC TEKCTA
+      4) SLUZHEBNYE SLOVA (SERVICE WORDS) I PROZVISCA (ALIAS)
+      5) TREBOVANIJA I KOMMENTARII PREPROCESSORA
+      6) KY - KONEC UZLA, KT - KONEC TEKCTA
       7) STROKI B APOSTROFAH
-      8) SOSTAVNYE SIMVOLY OTNO6ENIY >= , <= , ^= , ^> , ^< , ==
+      8) SOSTAVNYE SIMVOLY OTNOSHENIY >= , <= , ^= , ^> , ^< , ==
         (PO NIM VYDAET KODY SPECSIMVOLOV CM. %1)
       9) PROSTYE SIMVOLY ; $ ( KO - KONEC OPERATORA ),>,<,&,^,!,-
         (BHE STROKOVYH KOHCTAHT PEREKODIRUWTSJ, CM. %1)
@@ -503,7 +565,7 @@ INTEGER*2 ACLASS(256)/
       S7 - After >                           S16- After -( MINUS )
       S8 - After ^                           S17- Ada Comment OUT
       S9 - After <*                          S18- After _Include
-PRIMEChANIE: Konctpykcija _INCLUDE FN FT FM dolzna bytj edinstvennoj
+PRIMECHANIE: Konctpykcija _INCLUDE FN FT FM dolzna bytj edinstvennoj
             na ctpoke.
  Semantic subroutines: P1-P33.
  Read Next symbol after step of automat ,if '*' is not specified.
@@ -524,8 +586,8 @@ Waiting   |-/02 |  04 |  01 |  10 | *28 |  02 |  02 |  36 |  10 |  10 | --?
 Browse Dig|-/02 |  05 |  01 |  10 | *03 |  02 |  06 |  36 |  10 |  10 | --?
 it   S(2) | S01 | S02 | S03 | S04 | S00 | S05 | S01 | S06 | S07 | S08 |
 -----------------------------------------------------------------------
-Service   |  07 |  -  | *07 | *07 | *08 |  09 |  09 | *07 | *07 | *07 |
-Word S(3) | S01 | S03 | S01 | S01 | S01 | S03 | S03 | S01 | S01 | S01 |
+Service   |  07 |  -  |  09 | *07 | *08 |  09 |  09 | *07 | *07 | *07 | 3 Underline was *07
+Word S(3) | S01 | S03 | S03 | S01 | S01 | S03 | S03 | S01 | S01 | S01 |                 S01
 -----------------------------------------------------------------------
 After <   |  11 | *11 | *11 | *11 | *11 | *11 | *11 | *11 |  15 | *11 |
      S(4) | S01 | S01 | S01 | S01 | S01 | S01 | S01 | S01 | S01 | S01 |
@@ -632,21 +694,36 @@ ment S(17)| S17 | S17 | S17 | S17 | S17 | S17 | S17 | S17 | S17 | S01 |
 _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
      S(18)| S18 | S18 | S18 | S18 | S18 | S18 | S18 | S18 | S01 | S01 |
 -----------------------------------------------------------------------
-   _INT S,P,RF; - HOMEP SOSTOJNIJ,HOMEP PODPROGRAMMY,PRI3N.3APR.4TENIJ,
-   _INT SClass; - HOMEP LEKSI4.KLASSA VHODNOGO SIMVOLA,
-   TAUT -TABLICA ABTOMATA, Tclass - TABL.LEKS.KLASSOV */
+   _INT S,P,RF; - HOMEP SOSTOJNIJA,HOMEP PODPROGRAMMY,PRIZNAK ZAPRETA CHTENIJA,
+   _INT SClass; - HOMEP LEKSICH.KLASSA VHODNOGO SIMVOLA,
+   TAUT -TABLICA ABTOMATA, Tclass - TABLICA LEKSICH.KLASSOV */
  <*1: Put the class of symbol SR into SCLASS, possible symbol
       for recoding into CC *>;
  <*2: Get S, P, RF from arrays SS, PP, RFF *>;
+/*
+ write(*,*)' S,CC,SR=',S,CC,SR;
+ write(*,*)' Sclass=',Sclass, P, RF;
+*/
+
  <*3: Execute program number P *>;
  _If MAX(RF,ALSRF)==0 _Then
    ANLS=3; Goto 1000; 2003: CONTINUE;-- Resume Rdr
  _Fi
+
 %23221:
- Sclass=Tclass(SR+1);CC=TCC(SR+1);
+
+ Sclass=Tclass(SR+1);
+ CC=TCC(SR+1);
+
 %23222:
- IPS=(S-1)*@Nclass+Sclass;P=PP(IPS);S=SS(IPS);RF=RFF(IPS);
+
+ IPS=(S-1)*@Nclass+Sclass;
+ P=PP(IPS);
+ S=SS(IPS);
+ RF=RFF(IPS);
+
 %23223:
+
   _CASE P _OF
      _1  <*1: Clear SLSL *>
      _2  <*2: Put C in TEXT *>
@@ -800,12 +877,16 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
           endif;
           TEXT(LTEXT)=@Symrdr;LTEXT=LTEXT+1;
   _ESAC;
+
 %23223_UPalias: --?
+
  _DO kkk=Lalias1,Ltext-1;  --= insert -1 !!!
      @Symbol=Text(kkk); c=Up(c+1);
      Text(kkk)=@Symbol;
  _OD;
+
 %23223P:
+
     _Select
       _ @Symrdr==@S_Semicol [S=1; goto @P33]
       _ Lastch==@S_Blank .and. @Symrdr^=@S_Blank
@@ -821,7 +902,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
 			        C=SR;
 				Fn(ifn)=@Symbol]
     _End;
+
 %23223R:
+
      <*typemode*  Is Fn complete ?  CMS *>;
      <*extension: Is Fn complete ?  DOS *>;
      _Do iii=1,ifn; Fn(iii)=@S_Blank _Od;
@@ -836,7 +919,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
         2009: Continue;
        write(6,@f_include) @include; Mark=@S_Plus;
      _Fi;
+
 %23223R_typemode:  -- for CMS only
+
      _If nwords<3 _then          -- for CMS
         ifn=ifn+1;Fn(ifn)=@S_Blank;
         _If nwords==1 _then
@@ -848,7 +933,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
         ifn=ifn+1;Fn(ifn)=@S_Aster; -- Default Fmode *
      _Fi;
      Call Trfin('S',@include+1,Fn,irc,80);
+
 %23223R_extension:  -- for DOS only
+
     L=Ifn;
     _While L>1 .and. Fn(L) ^= @Point .and. Fn(L) ^= '/' _Do
         L=L-1;
@@ -860,18 +947,30 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
     Endif;
     OPEN(@Include+1,FILE=FNINCL(1:IFN),status='OLD',IOSTAT=IRC);
 --    write(0,*)' OPEN number=',@Include+1,'   file=',FNINCL(1:IFN);
+
 %232231:
+
  Lslsl=0;
+
 %232232:
+
 --= @UPC;Text(ltext)=@Symbol;ltext=ltext+1;
   C=SR;Text(ltext)=@SymRdr;ltext=ltext+1;
+
 %232233:
+
  C2=CC;@TextCC
+
 %232234:
+
  NUM=SR-@0; C2=SR; @TextC2
+
 %232235:
+
  NUM=NUM*10+SR-@0; C2=SR; @TextC2
+
 %232236:
+
  -- SR='H', NUM - Length of Hollerit. const
  _While NUM>0 .and. SR^=@KT .and. SR^=@ky _Do
    C2=SR; @TextC2;
@@ -879,11 +978,16 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
    2004: NUM=NUM-1
  _Od;
  _If SR==@KT .or. SR==@ky _Then
-   RF=1; WRITE(6,1995); -- PE4AT@ ' HE 3AVER6ENA TEKCT.KOHCT.
-   RETCOD=3;WRITE(0,1995)
- _Else C2=SR;@TextC2
+   RF=1;
+   WRITE(6,1995); -- PECHAT@  HE ZAVERSHENA TEKCT.KOHCT.
+   RETCOD=3;
+   WRITE(0,1995)
+ _Else
+   C2=SR; @TextC2
  _Fi
+
 %232237:
+
   _call @Get_Service_Word;
  _IF FOUND7 _THEN
    c2=Slcode(Lp7);   -- Code of service word
@@ -1009,7 +1113,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
 --      Call Dtcdia(DIAGN,1,Zero,idiag,retcod)
 --   _Fi;
  _Fi;
+
 %232237P:
+
    @Symbol=@S_GT;Tcc(c+1)=0;
    @Symbol=@S_LT;Tcc(c+1)=0;
    @Symbol=@S_NE;Tclass(c+1)=15;
@@ -1024,7 +1130,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
    PP(9 +3*@Nclass)=11;RFF(9 +3*@Nclass)=1;  -- <>
    PP(12+6*@Nclass)=11;RFF(12+6*@Nclass)=1;  -- >=
    PP(12+3*@Nclass)=11;RFF(12+3*@Nclass)=1;  -- <=
+
 %232237T:
+
    @Symbol=@S_GT;Tcc(c+1)=@gt;
    @Symbol=@S_LT;Tcc(c+1)=@lt;
    @Symbol=@S_NE;Tclass(c+1)=10;
@@ -1039,25 +1147,39 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
    PP(9 +3*@Nclass)=15;RFF(9 +3*@Nclass)=0;  -- <>
    PP(12+6*@Nclass)=14;RFF(12+6*@Nclass)=0;  -- >=
    PP(12+3*@Nclass)=12;RFF(12+3*@Nclass)=0;  -- <=
+
 %232237F=232237T:
+
 %232238:
+
  _If LCard==@Lc _Then
-    WRITE(0,1996); WRITE(6,1996);RETCOD=MAX0(RETCOD,2)
+    WRITE(0,1996);
+    WRITE(6,1996);
+    RETCOD=MAX0(RETCOD,2)
  _Fi;
  Goto @P7;
+
 %232239:
+
  _If Lslsl<@LENMAX _Then   -- Lenmax - max. length of service word
    --=Lslsl=Lslsl+1;@UPC;Slsl(Lslsl)=@Symbol; -- accum. service word
    Lslsl=Lslsl+1;Slsl(Lslsl)=@Symrdr; -- accum. service word
  _Else CALL Dtcdia(Diagn,1,Zero,Idiag,Retcod);
  _Fi
+
 %23223A:
+/*
+  write(*,*)'in %23223A: S,CC,SR=',S,CC,SR;
+  write(*,*)'in %23223A: Sclass=',Sclass, P, RF;
+*/
  _If CC^=0_Then
    C1=CC; Wspec=.true.
  _Else
    C1=SR; Wspec=.false.
  _Fi
+
 %23223B:
+
  C2=C1;
 /* _If Wspec _Then @TextCC; Wspec=.false.
         _Else  @TextC2
@@ -1071,27 +1193,47 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
 
 
 %23223C:
+
  C2= @Le; @TextCC
+
 %23223D:
- WRITE(0,1995); WRITE(6,1995);retcod=3;
+
+ WRITE(0,1995);
+ WRITE(6,1995);
+ retcod=3;
+
 %23223E:
+
  C2= @Ge; @TextCC
+
 %23223F:
+
  C2= @Ne; @TextCC
+
 %23223G:
+
  C2= @Eq; @TextCC
+
 %23223H:
- WRITE(6,1994);WRITE(0,1994);RETCOD=3;
+
+ WRITE(6,1994);
+ WRITE(0,1994);
+ RETCOD=3;
+
 %23223_call:
  --_Do I=1,4 [TEXT(Ltext)=RETL(I); Ltext=Ltext+1 ];
  Begnam=Ltext; -- begin of procedure name
+
 %23223_HEAD:
+
  Ipw=Talbeg(Ndef-2)-1;
  _Do I=1,5; TEXT(Ltext+I-1)=TEXT(I+Ipw) _Od; Ltext=Ltext+5;  -- LLAB
  _Do I=1,9; TEXT(Ltext+I-1)=CONL(I) _Od; Ltext=Ltext+9; -- :CONTINUE;
  C2=@KO; @TEXTCC;
  Lproc=.false.;
+
 %23223_RETC:
+
     -- after @Procname
     Ncall=Ncall+1;
     Iproc=0; Found7=.false.; Lalias=Ltext-Begnam-1;
@@ -1118,7 +1260,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
       CALL Dtcdia(Diagn,23,Zero,Idiag,Retcod);
     _Fi;
     Lcall=.false.;
+
 %23223_RETC.1:
+
  Jp7=0; Found7=.true.; KP7=Palias(i);
  _While (Jp7<Lalias) .and. Found7 _Do
    Jp7=Jp7+1;
@@ -1127,7 +1271,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
    Found7=@Symbol==Nalias(KP7);                 --?
    KP7=KP7+1;
  _Od;
+
 %23223_RETC.2:
+
  KP7=Ndefpr(Iproc)+1;
  Ipw=Talbeg(KP7);
  _Do I=1,6; TEXT(Begnam+I-1)=TEXT(Ipw+I-1) _Od; Ltext=Begnam+6;
@@ -1151,7 +1297,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
   _od;
  _Do I=1,9; TEXT(Ltext+I-1) =CONL(I)_Od; Ltext=Ltext+9;  -- :CONTINUE;
  C2=@KO; @TEXTCC;
+
 %23223K:
+
  <*1: If among the son nodes to the Node Cnode there exists
       Loc.index=Cind() Then Foundk=.True., Else  Foundk=.False. *>;
  _If Foundk _Then
@@ -1161,7 +1309,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
  Put code @Tr (request) to Text *>
  _Fi;
  Llind=0;
+
 %23223K1:
+
  Ipk1=Ason(Cnode); Cpk1=Nofson(Cnode); Foundk=.False.; -- INT Ipk1,Cpk1
  Ipk2=Plind(Lnodes);
  Llind=Clind-Ipk2;  -- Length of current Node Local index
@@ -1175,10 +1325,14 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
    _Fi;
    Ipk1=Ipk1+1; Cpk1=Cpk1-1;
  _Od;
+
 %23223K2:
+
  CALL Dtcdia(Diagn,2,Zero,Idiag,Retcod);
  Clind=Clind-Llind;
+
 %23223K3:
+
  _If Trace==@S_Plus _Then
    Tnode(Lnodes)=@S_Plus
  _Else
@@ -1195,7 +1349,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
  Lnodes=Lnodes+1;
  Plind(Lnodes)=Clind; Nofson(Cnode)=Nofson(Cnode)+1;
  C2=@Tr; @TextCC
+
 %233:
+
  <* VAR: FOUND,Erhead,Areq,Enhead,Path,RPath,Diagn2(30)-CM%2B *>
  <* Logical Found- PRI3NAK TOGO,4TO NAYDEN TEKCT U3LA POSLE
      PRAVIL@NOGO 3AGOLOVKA,
@@ -1242,7 +1398,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
           Then Prints Diagn2, pass by RDR until @ky or @KT *>
    _Fi
  _Od
+
 %2332:
+
  CALL Dtcdia(Diagn2,5,Zero,Idiag,Retcod);
  _If Gfound _Then
    CALL Dtcdia(Diagn,22,HEADLN(PATH),Idiag,Retcod);
@@ -1250,18 +1408,28 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
  _Else
    CALL Dtcdia(Diagn,3,Zero,Idiag,Retcod);
  _Fi;
+
 %2334:
+
  CALL Dtcdia(Diagn,4,Areq,Idiag,Retcod);
+
 %2335:
+
  ANLS=5; Goto 1000; 2005: CONTINUE;   -- RESUME RDR
+
 %2333:
+
  ANLS=6; Goto 1000; 2006: CONTINUE;   -- RESUME RDR
  WRITE(6,1993)Diagn2;
- IF(Refnfn)WRITE(0,1993)Diagn2;Refnfn=.False.;
+ IF(Refnfn) WRITE(0,1993)Diagn2;Refnfn=.False.;
  _While (SR^=@KT).and.(SR^=@ky) _Do
-   ANLS=7; Goto 1000; 2007: CONTINUE  -- RESUME RDR
+   ANLS=7;
+   Goto 1000;
+   2007: CONTINUE  -- RESUME RDR
  _Od
+
 %2331:
+
  /* INT Path - Path in Tree from ROOT NODE until Node with Global index
     from Card finishing at symbol C Number Enhead.
     INT Enhead - current position in Card. See %2B
@@ -1285,6 +1453,7 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
        <*7: Complete formation of element of NODES number Path
             and make it current Node *>
  _Fi_Fi;
+
 %23312:
  Enhead=1; Path=1; Erhead=.False.; Sinit=1;-- Initial state in DOWN
  -- Glind is empty
@@ -1353,7 +1522,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
  _Else
    CALL Dtcdia(Diagn2,7,Areq,Idiag,Retcod);Refnfn=.True.
  _Fi
+
 %2330:
+
   /*       **************** **************
                Automat for Local Indeces
            **************** **************
@@ -1380,10 +1551,14 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
         if the Son is not found then set  Erhead=.True. *>;
      Llind=0
  _Fi;
+
 %23300:
+
  <*1: Get in Iclass Lexic class of C , in P - Number of Program *>;
  <*2: Perform program number P *>;
+
 %233001:
+
  _Select
    _ @Symbol==@Point                       [ Iclass=3 ]
    _ @Symbol==@Underline                   [ Iclass=2 ]
@@ -1392,7 +1567,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
    _Other                                  [ Iclass=1 ]
  _End;
  IPS=(S-1)*5+Iclass;P=PPind(ips);S=SSind(IPS);
+
 %233002:
+
   _Case P _of
     _1 Llind=1; Cind(Llind)=C
     _2 Llind=Llind+1; Cind(Llind)=C
@@ -1401,7 +1578,9 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
     _5 Sinit=1
     _6 Llind=0
   _Esac;
+
 %23301:
+
  -- Ison - number of Son node
  -- Cson - a number of unexamined Son nodes
  Ison=Ason(Path); Cson=Nofson(Path); Erhead=.True.;
@@ -1417,9 +1596,13 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
    _Fi_Fi;
    Ison=Ison+1; Cson=Cson-1
  _Od;
+
 %233011:
+
  Path=Ison ;
+
 %2B:O
+
  Integer*2 Nproc/0/,  -- actual number of procedures
            Iproc,     -- current number of procedures
            Ncall/0/,  -- number of calls
@@ -1453,9 +1636,10 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
   0, 4, 1,10,28, 2, 2,36,10,10, 3,10, 2, 2, 2,19,10,10, 3, 0,
 --?  0, 5, 1,10, 3, 2, 6, 2,10,10, 3,10, 2, 2, 2,19,10,10, 3, 0,
   0, 5, 1,10, 3, 2, 6,36,10,10, 3,10, 2, 2, 2,19,10,10, 3, 0,
-  7, 0, 7, 7, 8, 9, 9, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+--7, 0, 7, 7, 8, 9, 9, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, -- orig for underline
+  7, 0, 9, 7, 8, 9, 9, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
  11,11,11,11,11,11,11,11,15,11,11,12, 0,11,11,11,11,11,11,11,
---?  0, 2, 1,10, 3, 2, 2, 2,10,10, 3,10, 2, 2, 2,19,10,10, 3, 0,
+---?  0, 2, 1,10, 3, 2, 2, 2,10,10, 3,10, 2, 2, 2,19,10,10, 3, 0,
 --? allow identifiers like aaa_bbb ! Sun  03-07-1993  14:24:12
   0, 2, 2,10, 3, 2, 2,36,10,10, 3,10, 2, 2, 2,19,10,10, 3, 0,
 --? 26,26,26,26,13,26,26,26,26,26,26,26,26,26,26,26,26,26,26, 0,
@@ -1476,7 +1660,8 @@ _Include  |  32 |  32 | 32  |  32 | 32  |  32 |  32 | 32  |  33 |  33 |
 Integer*2 SS(360)/
   1, 2, 3, 4, 0, 5, 5, 6, 7, 8, 1,10, 1, 1, 1,14,15,16, 1, 1,
   1, 2, 3, 4, 0, 5, 1, 6, 7, 8, 1,10, 1, 1, 1,14,15,16, 1, 2,
-  1, 3, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+--1, 3, 1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, --- orig for underline
+  1, 3, 3, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 1, 1, 1, 1, 1, 1, 1,
 --  5, 5, 3, 4, 0, 5, 5, 6, 7, 8, 1,10, 1, 1, 1,14,15,16, 1, 5,
 --? allow identifiers like aaa_bbb ! Sun  03-07-1993  14:24:12
@@ -1501,7 +1686,8 @@ Integer*2 SS(360)/
 Integer*2 RFF(360)/
   0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+--0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, -- orig for underline
+  0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, -- removed * (not working yet)
   0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0,
   0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -1529,7 +1715,8 @@ INTEGER*2 TCLASS(256)/
 --? 15,15,15,15,15,15,15,15,15,15,15,15, 1,11,15,15,15,15,11, 8,
 15,15,15,15,15,15,15,15,15,15,15,15, 1,11, 8,15,15,15,11, 8,
 15,15,13,15,15,18,15,17, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,14,11,
- 4,12, 9, 6,16, 6, 6, 6, 6, 6, 6, 6, 7, 6, 6, 6, 6, 6, 6, 6,
+ 4,12, 9, 6,16, 6, 6, 6, 6, 6, 6, 6, 7, 6, 6, 6, 6, 6, 6, 6, -- char(60)=='<', class 4, pos. 61 in this table
+ -- char(62)=='>', class 9, pos. 63 in this table
  6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,11,15,11,10, 3,15, 6, 6, 6,
  6, 6, 6, 6, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
  6, 6, 6,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,
@@ -1594,7 +1781,9 @@ PSLSL( 65)/
  Logical @New_Tree,Erhead,Foundk,Found,Found7,Refnfn/.False./;
  Integer*2 Areq,Enhead,Path,RPath,Nhead;
  Integer*2 Ison,Cson;         -- %23301
+
 %2_get:
+
  Lp7=0; Found7=.false.;  -- Lp7 - popjdkovyj nomep sl.slova
  _While Lp7<Numsw .and. ^ Found7 _Do  -- Numsw - Number of Service Words
      Lp7=Lp7+1;
@@ -1604,7 +1793,9 @@ PSLSL( 65)/
  _Od;
  Lp7=Order(Lp7);  -- SERVICE WORD order Number
  Ip7=Refsw(Lp7);  -- SERVICE WORD Group Number
+
 %2_get.1:
+
  Jp7=0; Found7=.True.; KP7=Pslsl(Lp7);
  _While Jp7<Lslsl .and. Found7 _Do
    Jp7=Jp7+1;
@@ -1613,7 +1804,9 @@ PSLSL( 65)/
    Found7=@Symbol==TSlsl(KP7);   --?
    KP7=KP7+1
  _Od
+
 %F:
+
  @Synonym_header:format(7x,'-- Synonym List --');
  @errprofile  :Format(1X,'->Error',1X,@lc A1,1X,'Error in TREFOR $PROFILE');
  @error_format:Format(1X,'->Error',1X,@lc A1,1X,34A1);
