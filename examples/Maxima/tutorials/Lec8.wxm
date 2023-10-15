@@ -1,0 +1,592 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 20.11.1 ] */
+/* [wxMaxima: section start ]
+Операции с матрицами и векторами
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Matrices can be entered row-wise, and symbolicaly, such as this 2 dimensional rotation matrix, with variable θ as rotation angle:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r1:transpose([t1,x1,y1,z1]);    /* r1 is a column vector */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r1*r1; /* прямое произведение - операция звёздочка */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r1.r1; /* скалярное произведение - операция точка */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r2:transpose([t2,x2,y2,z2]);    /* r2 is a column vector */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r1.r2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+M_θ:matrix([cos(θ),sin(θ)],[-sin(θ),cos(θ)]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- т.е. M_θ есть матрица оператора поворота на угол θ.
+Multiplying the result with the orthonomal 2D basis vectors X1 and X2:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+M_θ . matrix([1],[0]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g_ik:diag_matrix(-1,1,1,1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g_ik.r1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r2.(g_ik.r1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r1.(g_ik.r1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- т.е. таким образом мы получаем нужное выражение для скалярного произведения в псевдоэвклидовом пространстве без введения мнимого времени.
+
+Multiplying the result with vectors x and y:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* x:[x1,x2]; */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/*y:[y1,y2];*/
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/*M*matrix([x],[y]);*/
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Automatic inverse (which could be simplified):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+invert(M_θ);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+trigsimp(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+I:[1,0]; 
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+J:[0,1];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r_test:x*I+y*J;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+M_θ*r_test;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* M_θ*transpose(r); -- does not work6 */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* M_θ*matrix([x*I],[y*J]); */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+M:matrix([a,b],[c,d]);
+V:[x,y];
+res:M.V;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Важно: результат действия оператора мы получаем только если пишем M.V !
+Тогда правильно умножается строка на столбец
+Если напишем M*V  (центальная точка получается при нажатии звёздочки), 
+то получаем прямое произведение компонент:;
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+M*V;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- тут строка умножается на строку и ничего не складывается!
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+mult:M_θ.V;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+transpose(mult);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+ V, as defined in the OP, is actually a list and not a vector, by Maxima's definitions; however, the approach is the same, in either case:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Mtest:matrix([a,b,c],[d,e,f],[g,h,q]);
+Vtest:[w,k,t];                /* V is a list */
+v1:transpose([w,k,t]);    /* v1 is a column vector */
+v2:matrix([w],[k],[t]);   /* v2 is a column vector */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+In all cases, use args:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+output1:args(Mtest.Vtest);   /* returns a list of lists */
+output2:args(Mtest.v1);  /* returns a row vector */
+output3:args(Mtest.v2);  /* returns a row vector */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+will return objects that look the same, but don't have exactly the same behaviour. For example:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* output1[1,1]; */   /* will return an error, because `output1` is a list, not a matrix */
+
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+output1[1][1];  /* will return the first (only) entry of the first list */
+
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* output2[1,1]; */  /* isn't defined, because `output2` is a vector, not a list */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+output2[1][1]; /* returns the 1-1 element of the vector `output2`  */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+output3[1];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+output3[1][1];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+output3[2];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+output3[3];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+v1.v2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+v1*v2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+M_u:matrix([cos(u),sin(u)],[-sin(u),cos(u)]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+L_u:subst(%i*u,u,%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+W:[x,%i*t]; /* World point -- мировая точка */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+L_u.W;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Тензоры в пространстве-времени
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(ctensor);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords:[t,x,y,z];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg:matrix([1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric(true);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Do you wish to see the metric inverse?</st><st> </st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+y;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coordsys(cartesian4d);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords:[t,x,y,z];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg:matrix([1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,-1]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric(true);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Do you wish to see the metric inverse?</st><st> </st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+y;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg:diag_matrix(1,-1,-1,-1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric(true);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Do you wish to see the metric inverse?</st><st> </st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+y;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scurvature();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+reset();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(ctensor);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords:[t,x,y,z];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dim;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg:diag_matrix(cosh(u)^2,-sinh(u)^2,-1,-1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric(true);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Do you wish to see the metric inverse?</st><st> </st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+y;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scurvature();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg:matrix([1,0,0,0],[0,-b,0,0],[0,0,-c,0],[0,0,0,-d]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric(true);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Do you wish to see the metric inverse?</st><st> </st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+y;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coordsys(polar);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg; /* метрика */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+т.е. ds^2 = g_{rr}*dr^2+g_{φφ}*dφ^2 = dr^2 + r^2*dφ^2
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dim;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+reset();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(ctensor);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dim:2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords:[θ,φ];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dim;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg:diag_matrix(R^2,R^2*sin(θ)^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric(false);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Do you wish to see the metric inverse?</st><st> </st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+y;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+christof(mcs);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scurvature();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+reset();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(ctensor);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coordsys(spherical);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dim;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric(true);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Do you wish to see the metric inverse?</st><st> </st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+y;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scurvature();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coordsys(spherical4d);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric(false);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scurvature();
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 20.11.1"$

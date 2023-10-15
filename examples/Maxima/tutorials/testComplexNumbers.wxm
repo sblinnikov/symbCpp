@@ -1,0 +1,259 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 20.09.0-DevelopmentSnapshot ] */
+/* [wxMaxima: comment start ]
+test sums and Re
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sum (i^2, i, 1, 7);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sum (q^k, k, 0, N), simpsum;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+С этой задачей wxmaxmima справилась лучше, чем mathematica
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sum (exp(%i*a*k), k, 0, N), simpsum;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+realpart(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+(sin(a)*sin((N+1)*a)+(cos(a)-1)*(cos((N+1)*a)-1))/(sin(a)^2+(cos(a)-1)^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+trigsimp(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+cos(a)-1=cos(2*a/2)-1=cos^2(a/2)-sin^2(a/2)-1=-2sin^2(a/2)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+(sin(a/2))^2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+(1-cos(a/2))^2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+trigsimp(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(draw)$
+f(t):=(2*exp(%i*t) - exp(2*t*%i))/4;
+  wxdraw2d(
+  key="main cardioid",
+  nticks=200,
+  parametric( 0.5*cos(t) - 0.25*cos(2*t), 0.5*sin(t) - 0.25*sin(2*t), t,0,2*%pi),
+  title="main cardioid of M set "
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(polar(abs(exp(t*%i)/2 -exp(2*t*%i)/4),t,0,2*%pi));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load("to_poly_solve") $
+
+e: (2*exp(2*%i*%pi*t) - exp(4*%pi*t*%i))/4 - c $
+s: to_poly_solve(e, t)                         $
+s: maplist(lambda([e], rhs(first(e))), s)      $ /* unpack arguments of %union */
+ratexpand(s);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot3d(abs((x+%i*y-3)*(x+%i*y-5)*(x+%i*y-6)), [x,2,7], [y,-1,1],  [grid,100,100], [z,0,5])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Решить уравнение:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solution:solve(z^6=1,z);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Понятно, что тут два действительных корня, но ещё есть 4 комплексных. Здесь решения записаны в виде уравнений, выделим только правую часть:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solrhs:map(rhs,solution);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Теперь отделим действительную часть решений:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rr:realpart(solrhs);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+и мнимую:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ii:imagpart(solrhs);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Одна из компонент:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rr[1];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Можно записать и в полярных координатах:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sp:polarform(solrhs);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Можем изобразить на графике:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(proportional_axes=xy,xrange=[-2,2],yrange=[-2,2],point_size = 2,
+    point_type = filled_circle,points(rr,ii));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(proportional_axes=xy,xrange=[-2,2],yrange=[-2,2],points(rr,ii),head_length = 0.1,
+             vector([0,0],[rr[1],ii[1]]),vector([0,0],[rr[2],ii[2]]),vector([0,0],[rr[3],ii[3]]),vector([0,0],[rr[4],ii[4]]),vector([0,0],[rr[5],ii[5]]),
+    vector([0,0],[rr[6],ii[6]]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Example of using random:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ wxdraw2d(point_size = 3, points(makelist([random(20),random(50)],k,1,10)),
+point_size = 3,  point_type = filled_circle,
+points(makelist(k,k,1,20),makelist(random(30),k,1,20)))$
+
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N:50;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ψ:%e^((%i*%pi)*makelist(random(2.3),k,1,N))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rpsi:realpart(ψ)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ipsi:imagpart(ψ)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(proportional_axes=xy,xrange=[-2,2],yrange=[-2,2],point_size = 2,
+    point_type = filled_circle,points(rpsi,ipsi));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Test plotting vectors:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+myvectors: makelist (makelist (vector([i, j], [i, -j]), j, 1, 3), i, 1, 3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+vector_options: [head_length = 0.1, head_angle = 10, head_type = empty];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+append (vector_options, myvectors);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+apply (wxdraw2d, %);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+psivectors:makelist (vector([0, 0], [rpsi[i], ipsi[i]]), i, 1, N)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+vector_options: [head_length = 0.07, head_angle = 10];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+plotoptions:append (vector_options, psivectors)$ /*remove dollar to see output */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+apply (wxdraw2d, plotoptions);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 20.09.0-DevelopmentSnapshot"$

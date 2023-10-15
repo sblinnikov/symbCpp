@@ -1,0 +1,35 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 20.09.0-DevelopmentSnapshot ] */
+/* [wxMaxima: input   start ] */
+load(unit);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+convert(cm,m);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(convert(eV,J));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Testimated:2e7;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+k_B:1.38e-23;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(k_B*Testimated/convert(eV,J));
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 20.09.0-DevelopmentSnapshot"$

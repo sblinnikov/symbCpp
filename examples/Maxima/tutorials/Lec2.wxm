@@ -1,0 +1,225 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 21.04.0 ] */
+/* [wxMaxima: title   start ]
+Примеры к Лекции 2
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Работа в СИ единица Дж=1 H*м=10^5 дин*10^2 см=10^7 эрг
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+Масса Солнца в СГС:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Msun:2e33; /* г  */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+2е30 кг
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+Светимость Солца, эрг/с:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Lsun:4e33;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+4е26 Вт
+
+Удельная мощность энерговыделения в Солнце
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+εsun:Lsun/Msun;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- всего 2 эрга в секунду = 2.10^{-7} Вт!
+
+Светимость новой в максимуме (peak luminosity):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+LpeakNova:1e5*Lsun;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Выброшенная масса:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+δM:1e-4*Msun;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+это в граммах
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Пример определения новой функции
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Добавим десятичный логарифм lg, в maxima натуральный логарифм обозначен log
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg(x):=log(x)/float(log(10.));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Определим полином 10й степени как выражение:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+poly10:(x + 3)^10;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Определим его же как функцию:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fpoly10(x):=(x+3)^10;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Простейшие графики:
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d (fpoly10(x), [x, -2, 2]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Для логарифма (lg):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d (lg(fpoly10(x)), [x, -2, 2]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+В том же духе, как для звёздных величин: -2.5lg(S), т.е. изменение потока в 100 раз даёт нам разницу 5 величин, причём, чем больше поток, тем меньше звёдная величина (сокращённо зв.вел.). Тут же покажем, как повлиять на толщину линии на графике:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d (-2.5*lg(fpoly10(x)), [x, -2, 2],[style, [lines,8]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Светимость сверхновой в максимуме (peak luminosity):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+LpeakSN:1e10*Lsun;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Характерная скорость выброса сверновой 10 тыс. км/с, 1 км = 10^5 см:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+v_ej:10^4*10^5;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Кинетическая энергия выброса:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Msun*(v_ej)^2/2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Эта энергия 10^{51} эрг и есть единица foe=Bethe
+51=fifty one erg = foe 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%pi;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(%pi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sin(2.3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fpprintprec:30;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(%pi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fpprec:25;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+bfloat(%pi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sin(2.3b0);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 21.04.0"$

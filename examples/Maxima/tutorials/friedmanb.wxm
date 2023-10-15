@@ -1,0 +1,55 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 20.11.1 ] */
+/* [wxMaxima: input   start ] */
+load(ctensor);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords:[t,r,θ,φ];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+depends(a,t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg:diag_matrix(1,-a^2/(1-k*r^2),-a^2*r^2,-a^2*r^2*(sin(θ))^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric(false);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+christof(mcs);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ricci(true);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+leinstein(true);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scurvature();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+tex(%);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 20.11.1"$

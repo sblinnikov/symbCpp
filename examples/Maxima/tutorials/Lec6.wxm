@@ -1,0 +1,65 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 20.11.1 ] */
+/* [wxMaxima: section start ]
+Ряд Тэйлора
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Например, для экспоненты:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ taylor (exp(x) , x, 0, 10);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ texp(x):= taylor (exp(x) , x, 0, 10);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+taylor(sinh(x),x,0,10);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+taylor(cosh(x),x,0,10);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+(exp(x)+exp(-x))/2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+subst(%i*x,x,%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+demoivre(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+subst(x/%i,x,%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cosh(x)^2-sinh(x)^2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+trigsimp(%);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 20.11.1"$

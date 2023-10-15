@@ -1,0 +1,276 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 20.11.1 ] */
+/* [wxMaxima: title   start ]
+https://dirkmittler.homeip.net/blog/archives/9031
+animations
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(draw)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scene1: gr2d(title="Ellipse",
+                   nticks=30,
+                   parametric(2*cos(t),5*sin(t),t,0,2*%pi))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scene2: gr2d(title="Triangle",
+                   polygon([4,5,7],[6,4,2]))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw(scene1, scene2, columns = 2)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+draw(
+        delay     = 100,
+        file_name = "zzz",
+        terminal  = 'animated_gif,
+        gr2d(explicit(x^2,x,-1,1)),
+        gr2d(explicit(x^3,x,-1,1)),
+        gr2d(explicit(x^4,x,-1,1)));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scenes: []$
+
+for i thru 20 do (
+    scenes: append(scenes,
+            [gr3d(explicit(sin(%pi*(x+(i/10)))*cos(%pi*y),
+                x, -1, 1, y, -1, 1))]
+        )
+)$
+
+draw(
+    delay = 10,
+    file_name = "wavy",
+    terminal = 'animated_gif,
+    scenes
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scene2: []$
+
+for i thru 2 do (
+    scene2: append(scene2,
+            [gr3d(explicit(sin(%pi*(x+(i/10)))*cos(%pi*y),
+                x, -1, 1, y, -1, 1))]
+        )
+)$
+
+wxdraw(
+    delay = 10,
+    scene2
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+explObj: explicit(sin(%pi*x)*cos(%pi*y), x, -1, 1, y, -1, 1)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+with_slider_draw3d(
+   f, [30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360],
+   view = [60, f],
+   color=blue,
+   surface_hide=false,
+   explObj,
+   enhanced3d=[0.5, x, y, z], cbrange = [0.4, 0.6],
+   colorbox=false,
+   palette=gray,
+   wired_surface=true,
+   explObj
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+obj1d: explicit(sin(%pi*x)*cos(%pi*x), x, -1, 1)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+   color=blue,
+   surface_hide=false,
+   obj1d,
+   colorbox=false,
+   palette=gray,
+   obj1d
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(unit);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+convert(cm,m);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(convert(eV,J));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Testimated:2e7;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+k_B:1.38e-23;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(k_B*Testimated/convert(eV,J));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Test waves and wavepackets:
+dx=sqrt(2.)
+k0=5
+omega0=pi/20. #omega0/k0 is the phase velocity
+vg=pi/20. #group velocity
+do for [i=0:100] {
+t=i*1.0
+plot  exp(-(x-4-vg*t)**2/(4.*dx**2))*cos(k0*x-omega0*t) lw 3 lc rgb "green" notitle,  exp(-(x-4-vg*t)**2/(4.*dx**2)) lw 3 lc rgb "blue" notitle,-exp(-(x-4-vg*t)**2/(4.*dx**2)) lw 3 lc rgb "blue" notitle
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x,t):=exp(-(x-4-vg*t)^2/(4.*dx^2))*cos(k0*x-ω0*t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+env1(x,t):=exp(-(x-4-vg*t)^2/(4.*dx^2));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+env2(x,t):=-exp(-(x-4-vg*t)^2/(4.*dx^2));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dx:sqrt(2.);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+k0:5;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ω0:π/20.;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+vg:π/20;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+i:0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* t:i*1.0 */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ψ(y) := cos(y);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d([ψ(t)],[t,-π,π]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ for i thru 1 do (
+wxplot2d([f(x,i*10.),env1(x,i*10),env2(x,i*10)],[x,0,20],[style, [lines,4]])
+    );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* scenes: []$ for i thru 100 do (     )  */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+explicit(sin(%pi*x)*cos(%pi*y), x, -1, 1, y, -1, 1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scenewp: []$
+for i thru 40 do (
+    scenewp: append(scenewp,
+            [gr2d(title="wavePacket",line_width = 3,explicit(f(x,i*10), x, 0, 60))])
+        )$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+draw(
+        delay     = 20,
+        file_name = "wavePacket40",
+        terminal  = 'animated_gif,
+        scenewp
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scenetest: gr2d(title="wavePacket",
+                   nticks=30,explicit(ψ(t),t,-π,π)
+                   )$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+draw(
+    delay = 10,
+    file_name = "cosine",
+    terminal = 'animated_gif,
+    scenetest
+)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(line_width = 3,
+             color      = blue,
+             explicit(f(x,10),x,0,20) )$
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 20.11.1"$

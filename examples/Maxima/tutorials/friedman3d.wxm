@@ -1,0 +1,123 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 20.11.1 ] */
+/* [wxMaxima: input   start ] */
+load(ctensor);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dim:3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords:[r,θ,φ];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Строим метрику как матрицу 
+lg -- lower g_{ik} ковариантный тензор, часто ещё нужен ug -- upper g^{ik} -- контравариантный
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg:diag_matrix(a^2/(1-k*r^2),a^2*r^2,a^2*r^2*(sin(θ))^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+cmetric () 
+A function in the ctensor (component tensor) package that computes the metric inverse
+and sets up the package for further calculations. Argument false/true - if the result is to be displayed
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric(false);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Now  ug -- upper g^{ik} -- contravariant is ready for output:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ug;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Символы Кристоффеля $Г^i_{jk}$ выдаются как $mcs_{j,k,i}$ -- верхний индекс стал последним:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+christof(mcs);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Тензор Риччи:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ricci(true);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Тензор Эйнштейна with lower indices:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+leinstein(true);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+ ein[]   Mixed Einstein-tensor:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+einstein(true);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+tex(%t31);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Скаляр Риччи:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scurvature();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Выдача в ТеХ последней строки:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+tex(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Через export wxMaxima можно выдать весь ввод/вывод в красивый файл в HTML или TeX.
+   [wxMaxima: comment end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 20.11.1"$

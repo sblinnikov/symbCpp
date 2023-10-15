@@ -1,0 +1,752 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 20.11.0-DevelopmentSnapshot ] */
+/* [wxMaxima: section start ]
+Производные в maxima
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Простое присваивание переменной:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+poly10:(x + 3)^10;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Определение функции
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fpoly10(x):=(x+3)^10;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+График:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d (fpoly10(x), [x, -2, 2],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Добавим десятичный логарифм lg, в maxima натуральный логарифм обозначен log
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg(x):=log(x)/float(log(10.));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d (lg(fpoly10(x)), [x, -2, 2],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d (-2.5*lg(fpoly10(x)), [x, -2, 2],[style, [lines,8]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+depends(f,x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+diff(f,x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+depends(ψ,[x,t]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+diff(ψ,t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+de1 : diff ( poly10, x );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+de1r : ratdiff ( poly10, x );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(lg(10.));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+1.9.1 A Function Which Takes a Derivative
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(y) := y^3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d([f(t)],[t,-2,2],[style, [lines,6]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define ( dotf(t), diff ( f(t), t) );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d([f(t),dotf(t)],[t,-2,2],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dotft(t,t0):=dotf(t0)*(t-t0)+f(t0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d([f(t),dotft(t,1.5)],[t,-2,2],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d([f(t),dotft(t,1.5)],[t,1,2],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d([f(t),dotft(t,1.5)],[t,1.3,1.7],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d([f(t),dotft(t,1.5)],[t,1.45,1.55],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Другой способ для того же графика:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(draw)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ wxdraw2d(
+grid=true,
+xrange=[1.45,1.55],
+yrange=[3,3.8],
+title="Derivative of f(t) near t_0=1.5",
+border=true,
+line_width = 3,
+color=blue,
+explicit(f(t),t,1.45,1.55),
+color=red,
+explicit(dotft(t,1.5),t,1.45,1.55)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Видно, как хорошо вблизи t_0 разложение f(t0)+df/dt*(t-t0) приближает гладкую функцию f(t).
+Разницу этого разложения с точной f(t) можно так же аппроксимировать, войдёт 2-ая производная и т.д.
+Получим ряд Тэйлора.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Ряд Тэйлора
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Например, для экспоненты:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ taylor (exp(x) , x, 0, 10);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ texp(x):= taylor (exp(x) , x, 0, 10);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+grid=true,
+xrange=[0,10],
+yrange=[0,10000],
+title="Taylor series of exp(t) near t_0=0",
+border=true,
+line_width = 3,
+color=blue,
+explicit(exp(t),t,0,10),
+color=red,
+explicit(texp(t),t,0,10)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+exp(%i*x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+realpart(exp(%i*x));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+imagpart(exp(%i*x));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Проверим, что exp(i*x)=cos(x)+i*sin(x)  через ряд Тэйлора
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+texp(x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+taylor(cos(x),x,0,10);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+taylor(sin(x),x,0,10);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Сравнение коэффициентов при разных степенях доказывает равенство.
+Более наглядно, если превратить  texp в полином (copy-paste выдачу): 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+polyexp(x):=1+x+x^2/2+x^3/6+x^4/24+x^5/120+x^6/720+x^7/5040+x^8/40320+x^9/362880+x^10/3628800;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+polyexp(%i*α);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Для произвольных комплексных чисел есть представление в виде:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+polarform(a+b*%i);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+polarform(5+5*%i);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Основной закон динамики через exp(iα)
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+test sums and Re
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sum (k^2, k, 1, 7);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sum (q^k, k, 0, N), simpsum;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+С этой задачей wxmaxmima справилась лучше, чем mathematica
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sum (exp(%i*a*k), k, 0, N), simpsum;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+realpart(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Решить уравнение:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solution:solve(z^6=1,z);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Понятно, что тут два действительных корня +1 и -1, но ещё есть 4 комплексных. Здесь решения записаны в виде равенств, выделим только правую часть:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solrhs:map(rhs,solution);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Теперь отделим действительную часть решений:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rr:realpart(solrhs);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+и мнимую:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ii:imagpart(solrhs);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Одна из компонент:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rr[1];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Можно записать и в полярных координатах:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sp:polarform(solrhs);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Можем изобразить на графике:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(proportional_axes=xy,xrange=[-2,2],yrange=[-2,2],point_size = 2,
+    point_type = filled_circle,points(rr,ii));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(proportional_axes=xy,xrange=[-2,2],yrange=[-2,2],points(rr,ii),head_length = 0.1,
+             vector([0,0],[rr[1],ii[1]]),vector([0,0],[rr[2],ii[2]]),vector([0,0],[rr[3],ii[3]]),vector([0,0],[rr[4],ii[4]]),vector([0,0],[rr[5],ii[5]]),
+    vector([0,0],[rr[6],ii[6]]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Example of using random:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N:50;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ψ:%e^((%i*%pi)*makelist(random(2.3),k,1,N))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rpsi:realpart(ψ)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ipsi:imagpart(ψ)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(proportional_axes=xy,xrange=[-2,2],yrange=[-2,2],point_size = 2,
+    point_type = filled_circle,points(rpsi,ipsi));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Test plotting vectors:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+psivectors:makelist (vector([0, 0], [rpsi[i], ipsi[i]]), i, 1, N)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+vector_options: [head_length = 0.07, head_angle = 10];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+plotoptions:append (vector_options, psivectors)$ /*remove dollar to see output */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+apply (wxdraw2d, plotoptions);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Определим ДЕЙСТВИЕ S для свободной частицы  как сумму (интеграл)
+S==Σ E_kin*δt:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+S:integrate(E_kin(t),t,a,b);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+S оказывается функционалом от траектории x(t) между a и b.
+
+Закон динамики такой: Σ exp(%i*S/hbar) --  даёт амплитуду вероятности перехода из a в b, если сумму взять по ВСЕМ траекториям:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sum(exp(%i*S(k)/hbar),k,1,M);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Отсюда сразу видно, что при S~hbar == h/2π экспоненты дают размазанное облако.
+При S>>hbar - экспоненты быстро вертятся, как на рисунке выше, и обнуляют друг друга, за исключением траектории вдоль которой S экстремальна (например, минимальна). Т.е. когда при возмущении траектории δx(t) : S=S_0+δS оказывается δS=0. Тогда все стрелки складываются в одно огромное по модулю комплексное число
+и мы называем такую траекторию классической (хотя вокруг неё мегамножество волновых траекторий). Закон δS = 0 - называется классическим принципом наименьшего действия. 
+
+Сразу видно, что этот принцип приближённый.
+Проверим, что для свободной частицы он даёт обычный 1й закон Ньютона (закон инерции Галилея) при условии S>>hbar.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Принцип наименьшего действия
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Введение в интегралы для 1го курса в следующем разделе.
+
+Интегралы в maxima:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+integrate(sin(t),t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+integrate(sin(t),t,a,b);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+integrate(cos(a*t)*cos(b*t),t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Нам нужны интегралы для таких траекторий:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Xfree(t,t_b):=a+(b-a)*t/t_b;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Произведём возмущение:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Xpert(t,t_b,δ,k):=a+(b-a)*t/t_b + δ*b*sin(π*k*t/t_b);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Пусть a=0, b=10, t_b=5, δ=0.1*b, k=1
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+a:0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+b:10;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+t_b:5;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+δ:0.05*b;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+k:1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+График невозмущённой траектории:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ wxplot2d([Xfree(t,t_b)],[t,0,t_b],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Теперь совместно с возмущением (будем менять k)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ wxplot2d([Xfree(t,t_b),Xpert(t,t_b,δ,15)],[t,0,t_b],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Скорость для невозмущённой траектории:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define ( dotX(t), diff ( Xfree(t,t_b), t) )$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Проверим для разных моментов времени:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dotX(1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dotX(4);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Действие (m=const и 1/2 не пишем):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dotX;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Скорость на возмущённой траектории:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define ( dotXp(t), diff ( Xpert(t,t_b,δ,k), t) )$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Spert:\integrate(dotXp(t)^2,t,0,t_b);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Для быстрой замены аргументов 
+пробуем пары (0.1, 1), (0.01,5), (0.0001,15) и т.п.:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define ( dotXpn(t), diff ( Xpert(t,t_b,0.01,15), t) )$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Spertn:float(\integrate(dotXpn(t)^2,t,0,t_b));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Задание на дом: показать, что произвольное возмущение траектории можно представить в виде суммы синусов с разными амплитудами
+и правильными волновыми числами.
+Потом аналитически показать, что невозмущённая прямая в пространстве времени даёт минимум S.
+При этом из квадрата скорости появятся интегралы вида:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+integrate(cos(π*m*t)*cos(π*n*t),t,0,1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Видно, что они зануляются при n не равном m - системы таких 
+синусов и косинусов ОРТОГОНАЛЬНЫ на отрезке.
+При m=n войдут только квадраты амплитуд возмущений, что и докажет минимальность действия для равномерного и прямолинейного движения,
+так как добавка даёт положительный вклад.
+
+В теории вариационного исчисления в одну строчку доказывается из δS=0,
+что для свободной частицы ускорение=0. Но это доказательство применимо только
+в классической механике, которая реальный мир не описывает!
+А наше длинное доказательство применимо и в квантовом описании мира через 
+функциональные интегралы. Ведь все синусы и косинусы, которые  мы тут 
+испытали - это различные дебройлевские  волны для реальных полей...
+
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Examples from Zachary Hannan
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Example 5.1.1. Approximate the area bounded by f (x) = 6x − x2 on [0, 2] by breaking
+the interval into twenty equal pieces and using wxMaxima’s summation notation to
+compute the left sum of the rectangle areas. Produce a plot of f (x) together with the
+rectangles used in the Riemann sum. Repeat the area approximation with a right sum,
+including the appropriate plot. 
+
+Which of your approximations is an underestimate?
+
+Which is an overestimate? Explain.
+
+We compute ∆x, define the xi ’s for the cut points along [0, 2] (as functions of i), define
+f (x) and compute the left sum:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+delx:(2-0)/20$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+x(i):=''delx*i;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):=6*x-x^2$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(sum(f(x(i-1))*delx,i,1,20));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+We produce a plot of the Riemann sum by first using makelist to generate rectangles:
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ RECTANGLES:makelist(rectangle([x(i-1),0],[x(i),f(x(i-1))]),i,1,20)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(draw)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ wxdraw2d(
+grid=true,
+xrange=[0,2],
+yrange=[0,10],
+title="Left Riemann Sum for f(x) on [0,2]",
+fill_color=red,
+border=true,
+RECTANGLES,
+color=black,
+explicit(f(x),x,0,2)
+);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 20.11.0-DevelopmentSnapshot"$

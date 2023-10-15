@@ -1,0 +1,131 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 20.11.1 ] */
+/* [wxMaxima: section start ]
+Метрика Фридмана-Робертсона-Уолкера в 3d-плоском случае (k=0)
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(ctensor);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords:[t,r,θ,φ];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Общий вид FRW метрики:
+diag_matrix( 1, -a^2/(1-k*r^2), -a^2*r^2, -a^2*r^2*sin(θ)^2  )
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+diag_matrix(1,-a^2/(1-k*r^2),-a^2*r^2,-a^2*r^2*(sin(θ))^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Мы положим k=0 и учтём, что масштабный фактор --
+a -- зависит от времени t:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+depends(a,t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg:diag_matrix(1,-a^2,-a^2*r^2,-a^2*r^2*(sin(θ))^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric(false);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Do you wish to see the metric inverse?</st><st> </st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+y;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/* ricci(true) */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scurvature();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- т.е. вообще говоря, кривизна 4-мерия не нуль
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+reset();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(ctensor);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dim:3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords:[r,θ,φ];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg:diag_matrix(-a^2,-a^2*r^2,-a^2*r^2*(sin(θ))^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric(false);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+<math><st>Do you wish to see the metric inverse?</st><st> </st></math>
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+y;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: comment start ]
+Выше мы получили, что 4d мир искривлён, хотя 3d-пространство плоское.
+Это видно уже из того, что метрика в сферических координатах - это просто
+преобразование декартовых координат x, y, z, но можно проверить и формально:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ricci(true);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+scurvature();
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 20.11.1"$

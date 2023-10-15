@@ -1,0 +1,424 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 20.11.1 ] */
+/* [wxMaxima: title   start ]
+Victor T.Toth
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+http://www.vttoth.com/CMS/projects/61-the-maxima-computer-algebra-system
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Example of using Maxima for derivation of Schwartzschild metric from Hilbert Variational principle.
+Below L is Lambda-term.
+Slightly corrected by S.Blinnikov on 21st October 2012 (Novosibirsk): Friedmann lines are removed.
+This script stalls with maxima made from source
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if get('ctensor,'version)=false then load(ctensor);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+if get('itensor,'version)=false then load(itensor);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remsym(g,2,0);
+remsym(g,0,2);
+remsym(gg,2,0);
+remsym(gg,0,2);
+remcomps(gg);
+imetric(gg);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+icurvature([a,b,c],[e])*gg([d,e],[])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+contract(rename(expand(%)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%,ichr2$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+contract(rename(expand(%)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+canform(%)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+contract(rename(expand(%)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+components(gg([a,b],[]),kdels([a,b],[u,v])*g([u,v],[])/2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+components(gg([],[a,b]),kdels([u,v],[a,b])*g([],[u,v])/2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%th(4),gg$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+contract(rename(expand(%)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+contract(canform(%))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+imetric(g);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+contract(rename(expand(%th(2))))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+remcomps(R);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ components(R([a,b,c,d],[]),%th(2));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g([],[a,b])*R([a,b,c,d])*g([],[c,d])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+contract(rename(canform(%)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+contract(rename(canform(%)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+components(R([],[]),%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+decsym(g,2,0,[sym(all)],[]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+decsym(g,0,2,[],[sym(all)]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(1/(16*%pi*G)*((2*L+'R([],[])))*sqrt(-determinant(g)))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+L0:%,R$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+canform(contract(canform(rename(contract(expand(diff(L0,g([],[m,n]))-
+    idiff(diff(L0,g([],[m,n],k)),k)+idiff(rename(idiff(contract(
+    diff(L0,g([],[m,n],k,l))),k),1000),l)))))))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ishow(e([m,n],[])=canform(%*16*%pi/sqrt(-determinant(g))))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+EQ:ic_convert(%)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ct_coords:[t,r,u,v];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg:ident(4);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg[1,1]:B;
+lg[2,2]:-A;
+lg[3,3]:-r^2;
+lg[4,4]:-r^2*sin(u)^2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(dependencies);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dependencies(A(r),B(r));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cmetric();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+christof(false);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+e:zeromatrix(4,4);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ev(EQ);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+E:expand(radcan(ug.e));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+exp:findde(E,2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(ode2(exp[1],A,r),A);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%,%c=-2*M;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+a:%[1],%c=-2*M;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ode2(ev(exp[2],a),B,r);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+b:ev(%,%c=rhs(solve(rhs(%)*rhs(a)=1,%c)[1]));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+factor(ev(ev(exp[3],a,b),diff));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Ниже занулим лямбда-член, т.е. L в наших обозначениях.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+lg:ev(lg,a,b),L=0$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ug:invert(lg)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+block([title: "Schwarzschild Potential for Mass M=2",M:2.],
+    wxplot3d([r*cos(th),r*sin(th),1-ug[1,1]],[r,5.,50.],[th,-%pi,%pi],
+    ['grid,20,30],['z,-2,0],[ps_file,"embedSchw.eps"],['legend,title]));
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot3d([r*cos(th),r*sin(th),1-ev(ug[1,1],M:2)],[r,5,50],[th,-%pi,%pi],
+['grid,20,30],['z,-2,0],[legend,false]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+wx prefix is just to display plot3d in wxmaxima window with its resolution,
+so it is better to control everything with plot3d directly.
+Not all options work in plot3d, e.g. legend is OK only with false, so use the option title:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot3d([r*cos(th),r*sin(th),1-ev(ug[1,1],M:2)],[r,5,50],[th,-%pi,%pi],[title,"Schwarzschild Potential for Mass M=2"],[legend,false]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot3d([r*cos(th),r*sin(th),1-ev(ug[1,1],M:2)],[r,5,50],[th,-%pi,%pi])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot3d([r*cos(th),r*sin(th),1-ev(ug[1,1],M:2)],[r,5.,50.],[th,-%pi,%pi],
+    ['grid,20,30],['z,-2,0],[title,"Schwarzschild Potential for Mass M=2"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Next are examples of plots in Maxima.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ wxplot3d ([[-3*x - y, [x, -2, 2], [y, -2, 2]],
+   4*sin(3*(x^2 + y^2))/(x^2 + y^2), [x, -3, 3], [y, -3, 3]],
+   [x, -4, 4], [y, -4, 4])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Plot of a Klein bottle, defined parametrically: 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+expr_1: 5*cos(x)*(cos(x/2)*cos(y) + sin(x/2)*sin(2*y) + 3.0) - 10.0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+expr_2: -5*sin(x)*(cos(x/2)*cos(y) + sin(x/2)*sin(2*y) + 3.0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+expr_3: 5*(-sin(x/2)*cos(y) + cos(x/2)*sin(2*y));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot3d ([expr_1, expr_2, expr_3], [x, -%pi, %pi],
+        [y, -%pi, %pi], [grid, 50, 50])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Plot of a "spherical harmonic" function, using the predefined transformation,
+spherical_to_xyz to transform from spherical coordinates to rectangular coordinates. 
+See the documentation for spherical_to_xyz. 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+/* set_plot_option ([legend, "sph"]); -- does not work */;
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot3d (sin(2*theta)*cos(phi), [theta, 0, %pi],
+        [phi, 0, 2*%pi],
+        [transform_xy, spherical_to_xyz], [grid,30,60])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Use of the pre-defined function polar_to_xy to transform from cylindrical 
+to rectangular coordinates. See the documentation for polar_to_xy. 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot3d (r^.33*cos(th/3), [r, 0, 1], [th, 0, 6*%pi], [box, false],
+   [grid, 12, 80], [transform_xy, polar_to_xy], [legend, false])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Plot of a sphere using the transformation from spherical to rectangular coordinates. 
+Option same_xyz is used to get the three axes scaled in the same proportion. 
+When transformations are used, it is not convenient to eliminate the mesh lines, 
+because Gnuplot will not show the surface correctly. 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot3d ( 5, [theta, 0, %pi], [phi, 0, 2*%pi], same_xyz,
+  [transform_xy, spherical_to_xyz], [mesh_lines_color,blue],
+  [palette,[gradient,"#1b1b4e", "#8c8cf8"]], [legend, false])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+legend option is OK with plot2d, as the next example shows
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ xy:[[10,.6], [20,.9], [30,1.1], [40,1.3], [50,1.4]]$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ wxplot2d([[discrete,xy], 2*%pi*sqrt(l/980)], [l,0,50],
+        [style, [points,5,2,6], [lines,1,1]],
+        [legend,"experiment","theory"],
+        [xlabel,"pendulum's length (cm)"], [ylabel,"period (s)"])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,xy], 2*%pi*sqrt(l/980)], [l,0,50],
+        [style, [points,5,2,6], [lines,1,1]],
+        [legend,"experiment","theory"],
+        [xlabel,"pendulum's length (cm)"], [ylabel,"period (s)"])$
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 20.11.1"$

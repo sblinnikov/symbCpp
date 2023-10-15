@@ -1,0 +1,466 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 21.04.0 ] */
+/* [wxMaxima: section start ]
+Потенциал и потенциальная энергия
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+φ(r):=-G_N*M/r;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+потенциал отрицательный, потому что потенциальная энергия m*φ растёт с r, а на бесконечности удобно считать φ нулём.
+Производная (точнее градиент) потенциала даёт силу, но гораздо важнее не сила, а изменение энергии - работа
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+diff(φ(r),r);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+R(x,y,z):=sqrt(x^2+y^2+z^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+diff(φ(R(x,y,z)),x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Гравитационное ускорение выражают через 
+g = -grad φ ,
+т.е. g<0, если φ растёт с ростом r. 
+Посчитаем работу по подъёму массы m на высоту h=dr.
+Т.е. нужно найти -mgh, минус на минус даёт плюс:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+m*diff(φ(r),r)*dr;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Это обычная школьная потенциальная энергия mgh.
+
+Условно положим G_N=1, M=1.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+G_N:1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+M:1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d (φ(x), [x, 1, 10],[style, [lines,3]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d (-diff(φ(x),x), [x, 1, 10],[style, [lines,3]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Потенциальная яма осциллятора
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+U(x,k):=(x)^k;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+При k=2 -- гармонический осциллятор, иначе -- ангармонический
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d (U(x,2), [x, -2, 2],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d (U(x,4), [x, -2, 2],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d (U(x,10), [x, -2, 2],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d (U(x,50), [x, -2, 2],[style, [lines,5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Продолжение работы с физ. единицами в maxima
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load (physical_constants);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Теперь загружен пакет maxima  "physical_constants",
+в котором много размерных  констант.
+Он использует пакет ezunits, который по умолчанию настроен на систему SI.
+
+Можно выдать список зашитых констант (можно добавлять и свои константы):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+propvars (physical_constant);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(constvalue(%%e)); /* заряд электрона */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Теперь проверим постоянную Планка h здесь = %h,
+и \hbar==h/2π, здесь обозначено %h_bar
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(constvalue(%h_bar));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+hbar_cgs:float(constvalue(%h_bar)``g*cm^2/s);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h_SI:float(constvalue(%h));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+hbar_SI:float(constvalue(%h_bar));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+qty(h_SI/hbar_SI);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Видим, что это равно 2\pi==2%pi, при этом можно вбить пи красиво
+через esc-p:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ %pi;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+π;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(2*π);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+или так:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(2*%pi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+m_e:float(constvalue(%m_e)``g);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Элементарный заряд в SI:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+e_SI:float(constvalue(%%e));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Элементарный заряд в Гауссовой системе:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+e_Gs:float(constvalue(%%e*%c*10));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Оценим энергию связи в атоме по теореме вириала:
+2Ekin+U=0, 
+но U=-Ze^2/r, 
+т.е. полная энергия Ekin+U=-Ekin=U/2=-Ze^2/r
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+m*v^2=Z*e^2/r;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Момент импульса (из r~λ и λ=hbar/p):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+m*v*r=hbar*n;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Отсюда
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+m^2*r^2*v^2=m*r*Z*e^2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+hbar^2*n^2=m^2*r^2*v^2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+hbar^2*n^2=m*r*Z*e^2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r=hbar^2*n^2/(Z*e^2*m);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Подставляем это r в полную энергию:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+-Z*e^2/r=-Z*e^2/(hbar^2*n^2/(Z*e^2*m));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Тогда по этой оценке энергия связи (которая=-Etot) в атоме водорода, когда Z=1:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Ee_bind(n):=e_Gs^4*m_e/(2*hbar_cgs^2*n^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Ee_bind(1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Сравним это число (при n=1) с Rydberg, его обычно дают в обратных метрах или см:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(constvalue(%R_inf));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Ry:float(constvalue(%R_inf)``1/cm);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Другие примеры:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+α:constvalue(%alpha);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- безразмерная постоянная тонкой структуры:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+1/α;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+constvalue(%c);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- размерная скорость света в SI -- принято за точное число!
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cc:constvalue(%c)``cm/s;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- размерная скорость света в СГС
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c: qty(cc);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- числовое значение скорости света в СГС
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+units(cc);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- извлечение единиц.
+
+Вернёмся к Ридбергу:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Ry_erg:Ry*cc*hbar_cgs*float(2*π); /* здесь нужно h без черты, \nu=c/\lamda, а E=h*\nu */
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Сравним Ry_erg с Ee_bind(1)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+(qty(Ry_erg)-qty(Ee_bind(1)))/qty(Ry_erg);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fpprintprec : 2 $
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+(qty(Ry_erg)-qty(Ee_bind(1)))/qty(Ry_erg);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- т.е. совпадение с высокой точностью (когда нет смысла в лишних цифрах, выдачу можно ограничить переменной fpprintrec)
+
+Выше мы получили Ry в эргах.
+Но 1eV = 1.6021773E-12 erg. Попробуем получить это число,
+нужно умножить заряд электрона на 1 В
+The statvolt is a unit of voltage and electrical potential
+used in the CGS-ESU and gaussian systems of units.
+In terms of its relation to the SI units,
+one statvolt corresponds to exactly c_cgs*10^-8 volt, i.e. to 299.792458 volts
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+fpprintprec : 8 $
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+evToerg:float(e_Gs/(cc*1e-8));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+qty(Ry_erg/evToerg);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Определим комптоновскую длину электрона $\hbar /(m_e *c)$
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Lcomp:constvalue(%h_bar/(%m_e*%c));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(%)``m;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Lcomp:float(constvalue(%h_bar/(%m_e*%c))``cm);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Универсальная газовая постоянная:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+constvalue(%R);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(%);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 21.04.0"$

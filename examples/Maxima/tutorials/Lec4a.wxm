@@ -1,0 +1,377 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 21.02.0-DevelopmentSnapshot ] */
+/* [wxMaxima: section start ]
+Пример работы с физ. единицами в maxima
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load (physical_constants);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Теперь загружен пакет maxima  "physical_constants", 
+в котором много размерных  констант.
+Он использует пакет ezunits, который по умолчанию настроен на систему SI.
+
+Можно выдать список зашитых констант (можно добавлять и свои константы):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+propvars (physical_constant);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Например,
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(constvalue(%l_P));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- это маленькое число = значение Планковской длины. Размерность проверим: 1 Дж = J = kg*m^2/s^2, получим метры. Но maxima и сама может это выдать:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(constvalue(%l_P)``m);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Можно попросить в СГС:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(constvalue(%l_P)``cm);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Другие примеры:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+α:constvalue(%alpha);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- безразмерная постоянная тонкой структуры:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+1/α;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+constvalue(%c);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- размерная скорость света в SI -- принято за точное число!
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cc:constvalue(%c)``cm/s;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- размерная скорость света в СГС
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c: qty(cc);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- числовое значение скорости света в СГС
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+units(cc);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- извлечение единиц
+Определим комптоновскую длину электрона $\hbar /(m_e *c)$
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Lcomp:constvalue(%h_bar/(%m_e*%c));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(%)``m;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Lcomp:float(constvalue(%h_bar/(%m_e*%c))``cm);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Универсальная газовая постоянная:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+constvalue(%R);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(%);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Проверим температуру в центре Солнца по нашей оценке
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Имеем Pc=GM^{2/3}rhoc^{4/3}, откуда Tc=Pc*mu/(Rgas*rhoc)=GM^{2/3}*mu*rhoc^{1/3}/Rgas
+
+Попробуем в системе SI:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Msun:2e30`kg;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Rsun:7e8`m;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ρ_sun:Msun/Rsun^3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Молярная масса μ~1 ?
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+μ:1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Tc:constvalue(%G/%R)*Msun^(2/3)*ρ_sun^(1/3)*μ;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+-- получаем многовато. Проверим %R -- Rgas, она должна быть = N_A*k_Boltzmann:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(constvalue(%R));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(constvalue(%N_A));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+k_B:float(constvalue(%%k));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+constvalue(%N_A*%%k);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Rgas правильно. Ошибка в том, что тут нужно брать на кг: μ~1e-3,
+а по традиции все берут  μ~1 g=1e-3 kg.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+μ:1e-3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Tc:constvalue(%G/%R)*Msun^(2/3)*ρ_sun^(1/3)*μ;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Получаем разумное число ~10^7 K, так как mol в кг, а Дж=кг*м^2/сек^2.
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Testimated:2.3e7`K ;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+k_B*Testimated;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Переведём в электрон-вольты. Для этого нужен другой пакет, единиц.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/*load(physconst);*/
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+reset();
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(unit);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+convert(cm,m);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(convert(eV,J));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(3.2e-16 /1.6e-19);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Итак, получаем  в центре Солнца Tc~2 keV, что совсем неплохо (с точностью двойки).
+Но в SI - не очень удобно. Повторим в СГС, принимая порядковые оценки:
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+G:1./15e6;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Ms:2e33;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Rgas:6.022e23*1.38e-16;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Rs:7e10;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+mu:1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Через среднюю плотность:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ρa:Ms/Rs^3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+T:G/Rgas*Ms^(2/3)*ρa^(1/3)*mu;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Нетрудно проверить, через полученные выше цифры для эВ в Дж и для постояннной Больцмана, что один эВ соответствует k_B * T при T=11600 Кельвинов:
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ev2K:11600;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Тогда
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(T/ev2K);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+То же число порядка кэВ
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+/*load(physconst);*/
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+1/8.61732814974056E-05;
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 21.02.0-DevelopmentSnapshot"$
