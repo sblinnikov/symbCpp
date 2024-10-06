@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 21.04.0 ] */
+/* [ Created with wxMaxima version 20.12.1 ] */
 /* [wxMaxima: title   start ]
 Steeb & Hardy Ch. 64. Clebsch.mac
    [wxMaxima: title   end   ] */
@@ -25,14 +25,14 @@ l1: 1; m1: -1; l2: 1; m2: 1;
 
 
 /* [wxMaxima: input   start ] */
-if (abs(m1) > l1) or  (abs(m2) > l2) or  (l1 < O) or  (l2 < O) then print("indices  out of range");
+if (abs(m1) > l1) or  (abs(m2) > l2) or  (l1 < 0) or  (l2 < 0) then print("indices  out of range");
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
 YY(l,m) := block ( [a,b],
     a: sin(w)^abs(m)/(2^l)*diff((cos(w)^2-1)^l,cos(w),l+abs(m))/(l!) ,
-    if (m > O) then a: ( -1)^m*a,
+    if (m > 0) then a: ( -1)^m*a,
     b: sqrt((2*l+1)/(4*%pi)*(l-abs(m))!/((l+abs(m))!)),
     b*a*exp(%i*m*phi) );
 /* [wxMaxima: input   end   ] */
@@ -181,4 +181,4 @@ seems to be OK
 
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 21.04.0"$
+"Created with wxMaxima 20.12.1"$
