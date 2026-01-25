@@ -1,0 +1,21 @@
+ /* spinresonance.mac */
+
+ depends (u,t);
+ depends (v,t);
+
+ /* ansatz for system of linear differential equations */
+ u: A*exp(-%i*(omc+oms/2)*t);
+ v: B*exp(-%i*(omc-oms/2)*t);
+ /* inserting ansatz into system of differential equations */
+ r1: %i*diff(u,t)-om0*u-omp*exp(-%i*oms*t)*v;
+
+ r1: r1*2*exp((2*%i*t*omc + %i*t*oms)/2);
+ r1: expand(r1);
+ r2: %i*diff(v,t)+om0*v-omp*exp(%i*oms*t)*u;
+ r2: r2*2*exp((2*%i*t*omc+%i*t*oms)/2)/exp(%i*t*oms);
+ r2: expand(r2);
+ M: matrix([coeff(r1,A,1),coeff(r1,B,1)],
+    [coeff(r2,A,1),coeff(r2,B,1)]);
+ d: determinant(M);
+ s: solve(d=0,omc);
+ print("s=",s);

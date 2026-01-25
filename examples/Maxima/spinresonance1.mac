@@ -1,0 +1,18 @@
+ /* spinresonance1.mac */
+
+ depends (u,t);
+ depends (v,t);
+
+ u: (cos(omc*t)-(om0-oms/2)/omc*%i*sin(omc*t))*exp(-%i*oms*t/2);
+ v: -(omp/omc)*%i*sin(omc*t)*exp(%i*oms*t/2);
+ r1: %i*diff(u,t)-om0*u-omp*exp(-%i*oms*t)*v;
+ r1: expand(r1);r2: %i*diff(v,t)+om0*v-omp*exp(%i*oms*t)*u;
+ r2: expand(r2);
+ print("r2=",r2);
+ r1: subst((exp(%i*omc)-exp(-%i*omc))/2,sin(omc*t),r1);
+ r1: subst((exp(%i*omc)+exp(-%i*omc))/2,cos(omc*t),r1);
+ r1: expand(r1);
+ r1: subst(sqrt((om0-oms/2)^2+omp^2),omc,r1);
+ r1: r1*sqrt((om0-oms/2)^2+omp^2);
+ r1: expand(r1);
+ print("r1=",r1);
